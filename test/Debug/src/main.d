@@ -58,7 +58,9 @@ src/main.o: ../src/main.c \
  C:/Users/BumSik/Documents/GitHub/Quadcopter-Flight-Controller/test/HAL_Driver/Inc/stm32f4xx_ll_usb.h \
  C:/Users/BumSik/Documents/GitHub/Quadcopter-Flight-Controller/test/HAL_Driver/Inc/stm32f4xx_hal_pcd_ex.h \
  C:/Users/BumSik/Documents/GitHub/Quadcopter-Flight-Controller/test/HAL_Driver/Inc/stm32f4xx_hal_hcd.h \
- C:/Users/BumSik/Documents/GitHub/Quadcopter-Flight-Controller/test/Utilities/STM32F4xx-Nucleo/stm32f4xx_nucleo.h
+ C:/Users/BumSik/Documents/GitHub/Quadcopter-Flight-Controller/test/Utilities/STM32F4xx-Nucleo/stm32f4xx_nucleo.h \
+ C:/Users/BumSik/Documents/GitHub/Quadcopter-Flight-Controller/test/HAL_Driver/Inc/stm32f4xx_hal_gpio.h \
+ C:/Users/BumSik/Documents/GitHub/Quadcopter-Flight-Controller/test/HAL_Driver/Inc/stm32f4xx_hal_rcc.h
 
 C:/Users/BumSik/Documents/GitHub/Quadcopter-Flight-Controller/test/CMSIS/device/stm32f4xx.h:
 
@@ -179,3 +181,7 @@ C:/Users/BumSik/Documents/GitHub/Quadcopter-Flight-Controller/test/HAL_Driver/In
 C:/Users/BumSik/Documents/GitHub/Quadcopter-Flight-Controller/test/HAL_Driver/Inc/stm32f4xx_hal_hcd.h:
 
 C:/Users/BumSik/Documents/GitHub/Quadcopter-Flight-Controller/test/Utilities/STM32F4xx-Nucleo/stm32f4xx_nucleo.h:
+
+C:/Users/BumSik/Documents/GitHub/Quadcopter-Flight-Controller/test/HAL_Driver/Inc/stm32f4xx_hal_gpio.h:
+
+C:/Users/BumSik/Documents/GitHub/Quadcopter-Flight-Controller/test/HAL_Driver/Inc/stm32f4xx_hal_rcc.h:
