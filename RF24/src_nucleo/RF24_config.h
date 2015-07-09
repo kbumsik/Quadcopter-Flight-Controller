@@ -10,7 +10,9 @@
 #ifndef __RF24_CONFIG_H__
 #define __RF24_CONFIG_H__
 
-#if ARDUINO < 100
+#if defined(USE_HAL_DRIVER)
+#include "stm32f4xx_hal_gpio.h"
+#elif ARDUINO < 100
 #include <WProgram.h>
 #else
 #include <Arduino.h>
@@ -21,6 +23,8 @@
 // Stuff that is normally provided by Arduino
 #ifdef ARDUINO
 #include <SPI.h>
+#elif defined(USE_HAL_DRIVER)
+#include "stm32f4xx_hal_spi.h"
 #else
 #include <stdint.h>
 #include <stdio.h>
@@ -51,7 +55,7 @@ extern HardwareSPI SPI;
 #include <avr/pgmspace.h>
 #define PRIPSTR "%S"
 #else
-typedef char const char;
+//typedef char const char; - reserved
 typedef uint16_t prog_uint16_t;
 #define PSTR(x) (x)
 #define printf_P printf
