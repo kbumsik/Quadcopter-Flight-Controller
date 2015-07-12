@@ -56,8 +56,8 @@ NRF24L01+	STM32F4xx	DESCRIPTION
 
 GND			GND			Ground
 VCC			3.3V		3.3V
-CE			PD8			RF activated pin
-CSN			PD7			Chip select pin for SPI
+CE			PC3			RF activated pin
+CSN			PC2			Chip select pin for SPI
 SCK			PC10		SCK pin for SPI
 MOSI		PC12		MOSI pin for SPI
 MISO		PC11		MISO pin for SPI
@@ -80,17 +80,21 @@ IRQ			Not used	Interrupt pin. Goes low when active. Pin functionality is active,
 #define NRF24L01_SPI_PINS			TM_SPI_PinsPack_2
 
 //Change CSN pin. This is for SPI communication
-#define NRF24L01_CSN_PORT			GPIOD
-#define NRF24L01_CSN_PIN			GPIO_Pin_7
+#define NRF24L01_CSN_PORT			GPIOC
+#define NRF24L01_CSN_PIN			GPIO_Pin_2
 
 //Change CE pin. This pin is used to enable/disable transmitter/receiver functionality
-#define NRF24L01_CE_PORT			GPIOD
-#define NRF24L01_CE_PIN				GPIO_Pin_8
+#define NRF24L01_CE_PORT			GPIOC
+#define NRF24L01_CE_PIN				GPIO_Pin_3
 @endverbatim
  *
  * \par Changelog
  *
 @verbatim
+ Version 1.1.1 KB
+  - July 12, 2015 by kbumsik
+  - Changed CSN and CE pin for NUCLEO F411RE Board
+
  Versio 1.1.1
   - June 21, 2015
   - Fixed buf with pin configuration
@@ -135,14 +139,14 @@ IRQ			Not used	Interrupt pin. Goes low when active. Pin functionality is active,
 
 /* SPI chip enable pin */
 #ifndef NRF24L01_CSN_PIN
-#define NRF24L01_CSN_PORT			GPIOD
-#define NRF24L01_CSN_PIN			GPIO_PIN_7
+#define NRF24L01_CSN_PORT			GPIOC
+#define NRF24L01_CSN_PIN			GPIO_PIN_2
 #endif
 
 /* Chip enable for transmitting */
 #ifndef NRF24L01_CE_PIN
-#define NRF24L01_CE_PORT			GPIOD
-#define NRF24L01_CE_PIN				GPIO_PIN_8
+#define NRF24L01_CE_PORT			GPIOC
+#define NRF24L01_CE_PIN				GPIO_PIN_3
 #endif
 
 /* Pins configuration */
