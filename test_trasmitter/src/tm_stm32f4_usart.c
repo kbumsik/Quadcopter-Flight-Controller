@@ -375,6 +375,7 @@ void TM_USART_INT_InsertToBuffer(TM_USART_t* u, uint8_t c) {
 __weak void TM_USART_InitCustomPinsCallback(USART_TypeDef* USARTx) {
 	/* Custom user function. */
 	/* In case user needs functionality for custom pins, this function should be declared outside this library */
+
 }
 
 TM_USART_t* TM_USART_INT_GetUsart(USART_TypeDef* USARTx) {
