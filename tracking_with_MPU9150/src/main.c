@@ -32,6 +32,9 @@ const float accel_sens = 4096;
 static float x=0, y=0, z=0, a=0, b=0, c=0;
 //velocity and angular velocity
 static float x_v=0, y_v=0, z_v=0, a_v=0, b_v=0, c_v=0;
+//accelerations
+static float x_accel=0, y_accel=0, z_accel=0,
+a_accel=0, b_accel=0, c_accel=0;
 
 /*some temporary placeholder*/
 //array of float with 3 elem
@@ -40,34 +43,38 @@ static float float_arr_3[3];
 
 /**
  * convert the raw data from MPU to acceleration we are familiar with.
- * this is with respect to body frame. One dimension at a time
+ * this is with respect to body frame. One dimension at a time.
+ * note that, this is not true acceleration, and it needs correction, due
+ * to the gravity
  * @val, raw data from the sensor
+ * @side_effect, "return" will be stored in float_arr_3
  */
-float convert_to_accel(float val) {
-    return (val/accel_sens)*g;
+void convert_to_accel(int val1, int val2, int val3) {
+    float_arr_3[0] = (val1/accel_sens)*g;
+    float_arr_3[1] = (val2/accel_sens)*g;
+    float_arr_3[2] = (val3/accel_sens)*g;
 }
 
 /**
  * convert the raw data from MPU to angular acceleration
  * that we are familiar with. One dimension at a time.
  * @val, raw data from the sensor
+ * @side_effect, "return" will be stored in float_arr_3
  */
-float convert_to_ang_accel(float val) {
+void convert_to_ang_accel(int val1, int val2, int val3) {
     /*TODO*/
     //no sure know to convert it yet.
-    return 0;
 }
 
 /**
  * update the rotation of the sensor
  * @delta_time, the duration of time elapsed from previous update
- * @ang_accel_*, angular acceleration with respect to the local frame
  * @side_affect, a, b, c are updated
  */
-void update_angular(float ang_accel_a, float ang_accel_b, float ang_accel_c, float delta_time) {
-    a = a+a_v*delta_time+1/2*ang_accel_a*delta_time*delta_time;
-    b = b+b_v*delta_time+1/2*ang_accel_b*delta_time*delta_time;
-    c = c+c_v*delta_time+1/2*ang_accel_c*delta_time*delta_time;
+void update_angular(float delta_time) {
+    a = a+a_v*delta_time+1/2*a_accel*delta_time*delta_time;
+    b = b+b_v*delta_time+1/2*b_accel*delta_time*delta_time;
+    c = c+c_v*delta_time+1/2*c_accel*delta_time*delta_time;
 }
 
 /**
@@ -76,22 +83,22 @@ void update_angular(float ang_accel_a, float ang_accel_b, float ang_accel_c, flo
  * @accel_*, the acceleration of each dimensions with respect to inertia frame
  * @side_affect, x, y, z are updated
  */
-void update_translation(float accel_x, float accel_y, float accel_z, float delta_time) {
-    x = x+1/2*accel_x*delta_time*delta_time+x_v*delta_time;
-    y = y+1/2*accel_y*delta_time*delta_time+y_v*delta_time;
-    z = z+1/2*accel_z*delta_time*delta_time+z_v*delta_time;
+void update_translation(float delta_time) {
+    x = x+1/2*x_accel*delta_time*delta_time+x_v*delta_time;
+    y = y+1/2*x_accel*delta_time*delta_time+y_v*delta_time;
+    z = z+1/2*x_accel*delta_time*delta_time+z_v*delta_time;
 }
 
 /**
- * update the angular volecity
+ * update the angular velocity
  * @delta_time, the duration of the time elapsed from previous update
  * @ang_accel_*, the angular accelerations for each angles with respect to local frame
  * @side_affect, a_v, b_v, c_v are updated
  */
-void update_anglar_v(float ang_accel_a, float ang_accel_b, float ang_accel_c, float delta_time) {
-    a_v = a_v+ang_accel_a*delta_time;
-    b_v = b_v+ang_accel_b*delta_time;
-    c_v = c_v+ang_accel_c*delta_time;
+void update_anglar_v(float delta_time) {
+    a_v = a_v+a_accel*delta_time;
+    b_v = b_v+b_accel*delta_time;
+    c_v = c_v+c_accel*delta_time;
 }
 
 /**
@@ -100,11 +107,10 @@ void update_anglar_v(float ang_accel_a, float ang_accel_b, float ang_accel_c, fl
  * @accel_*, acceleration with respect to local frame
  * @side_affect, x_v, y_v, z_v are updated
  */
-void update_v(float accel_x, float accel_y, float accel_z, float delta_time){
-    x_v=0, y_v=0, z_v=0;
-    x_v = x_v+accel_x*delta_time;
-    y_v = y_v+accel_x*delta_time;
-    z_v = z_v+accel_x*delta_time;
+void update_v(float delta_time){
+    x_v = x_v+x_accel*delta_time;
+    y_v = y_v+y_accel*delta_time;
+    z_v = z_v+z_accel*delta_time;
 }
 
 /**
@@ -117,12 +123,12 @@ void update_v(float accel_x, float accel_y, float accel_z, float delta_time){
  */
 void BtoL(val_x, val_y, val_z) {
     float_arr_3[0] = cos(c)*cos(b)*val_x
-    +(-sin(c)*cos(a)+cos(c)*sin(b)*sin(a))*val_y
-    +(sin(c)*sin(a)+cos(c)*sin(b)*cos(a))*val_z;
+                        +(-sin(c)*cos(a)+cos(c)*sin(b)*sin(a))*val_y
+                        +(sin(c)*sin(a)+cos(c)*sin(b)*cos(a))*val_z;
     float_arr_3[1] = sin(c)*cos(b)*val_x
-    +(cos(c)*cos(a)+sin(c)*sin(b)*sin(a))*val_y
-    +(-cos(c)*sin(a)+sin(c)*sin(b)*cos(a))*val_z;
-    float_arr_3[2] = -sin(b)*x+cos(b)*sin(a)*y+cos(b)*cos(a)*z
+                        +(cos(c)*cos(a)+sin(c)*sin(b)*sin(a))*val_y
+                        +(-cos(c)*sin(a)+sin(c)*sin(b)*cos(a))*val_z;
+    float_arr_3[2] = -sin(b)*x+cos(b)*sin(a)*y+cos(b)*cos(a)*z;
 }
 
 /**
@@ -136,11 +142,79 @@ void BtoL(val_x, val_y, val_z) {
 void LtoB(val_x, val_y, val_z) {
     float_arr_3[0] = cos(c)*cos(b)*val_x+sin(c)*cos(b)*val_y-sin(b)*val_z;
     float_arr_3[1] = (-sin(c)*cos(a)+cos(c)*sin(b)*sin(a))*val_x
-    + (cos(c)*cos(a)+sin(c)*sin(b)*sin(a))*val_y
-    + (cos(b)*sin(a))*val_z;
+                        + (cos(c)*cos(a)+sin(c)*sin(b)*sin(a))*val_y
+                        + (cos(b)*sin(a))*val_z;
     float_arr_3[2] = (sin(c)*sin(a)+cos(c)*sin(b)*cos(a))*val_x
-    + (-cos(c)*sin(a)+sin(c)*sin(b)*cos(a))*val_y
-    + cos(b)*cos(a)*val_z;
+                        + (-cos(c)*sin(a)+sin(c)*sin(b)*cos(a))*val_y
+                        + cos(b)*cos(a)*val_z;
+}
+
+/*  functions and variables related to determine delta time  */
+//previous time in unit seconds
+static float det_delta_time_prev = -1;
+/**
+ *  initial the timer for keeping track of delta time
+ *  @side_affect, det_delta_time_prev
+ */
+void det_delta_time_init() {
+    //TODO: start the timer
+    det_delta_time_prev = 0;
+}
+
+/**
+ * determine delta_time, which is interval between last call
+ * @return, delta_time
+ * @side_affect, det_delta_time_prev
+ */
+float det_delta_time() {
+    //TODO: determine the time interval by getting the time now, and
+    //      substract it from previous time. and update the previous time
+    //TODO: think about how to deal with overflow
+}
+
+/* end of determine time*/
+
+/**
+ * update state of the drone. all 18 quantities will be updated, the order of
+ * update,
+ */
+void update_state(int accelerometer_X, int accelerometer_Y, int accelerometer_Z,
+                  int gyroscope_X, int gyroscope_Y, int gyroscope_Z) {
+    //if timer has not started
+    if (det_delta_time_prev == -1) {
+        det_delta_time_init();
+        //note that, here we assume that the drone is on the level ground and
+        //static. so all quantities don't need to update. 0 is ok. so just return.
+        //if however, this assumption is not true, we need somehow determine the
+        //initial state.
+        return ;
+    }
+    
+    //del_t is not accurate for each case, coz, we don't take into account
+    //that each function takes time.
+    float del_t = det_delta_time();
+    update_angular(del_t);
+    update_translation(del_t);
+    update_anglar_v(del_t);
+    update_v(del_t);
+    
+    
+    //update the angular accelerations
+    convert_to_ang_accel(gyroscope_X, gyroscope_Y, gyroscope_Z);
+    a_accel = float_arr_3[0];
+    b_accel = float_arr_3[1];
+    c_accel = float_arr_3[2];
+    
+    //update the acceleration
+    x_accel = convert_to_accel(accelerometer_X);
+    y_accel = convert_to_accel(accelerometer_Y);
+    z_accel = convert_to_accel(accelerometer_Z);
+    BtoL(x_accel, y_accel, z_accel);
+    x_accel = -float_arr_3[0];
+    y_accel = -float_arr_3[1];
+    z_accel = -float_arr_3[2];
+    //correct the accel due to the particularity of our sensor
+    z_accel += g;
 }
 
 int main(void) {
@@ -165,12 +239,13 @@ int main(void) {
         while (1);
     }
     
+    
     while (1) {
         /* Read all data from sensor */
         TM_MPU6050_ReadAll(&MPU6050_Data);
         
         /* Format data */
-        sprintf(str, "Accelerometer: (%d, %d, %d)\r\n Gyroscope: (%d, %d, %d)\r\n\r\n",
+        sprintf(str, "Accelerometer: (%d, %d, %d)\r\n Gyroscope: (%d, %d, %d)\r\n",
                 MPU6050_Data.Accelerometer_X,
                 MPU6050_Data.Accelerometer_Y,
                 MPU6050_Data.Accelerometer_Z,
@@ -179,10 +254,23 @@ int main(void) {
                 MPU6050_Data.Gyroscope_Z
                 );
         
+        //update the state of the system
+        update_state(MPU6050_Data.Accelerometer_X,
+                     MPU6050_Data.Accelerometer_Y,
+                     MPU6050_Data.Accelerometer_Z,
+                     MPU6050_Data.Gyroscope_X,
+                     MPU6050_Data.Gyroscope_Y,
+                     MPU6050_Data.Gyroscope_Z);
+        
+        //print the data
+        sprintf(str, "translation: (%.5f, %.5f, %.5f)\r\n rotation: (%.5f, %.5f, %.5f)\r\n\r\n",
+                    x,y,z,a,b,c
+                );
+        
         /* Show to usart */
         TM_USART_Puts(USART1, str);
         
         /* Little delay */
-        Delayms(500);
+        Delayms(100);
     }
 }
