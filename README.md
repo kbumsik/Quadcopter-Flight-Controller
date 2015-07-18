@@ -1,4 +1,5 @@
-###Drone project
+#Drone project
+To see how to set up the development environments for this drone project, see https://kbumsik.atlassian.net/wiki/display/FCFD/Using+IDE
 
 ##Folder description
 1. Device_drivers: drivers for sensors and other devices.
