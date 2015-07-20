@@ -29,6 +29,7 @@ const float accel_sens = 8192;
 //LSB Sensitivity of angular velocity
 const float angv_sens = 65.5;
 const float ang_cap = 360;  //360 degrees
+#define PI 3.14159265359
 
 /* parameters that we need to keep track of. all these are with respect to inertia frame*/
 //six degrees of freedom
@@ -75,9 +76,9 @@ void convert_to_angv(int val1, int val2, int val3) {
  * @side_affect, a, b, c are updated
  */
 void update_angular(float delta_time) {
-    a = a+a_v*delta_time;
-    b = b+b_v*delta_time;
-    c = c+c_v*delta_time;
+    a = (a+a_v*delta_time)%ang_cap;
+    b = (b+b_v*delta_time)%ang_cap;
+    c = (c+c_v*delta_time)%ang_cap;
 }
 
 /**
@@ -112,14 +113,14 @@ void update_v(float delta_time){
  * 				float_arr_3[0] is new x, float_arr_3[1] is new y
  * 				float_arr_3[3] is new z.
  */
-void BtoL(val_x, val_y, val_z) {
-    float_arr_3[0] = cos(c)*cos(b)*val_x
-    +(-sin(c)*cos(a)+cos(c)*sin(b)*sin(a))*val_y
-    +(sin(c)*sin(a)+cos(c)*sin(b)*cos(a))*val_z;
-    float_arr_3[1] = sin(c)*cos(b)*val_x
-    +(cos(c)*cos(a)+sin(c)*sin(b)*sin(a))*val_y
-    +(-cos(c)*sin(a)+sin(c)*sin(b)*cos(a))*val_z;
-    float_arr_3[2] = -sin(b)*x+cos(b)*sin(a)*y+cos(b)*cos(a)*z;
+void BtoL(float val_x, float val_y, float val_z) {
+    float_arr_3[0] = cos(a/180*PI)*cos(b/180*PI)*val_x
+    +(-sin(a/180*PI)*cos(c/180*PI) + cos(a/180*PI)*sin(b/180*PI)*sin(c/180*PI))*val_y
+    +(sin(c/180*PI)*sin(a/180*PI) + cos(c/180*PI)*sin(b/180*PI)*cos(a/180*PI))*val_z;
+    float_arr_3[1] = sin(a/180*PI)*cos(b/180*PI)*val_x
+    +(cos(c/180*PI)*cos(a/180*PI) + sin(c/180*PI)*sin(b/180*PI)*sin(a/180*PI))*val_y
+    +(-cos(a/180*PI)*sin(c/180*PI) + sin(a/180*PI)*sin(b/180*PI)*cos(c/180*PI))*val_z;
+    float_arr_3[2] = -sin(b/180*PI)*val_x+cos(b/180*PI)*sin(c/180*PI)*val_y+cos(b/180*PI)*cos(c/180*PI)*val_z;
 }
 
 /**
@@ -130,14 +131,14 @@ void BtoL(val_x, val_y, val_z) {
  *                float_arr_3[0] is new x, float_arr_3[1] is new y,
  *                float_arr_3[2].
  */
-void LtoB(val_x, val_y, val_z) {
-    float_arr_3[0] = cos(c)*cos(b)*val_x+sin(c)*cos(b)*val_y-sin(b)*val_z;
-    float_arr_3[1] = (-sin(c)*cos(a)+cos(c)*sin(b)*sin(a))*val_x
-    + (cos(c)*cos(a)+sin(c)*sin(b)*sin(a))*val_y
-    + (cos(b)*sin(a))*val_z;
-    float_arr_3[2] = (sin(c)*sin(a)+cos(c)*sin(b)*cos(a))*val_x
-    + (-cos(c)*sin(a)+sin(c)*sin(b)*cos(a))*val_y
-    + cos(b)*cos(a)*val_z;
+void LtoB(float val_x, float val_y, float val_z) {
+    float_arr_3[0] = cos(a/180*PI)*cos(b/180*PI)*val_x+sin(a/180*PI)*cos(b/180*PI)*val_y-sin(b/180*PI)*val_z;
+    float_arr_3[1] = (-sin(a/180*PI)*cos(c/180*PI) + cos(a/180*PI)*sin(b/180*PI)*sin(c/180*PI))*val_x
+    + (cos(a/180*PI)*cos(c/180*PI) + sin(a/180*PI)*sin(b/180*PI)*sin(c/180*PI))*val_y
+    + (cos(b/180*PI)*sin(c/180*PI))*val_z;
+    float_arr_3[2] = (sin(a/180*PI)*sin(c/180*PI)+cos(a/180*PI)*sin(b/180*PI)*cos(c/180*PI))*val_x
+    + (-cos(a/180*PI)*sin(c/180*PI) + sin(a/180*PI)*sin(b/180*PI)*cos(c/180*PI))*val_y
+    + cos(b/180*PI)*cos(c/180*PI)*val_z;
 }
 
 /*  functions and variables related to determine delta time  */
