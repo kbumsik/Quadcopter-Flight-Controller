@@ -197,9 +197,9 @@ void update_state(int accelerometer_X, int accelerometer_Y, int accelerometer_Z,
     
     //update the acceleration
     convert_to_accel(accelerometer_X,accelerometer_Y,accelerometer_Z);
-    x_accel = -float_arr_3[0];
-    y_accel = -float_arr_3[1];
-    z_accel = -float_arr_3[2];
+    x_accel = float_arr_3[0];
+    y_accel = float_arr_3[1];
+    z_accel = float_arr_3[2];
     BtoL(x_accel, y_accel, z_accel);
     x_accel = -float_arr_3[0];
     y_accel = -float_arr_3[1];
