@@ -25,7 +25,10 @@
 //acceleration due to the gravity in new york. Info is from the internet.
 const float g = 9.803;
 //LSB Sensitivity of acceleration
-const float accel_sens = 4096;
+const float accel_sens = 8192;
+//LSB Sensitivity of angular velocity
+const float angv_sens = 65.5;
+const float ang_cap = 360;  //360 degrees
 
 /* parameters that we need to keep track of. all these are with respect to inertia frame*/
 //six degrees of freedom
@@ -33,8 +36,7 @@ static float x=0, y=0, z=0, a=0, b=0, c=0;
 //velocity and angular velocity
 static float x_v=0, y_v=0, z_v=0, a_v=0, b_v=0, c_v=0;
 //accelerations
-static float x_accel=0, y_accel=0, z_accel=0,
-a_accel=0, b_accel=0, c_accel=0;
+static float x_accel=0, y_accel=0, z_accel=0;
 
 /*some temporary placeholder*/
 //array of float with 3 elem
@@ -61,9 +63,10 @@ void convert_to_accel(int val1, int val2, int val3) {
  * @val, raw data from the sensor
  * @side_effect, "return" will be stored in float_arr_3
  */
-void convert_to_ang_accel(int val1, int val2, int val3) {
-    /*TODO*/
-    //no sure know to convert it yet.
+void convert_to_angv(int val1, int val2, int val3) {
+    float_arr_3[0] = val1/angv_sens;
+    float_arr_3[1] = val2/angv_sens;
+    float_arr_3[2] = val3/angv_sens;
 }
 
 /**
@@ -72,9 +75,9 @@ void convert_to_ang_accel(int val1, int val2, int val3) {
  * @side_affect, a, b, c are updated
  */
 void update_angular(float delta_time) {
-    a = a+a_v*delta_time+1/2*a_accel*delta_time*delta_time;
-    b = b+b_v*delta_time+1/2*b_accel*delta_time*delta_time;
-    c = c+c_v*delta_time+1/2*c_accel*delta_time*delta_time;
+    a = a+a_v*delta_time;
+    b = b+b_v*delta_time;
+    c = c+c_v*delta_time;
 }
 
 /**
@@ -87,18 +90,6 @@ void update_translation(float delta_time) {
     x = x+1/2*x_accel*delta_time*delta_time+x_v*delta_time;
     y = y+1/2*x_accel*delta_time*delta_time+y_v*delta_time;
     z = z+1/2*x_accel*delta_time*delta_time+z_v*delta_time;
-}
-
-/**
- * update the angular velocity
- * @delta_time, the duration of the time elapsed from previous update
- * @ang_accel_*, the angular accelerations for each angles with respect to local frame
- * @side_affect, a_v, b_v, c_v are updated
- */
-void update_anglar_v(float delta_time) {
-    a_v = a_v+a_accel*delta_time;
-    b_v = b_v+b_accel*delta_time;
-    c_v = c_v+c_accel*delta_time;
 }
 
 /**
@@ -195,20 +186,20 @@ void update_state(int accelerometer_X, int accelerometer_Y, int accelerometer_Z,
     float del_t = det_delta_time();
     update_angular(del_t);
     update_translation(del_t);
-    update_anglar_v(del_t);
     update_v(del_t);
     
     
     //update the angular accelerations
-    convert_to_ang_accel(gyroscope_X, gyroscope_Y, gyroscope_Z);
-    a_accel = float_arr_3[0];
-    b_accel = float_arr_3[1];
-    c_accel = float_arr_3[2];
+    convert_to_angv(gyroscope_X, gyroscope_Y, gyroscope_Z);
+    a_v = float_arr_3[0];
+    b_v = float_arr_3[1];
+    c_v = float_arr_3[2];
     
     //update the acceleration
-    x_accel = convert_to_accel(accelerometer_X);
-    y_accel = convert_to_accel(accelerometer_Y);
-    z_accel = convert_to_accel(accelerometer_Z);
+    convert_to_accel(accelerometer_X,accelerometer_Y,accelerometer_Z);
+    x_accel = -float_arr_3[0];
+    y_accel = -float_arr_3[1];
+    z_accel = -float_arr_3[2];
     BtoL(x_accel, y_accel, z_accel);
     x_accel = -float_arr_3[0];
     y_accel = -float_arr_3[1];
@@ -231,7 +222,7 @@ int main(void) {
     TM_USART_Init(USART1, TM_USART_PinsPack_2, 115200);
     
     /* Initialize MPU6050 sensor */
-    if (TM_MPU6050_Init(&MPU6050_Data, TM_MPU6050_Device_0, TM_MPU6050_Accelerometer_8G, TM_MPU6050_Gyroscope_2000s) != TM_MPU6050_Result_Ok) {
+    if (TM_MPU6050_Init(&MPU6050_Data, TM_MPU6050_Device_0, TM_MPU6050_Accelerometer_4G, TM_MPU6050_Gyroscope_500s) != TM_MPU6050_Result_Ok) {
         /* Display error to user */
         TM_USART_Puts(USART1, "MPU6050 Error\n");
         
@@ -264,7 +255,7 @@ int main(void) {
         
         //print the data
         sprintf(str, "translation: (%.5f, %.5f, %.5f)\r\n rotation: (%.5f, %.5f, %.5f)\r\n\r\n",
-                    x,y,z,a,b,c
+                x,y,z,a,b,c
                 );
         
         /* Show to usart */
