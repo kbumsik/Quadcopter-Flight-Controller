@@ -16,7 +16,7 @@
 #include "defines.h"
 #include "tm_stm32f4_delay.h"
 #include "tm_stm32f4_usart.h"
-#include "tm_stm32f4_mpu6050.h"
+#include "kb_stm32f4_mpu9150.h"
 
 #include <stdio.h>
 
@@ -33,6 +33,9 @@ int main(void) {
 	/* Initialize USART, TX: PB6 */
 	TM_USART_Init(USART1, TM_USART_PinsPack_2, 115200);
 	
+	sprintf(str, "test started\r\n");
+	TM_USART_Puts(USART1, str);
+
 	/* Initialize MPU6050 sensor */
 	if (TM_MPU6050_Init(&MPU6050_Data, TM_MPU6050_Device_0, TM_MPU6050_Accelerometer_8G, TM_MPU6050_Gyroscope_2000s) != TM_MPU6050_Result_Ok) {
 		/* Display error to user */
@@ -47,19 +50,35 @@ int main(void) {
 		TM_MPU6050_ReadAll(&MPU6050_Data);
 		
 		/* Format data */		
-		sprintf(str, "Accelerometer\n- X:%d\n- Y:%d\n- Z:%d\nGyroscope\n- X:%d\n- Y:%d\n- Z:%d\nTemperature\n- %3.4f\n\n\n",
+		sprintf(str, "Accelerometer\n- X:%d\n- Y:%d\n- Z:%d\n",
 			MPU6050_Data.Accelerometer_X,
 			MPU6050_Data.Accelerometer_Y,
-			MPU6050_Data.Accelerometer_Z,
+			MPU6050_Data.Accelerometer_Z
+		);
+
+		/* Show to usart */
+		TM_USART_Puts(USART1, str);
+
+		/* Format data */
+		sprintf(str, " Gyroscope\n- X:%d\n- Y:%d\n- Z:%d",
 			MPU6050_Data.Gyroscope_X,
 			MPU6050_Data.Gyroscope_Y,
-			MPU6050_Data.Gyroscope_Z,
+			MPU6050_Data.Gyroscope_Z
+		);
+
+		/* Show to usart */
+		TM_USART_Puts(USART1, str);
+
+		/* Format data */
+		sprintf(str, " Temperature\n- %3.4f\r\n",
 			MPU6050_Data.Temperature
 		);
 		
 		/* Show to usart */
 		TM_USART_Puts(USART1, str);
 		
+
+
 		/* Little delay */
 		Delayms(500);
 	}
