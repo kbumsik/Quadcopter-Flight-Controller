@@ -48,7 +48,7 @@ static float float_arr_3[3];
  * this is with respect to body frame. One dimension at a time.
  * note that, this is not true acceleration, and it needs correction, due
  * to the gravity
- * @val, raw data from the sensor
+ * @val*, raw data from the sensor
  * @side_effect, "return" will be stored in float_arr_3
  */
 void convert_to_accel(int val1, int val2, int val3) {
@@ -60,7 +60,7 @@ void convert_to_accel(int val1, int val2, int val3) {
 /**
  * convert the raw data from MPU to angular acceleration
  * that we are familiar with. One dimension at a time.
- * @val, raw data from the sensor
+ * @val*, raw data from the sensor
  * @side_effect, "return" will be stored in float_arr_3
  */
 void convert_to_angv(int val1, int val2, int val3) {
@@ -83,7 +83,6 @@ void update_angular(float delta_time) {
 /**
  * update the translation of the sensor
  * @delta_time, the duration of time elapsed from previous update
- * @accel_*, the acceleration of each dimensions with respect to inertia frame
  * @side_affect, x, y, z are updated
  */
 void update_translation(float delta_time) {
@@ -93,9 +92,22 @@ void update_translation(float delta_time) {
 }
 
 /**
+<<<<<<< HEAD
+=======
+ * update the angular velocity
+ * @delta_time, the duration of the time elapsed from previous update
+ * @side_affect, a_v, b_v, c_v are updated
+ */
+void update_anglar_v(float delta_time) {
+    a_v = a_v+a_accel*delta_time;
+    b_v = b_v+b_accel*delta_time;
+    c_v = c_v+c_accel*delta_time;
+}
+
+/**
+>>>>>>> b4a64dd8b528facc2349ac2f3efc4908afe1d4ba
  * update the velocity.
  * @delta_time, the duration of time elapsed from previous update
- * @accel_*, acceleration with respect to local frame
  * @side_affect, x_v, y_v, z_v are updated
  */
 void update_v(float delta_time){
