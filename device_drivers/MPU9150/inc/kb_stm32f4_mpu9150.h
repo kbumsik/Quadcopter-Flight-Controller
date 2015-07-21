@@ -140,7 +140,7 @@ AD0			-			If pin is low, I2C address is 0xD0, if pin is high, the address is 0xD
 #define	MPU9150_MAGNET_SENS	((float) 0.3)
 
 /* sensitivity adjustment equation */
-#define MPU9150_MAGNET_ADJ(VALUE,ASA)	((int16_t)(VALUE*(((ASA-128)*0.5/128)+1)))
+#define MPU9150_MAGNET_ADJ(VALUE,ASA)	((float)(VALUE*(((ASA-128)*0.5/128)+1)))
 
 /**
  * @}
@@ -197,19 +197,19 @@ typedef struct {
 	/* Private */
 	uint8_t Address;         /*!< I2C address of device. Only for private use */
   uint8_t MagnetAddress;   /*!< I2C Magnetometer address */
-	float Gyro_Mult;         /*!< Gyroscope corrector from raw data to "degrees/s". Only for private use */
-	float Acce_Mult;         /*!< Accelerometer corrector from raw data to "g". Only for private use */
+	float Gyro_Div;         /*!< Gyroscope corrector from raw data to "degrees/s". Only for private use */
+	float Acce_Div;         /*!< Accelerometer corrector from raw data to "g". Only for private use */
 	float Magnet_Mult;			 /*!< Magnetometer corrector from raw dato to "uT", Only for private use */
 	/* Public */
-	int16_t Accelerometer_X; /*!< Accelerometer value X axis */
-	int16_t Accelerometer_Y; /*!< Accelerometer value Y axis */
-	int16_t Accelerometer_Z; /*!< Accelerometer value Z axis */
-	int16_t Gyroscope_X;     /*!< Gyroscope value X axis */
-	int16_t Gyroscope_Y;     /*!< Gyroscope value Y axis */
-	int16_t Gyroscope_Z;     /*!< Gyroscope value Z axis */
-	int16_t Magnetometer_X;  /*!< Magnetometer value X axis */
-	int16_t Magnetometer_Y;  /*!< Magnetometer value Y axis */
-	int16_t Magnetometer_Z;  /*!< Magnetometer value Z axis */
+	float Accelerometer_X; /*!< Accelerometer value X axis */
+	float Accelerometer_Y; /*!< Accelerometer value Y axis */
+	float Accelerometer_Z; /*!< Accelerometer value Z axis */
+	float Gyroscope_X;     /*!< Gyroscope value X axis */
+	float Gyroscope_Y;     /*!< Gyroscope value Y axis */
+	float Gyroscope_Z;     /*!< Gyroscope value Z axis */
+	float Magnetometer_X;  /*!< Magnetometer value X axis */
+	float Magnetometer_Y;  /*!< Magnetometer value Y axis */
+	float Magnetometer_Z;  /*!< Magnetometer value Z axis */
 
   int8_t  Magnetometer_Adj_X; /*!< Magnetometer adjust value on X axis */
   int8_t  Magnetometer_Adj_Y; /*!< Magnetometer adjust value on X axis */

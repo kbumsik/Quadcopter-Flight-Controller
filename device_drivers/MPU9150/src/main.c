@@ -52,27 +52,27 @@ int main(void) {
 		KB_MPU9150_ReadAll(&MPU9150_Data);
 
 		/* Format data */
-		sprintf(str, "Accelerometer\n- X:%d\n- Y:%d\n- Z:%d\n",
-			MPU9150_Data.Accelerometer_X,
-			MPU9150_Data.Accelerometer_Y,
-			MPU9150_Data.Accelerometer_Z
+		sprintf(str, "Accelerometer\n- X: %d.%d, Y: %d.%d, Z: %d.%d,",
+			(int)MPU9150_Data.Accelerometer_X,get_decimal(MPU9150_Data.Accelerometer_X),
+			(int)MPU9150_Data.Accelerometer_Y,get_decimal(MPU9150_Data.Accelerometer_Y),
+			(int)MPU9150_Data.Accelerometer_Z,get_decimal(MPU9150_Data.Accelerometer_Z)
 		);
 
 		/* Show to usart */
 		TM_USART_Puts(USART1, str);
 
 		/* Format data */
-		sprintf(str, " Gyroscope\n- X:%d\n- Y:%d\n- Z:%d",
-			MPU9150_Data.Gyroscope_X,
-			MPU9150_Data.Gyroscope_Y,
-			MPU9150_Data.Gyroscope_Z
+		sprintf(str, " Gyroscope\n- X: %d.%d, Y: %d.%d, Z: %d.%d,",
+			(int)MPU9150_Data.Gyroscope_X,get_decimal(MPU9150_Data.Gyroscope_X),
+			(int)MPU9150_Data.Gyroscope_Y,get_decimal(MPU9150_Data.Gyroscope_Y),
+			(int)MPU9150_Data.Gyroscope_Z,get_decimal(MPU9150_Data.Gyroscope_Z)
 		);
 
 		/* Show to usart */
 		TM_USART_Puts(USART1, str);
 
 		/* Format data */
-		sprintf(str, " Temperature\n- %d.%d",
+		sprintf(str, " Temperature: %d.%d,",
 			(int)MPU9150_Data.Temperature,
 			get_decimal(MPU9150_Data.Temperature)
 		);
@@ -81,10 +81,10 @@ int main(void) {
 		TM_USART_Puts(USART1, str);
 
 		/* Format data */
-		sprintf(str, " Magnetometer\n- X:%d\n- Y:%d\n- Z:%d\r\n",
-			MPU9150_Data.Magnetometer_X,
-			MPU9150_Data.Magnetometer_Y,
-			MPU9150_Data.Magnetometer_Z
+		sprintf(str, " Magnetometer\n- X: %d.%d, Y: %d.%d, Z: %d.%d\r\n",
+			(int)MPU9150_Data.Magnetometer_X,get_decimal(MPU9150_Data.Magnetometer_X),
+			(int)MPU9150_Data.Magnetometer_Y,get_decimal(MPU9150_Data.Magnetometer_Y),
+			(int)MPU9150_Data.Magnetometer_Z,get_decimal(MPU9150_Data.Magnetometer_Z)
 		);
 
 		/* Show to usart */
