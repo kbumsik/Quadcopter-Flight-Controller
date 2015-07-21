@@ -14,5 +14,17 @@ get_decimal(float floatToGet)
   int intValue = (int)floatToGet;
   float decimal = (float)floatToGet - intValue;
   int result = decimal*DECIMAL_TO_PRINT;
-  return result;
+  return ABS(result);
+}
+
+
+void
+conv_FloatToString(float floatToConv, char* str)
+{
+  if(floatToConv>0){
+      sprintf(str, "%d.%06d",(int)ABS(floatToConv),get_decimal(floatToConv));
+  }
+  else{
+      sprintf(str, "-%d.%06d",(int)ABS(floatToConv),get_decimal(floatToConv));
+  }
 }
