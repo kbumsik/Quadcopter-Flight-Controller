@@ -16,7 +16,9 @@
 #include "defines.h"
 #include "tm_stm32f4_delay.h"
 #include "tm_stm32f4_usart.h"
+
 #include "kb_stm32f4_mpu9150.h"
+#include "kb_stm32f4_functions.h"
 
 #include <stdio.h>
 
@@ -70,8 +72,9 @@ int main(void) {
 		TM_USART_Puts(USART1, str);
 
 		/* Format data */
-		sprintf(str, " Temperature\n- %3.2f",
-			MPU9150_Data.Temperature
+		sprintf(str, " Temperature\n- %d.%d",
+			(int)MPU9150_Data.Temperature,
+			get_decimal(MPU9150_Data.Temperature)
 		);
 
 		/* Show to usart */
