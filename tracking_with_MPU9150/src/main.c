@@ -16,7 +16,8 @@
 #include "defines.h"
 #include "tm_stm32f4_delay.h"
 #include "tm_stm32f4_usart.h"
-#include "tm_stm32f4_mpu6050.h"
+#include "kb_stm32f4_mpu9150.h"
+#include "kb_stm32f4_functions.h"
 
 #include <stdio.h>
 #include <math.h>
