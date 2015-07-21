@@ -110,7 +110,7 @@ AD0			-			If pin is low, I2C address is 0xD0, if pin is high, the address is 0xD
 #endif
 
 /* Default I2C address */
-#define MPU9150_MAGNET_I2C_ADDR		0x0C
+#define MPU9150_MAGNET_I2C_ADDR		(0x0C<<1)
 
 /* Who I am register value, meaning the device ID of AKM8975 */
 #define MPU9150_MAGNET_I_AM			0x48
@@ -140,7 +140,7 @@ AD0			-			If pin is low, I2C address is 0xD0, if pin is high, the address is 0xD
 #define	MPU9150_MAGNET_SENS	((float) 0.3)
 
 /* sensitivity adjustment equation */
-#define MPU9150_MAGNET_ADJ(VALUE,ASA)	(float)(VALUE*(((ASA-128)*0.5/128)+1))
+#define MPU9150_MAGNET_ADJ(VALUE,ASA)	((float)(VALUE*(((ASA-128)*0.5/128)+1)))
 
 /**
  * @}
@@ -162,6 +162,25 @@ AD0			-			If pin is low, I2C address is 0xD0, if pin is high, the address is 0xD
 } KB_MPU9150_Result_t;
 
 /**
+ * @brief  Parameters for accelerometer range
+ */
+#define KB_MPU9150_Accelerometer_2G   TM_MPU6050_Accelerometer_2G
+#define KB_MPU9150_Accelerometer_4G   TM_MPU6050_Accelerometer_4G
+#define KB_MPU9150_Accelerometer_8G   TM_MPU6050_Accelerometer_8G
+#define KB_MPU9150_Accelerometer_16G  TM_MPU6050_Accelerometer_16G
+#define KB_MPU9150_Accelerometer_t    TM_MPU6050_Accelerometer_t
+
+
+/**
+ * @brief  Parameters for gyroscope range
+ */
+#define KB_MPU9150_Gyroscope_250s   TM_MPU6050_Gyroscope_250s
+#define KB_MPU9150_Gyroscope_500s   TM_MPU6050_Gyroscope_500s
+#define KB_MPU9150_Gyroscope_1000s   TM_MPU6050_Gyroscope_1000s
+#define KB_MPU9150_Gyroscope_2000s  TM_MPU6050_Gyroscope_2000s
+#define KB_MPU9150_Gyroscope_t    TM_MPU6050_Gyroscope_t
+
+/**
  * @brief  Settings for CNTL register
  */
 typedef enum {
@@ -178,23 +197,23 @@ typedef struct {
 	/* Private */
 	uint8_t Address;         /*!< I2C address of device. Only for private use */
   uint8_t MagnetAddress;   /*!< I2C Magnetometer address */
-	float Gyro_Mult;         /*!< Gyroscope corrector from raw data to "degrees/s". Only for private use */
-	float Acce_Mult;         /*!< Accelerometer corrector from raw data to "g". Only for private use */
+	float Gyro_Div;         /*!< Gyroscope corrector from raw data to "degrees/s". Only for private use */
+	float Acce_Div;         /*!< Accelerometer corrector from raw data to "g". Only for private use */
 	float Magnet_Mult;			 /*!< Magnetometer corrector from raw dato to "uT", Only for private use */
 	/* Public */
-	int16_t Accelerometer_X; /*!< Accelerometer value X axis */
-	int16_t Accelerometer_Y; /*!< Accelerometer value Y axis */
-	int16_t Accelerometer_Z; /*!< Accelerometer value Z axis */
-	int16_t Gyroscope_X;     /*!< Gyroscope value X axis */
-	int16_t Gyroscope_Y;     /*!< Gyroscope value Y axis */
-	int16_t Gyroscope_Z;     /*!< Gyroscope value Z axis */
-	int16_t Magnetometer_X;  /*!< Magnetometer value X axis */
-	int16_t Magnetometer_Y;  /*!< Magnetometer value Y axis */
-	int16_t Magnetometer_Z;  /*!< Magnetometer value Z axis */
+	float Accelerometer_X; /*!< Accelerometer value X axis */
+	float Accelerometer_Y; /*!< Accelerometer value Y axis */
+	float Accelerometer_Z; /*!< Accelerometer value Z axis */
+	float Gyroscope_X;     /*!< Gyroscope value X axis */
+	float Gyroscope_Y;     /*!< Gyroscope value Y axis */
+	float Gyroscope_Z;     /*!< Gyroscope value Z axis */
+	float Magnetometer_X;  /*!< Magnetometer value X axis */
+	float Magnetometer_Y;  /*!< Magnetometer value Y axis */
+	float Magnetometer_Z;  /*!< Magnetometer value Z axis */
 
-  int8_t  magnetometer_Adj_X; /*!< Magnetometer adjust value on X axis */
-  int8_t  magnetometer_Adj_Y; /*!< Magnetometer adjust value on X axis */
-  int8_t  magnetometer_Adj_Z; /*!< Magnetometer adjust value on X axis */
+  int8_t  Magnetometer_Adj_X; /*!< Magnetometer adjust value on X axis */
+  int8_t  Magnetometer_Adj_Y; /*!< Magnetometer adjust value on X axis */
+  int8_t  Magnetometer_Adj_Z; /*!< Magnetometer adjust value on X axis */
 
 	float Temperature;       /*!< Temperature in degrees */
 } KB_MPU9150_t;
@@ -222,8 +241,8 @@ typedef struct {
 KB_MPU9150_Result_t
 KB_MPU9150_Init(
   KB_MPU9150_t* DataStruct,
-  TM_MPU6050_Accelerometer_t AccelerometerSensitivity,
-  TM_MPU6050_Gyroscope_t GyroscopeSensitivity);
+  KB_MPU9150_Accelerometer_t AccelerometerSensitivity,
+  KB_MPU9150_Gyroscope_t GyroscopeSensitivity);
 
 /**
  * @brief  Reads accelerometer data from sensor
