@@ -186,21 +186,21 @@ void update_state(int accelerometer_X, int accelerometer_Y, int accelerometer_Z,
         //initial state.
         return ;
     }
-    
+
     //del_t is not accurate for each case, coz, we don't take into account
     //that each function takes time.
     float del_t = det_delta_time();
     update_angular(del_t);
     update_translation(del_t);
     update_v(del_t);
-    
-    
+
+
     //update the angular accelerations
     convert_to_angv(gyroscope_X, gyroscope_Y, gyroscope_Z);
     a_v = float_arr_3[0];
     b_v = float_arr_3[1];
     c_v = float_arr_3[2];
-    
+
     //update the acceleration
     convert_to_accel(accelerometer_X,accelerometer_Y,accelerometer_Z);
     x_accel = float_arr_3[0];
@@ -217,25 +217,25 @@ void update_state(int accelerometer_X, int accelerometer_Y, int accelerometer_Z,
 int main(void) {
     TM_MPU6050_t MPU6050_Data;
     char str[120];
-    
+
     /* Initialize system */
     SystemInit();
-    
+
     /* Initialize delay */
     TM_DELAY_Init();
-    
+
     /* Initialize USART, TX: PB6 */
     TM_USART_Init(USART1, TM_USART_PinsPack_2, 115200);
-    
+
     /* Initialize MPU6050 sensor */
     if (TM_MPU6050_Init(&MPU6050_Data, TM_MPU6050_Device_0, TM_MPU6050_Accelerometer_4G, TM_MPU6050_Gyroscope_500s) != TM_MPU6050_Result_Ok) {
         /* Display error to user */
         TM_USART_Puts(USART1, "MPU6050 Error\n");
-        
+
         /* Infinite loop */
         while (1);
     }
-    
+
     //calibrate the sensor
     int cali_num = 100;
     int cali_delay_time = 10;
@@ -249,11 +249,16 @@ int main(void) {
     a_vcali = a_vcali/cali_num;
     b_vcali = b_vcali/cali_num;
     c_vcali = c_vcali/cali_num;
-    
+
     while (1) {
+	/* Printing buffers */
+	char print_buffer_1[10];
+	char print_buffer_2[10];
+	char print_buffer_3[10];
+
         /* Read all data from sensor */
         TM_MPU6050_ReadAll(&MPU6050_Data);
-        
+
         /*
          sprintf(str, "Accelerometer: (%d, %d, %d)\r\n Gyroscope: (%d, %d, %d)\r\n",
          MPU6050_Data.Accelerometer_X,
@@ -264,7 +269,7 @@ int main(void) {
          MPU6050_Data.Gyroscope_Z
          );
          */
-        
+
         //update the state of the system
         update_state(MPU6050_Data.Accelerometer_X,
                      MPU6050_Data.Accelerometer_Y,
@@ -272,15 +277,28 @@ int main(void) {
                      MPU6050_Data.Gyroscope_X,
                      MPU6050_Data.Gyroscope_Y,
                      MPU6050_Data.Gyroscope_Z);
-        
+
+        /* format data */
+	conv_FloatToString(a_v, print_buffer_1);
+	conv_FloatToString(b_v, print_buffer_2);
+	conv_FloatToString(c_v, print_buffer_3);
+
         //print the data
-        sprintf(str, "the angular velocity: (%d,%d,%d)... angle:(%d,%d,%d)\r\n",
-                (int)(a_v*1000), (int)(b_v*1000), (int)(c_v*1000),
-                (int)(a*1000), (int)(b*1000), (int)(c*1000));
-        
+        sprintf(str, "the angular velocity: (%s, %s, %s)",
+                print_buffer_1, print_buffer_2, print_buffer_3);
+
+        /* format data */
+        conv_FloatToString(a, print_buffer_1);
+        conv_FloatToString(b, print_buffer_2);
+        conv_FloatToString(c, print_buffer_3);
+
+        //print the data
+        sprintf(str, "... angle:(%s, %s, %s)\r\n",
+                print_buffer_1, print_buffer_2, print_buffer_3);
+
         /* Show to usart */
         TM_USART_Puts(USART1, str);
-        
+
         /* Little delay */
         Delayms(10);
     }
