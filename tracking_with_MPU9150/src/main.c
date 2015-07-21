@@ -44,6 +44,10 @@ static float x_accel=0, y_accel=0, z_accel=0;
 //array of float with 3 elem
 static float float_arr_3[3];
 
+/*calibration data*/
+//for angular velocity
+static float a_vcali = 0, b_vcali = 0, c_vcali = 0;
+
 
 /**
  * convert the raw data from MPU to acceleration we are familiar with.
@@ -66,9 +70,9 @@ void convert_to_accel(int val1, int val2, int val3) {
  * @side_effect, "return" will be stored in float_arr_3
  */
 void convert_to_angv(int val1, int val2, int val3) {
-    float_arr_3[0] = val1/angv_sens;
-    float_arr_3[1] = val2/angv_sens;
-    float_arr_3[2] = val3/angv_sens;
+    float_arr_3[0] = val1/angv_sens-a_vcali;
+    float_arr_3[1] = val2/angv_sens-b_vcali;
+    float_arr_3[2] = val3/angv_sens-c_vcali;
 }
 
 /**
@@ -77,9 +81,9 @@ void convert_to_angv(int val1, int val2, int val3) {
  * @side_affect, a, b, c are updated
  */
 void update_angular(float delta_time) {
-    a = (a+a_v*delta_time)%ang_cap;
-    b = (b+b_v*delta_time)%ang_cap;
-    c = (c+c_v*delta_time)%ang_cap;
+    a = a+a_v*delta_time;
+    b = b+b_v*delta_time;
+    c = c+c_v*delta_time;
 }
 
 /**
@@ -150,8 +154,7 @@ static float det_delta_time_prev = -1;
  *  @side_affect, det_delta_time_prev
  */
 void det_delta_time_init() {
-    //TODO: start the timer
-    det_delta_time_prev = 0;
+    det_delta_time_prev = TM_DELAY_Time()/1000.0;
 }
 
 /**
@@ -160,9 +163,10 @@ void det_delta_time_init() {
  * @side_affect, det_delta_time_prev
  */
 float det_delta_time() {
-    //TODO: determine the time interval by getting the time now, and
-    //      substract it from previous time. and update the previous time
-    //TODO: think about how to deal with overflow
+    float now = TM_DELAY_Time()/1000.0;
+    float r = now - det_delta_time_prev;
+    det_delta_time_prev = now;
+    return r;
 }
 
 /* end of determine time*/
@@ -232,20 +236,34 @@ int main(void) {
         while (1);
     }
     
+    //calibrate the sensor
+    int cali_num = 100;
+    int cali_delay_time = 10;
+    int cali_i = 0;
+    for (; cali_i < cali_num; cali_i++) {
+        TM_MPU6050_ReadAll(&MPU6050_Data);
+        a_vcali += MPU6050_Data.Gyroscope_X/angv_sens;
+        b_vcali += MPU6050_Data.Gyroscope_Y/angv_sens;
+        c_vcali += MPU6050_Data.Gyroscope_Z/angv_sens;
+    }
+    a_vcali = a_vcali/cali_num;
+    b_vcali = b_vcali/cali_num;
+    c_vcali = c_vcali/cali_num;
     
     while (1) {
         /* Read all data from sensor */
         TM_MPU6050_ReadAll(&MPU6050_Data);
         
-        /* Format data */
-        sprintf(str, "Accelerometer: (%d, %d, %d)\r\n Gyroscope: (%d, %d, %d)\r\n",
-                MPU6050_Data.Accelerometer_X,
-                MPU6050_Data.Accelerometer_Y,
-                MPU6050_Data.Accelerometer_Z,
-                MPU6050_Data.Gyroscope_X,
-                MPU6050_Data.Gyroscope_Y,
-                MPU6050_Data.Gyroscope_Z
-                );
+        /*
+         sprintf(str, "Accelerometer: (%d, %d, %d)\r\n Gyroscope: (%d, %d, %d)\r\n",
+         MPU6050_Data.Accelerometer_X,
+         MPU6050_Data.Accelerometer_Y,
+         MPU6050_Data.Accelerometer_Z,
+         MPU6050_Data.Gyroscope_X,
+         MPU6050_Data.Gyroscope_Y,
+         MPU6050_Data.Gyroscope_Z
+         );
+         */
         
         //update the state of the system
         update_state(MPU6050_Data.Accelerometer_X,
@@ -256,14 +274,14 @@ int main(void) {
                      MPU6050_Data.Gyroscope_Z);
         
         //print the data
-        sprintf(str, "translation: (%.5f, %.5f, %.5f)\r\n rotation: (%.5f, %.5f, %.5f)\r\n\r\n",
-                x,y,z,a,b,c
-                );
+        sprintf(str, "the angular velocity: (%d,%d,%d)... angle:(%d,%d,%d)\r\n",
+                (int)(a_v*1000), (int)(b_v*1000), (int)(c_v*1000),
+                (int)(a*1000), (int)(b*1000), (int)(c*1000));
         
         /* Show to usart */
         TM_USART_Puts(USART1, str);
         
         /* Little delay */
-        Delayms(100);
+        Delayms(10);
     }
 }
