@@ -22,21 +22,12 @@
 void KB_MPU9150_CopySettings_MPU6050(KB_MPU9150_t* MPU9150_data, TM_MPU6050_t* MPU6050_data);
 void KB_MPU9150_CopyData_MPU6050(KB_MPU9150_t* MPU9150_data, TM_MPU6050_t* MPU6050_data);
 
-// TODO: Implement those functions
-KB_MPU9150_Result_t KB_MPU9150_Init(KB_MPU9150_t* DataStruct, TM_MPU6050_Accelerometer_t AccelerometerSensitivity, TM_MPU6050_Gyroscope_t GyroscopeSensitivity);
-#ifdef TEST
-KB_MPU9150_Result_t KB_MPU9150_ReadAccelerometer(KB_MPU9150_t* DataStruct);
-KB_MPU9150_Result_t KB_MPU9150_ReadGyroscope(KB_MPU9150_t* DataStruct);
-KB_MPU9150_Result_t KB_MPU9150_ReadTemperature(KB_MPU9150_t* DataStruct);
-KB_MPU9150_Result_t KB_MPU9150_ReadMagnetometer(KB_MPU9150_t* DataStruct);
-KB_MPU9150_Result_t KB_MPU9150_ReadAll(KB_MPU9150_t* DataStruct);
-#endif
 
 KB_MPU9150_Result_t
 KB_MPU9150_Init(
   KB_MPU9150_t* DataStruct,
-  TM_MPU6050_Accelerometer_t AccelerometerSensitivity,
-  TM_MPU6050_Gyroscope_t GyroscopeSensitivity)
+  KB_MPU9150_Accelerometer_t AccelerometerSensitivity,
+  KB_MPU9150_Gyroscope_t GyroscopeSensitivity)
 {
   uint8_t temp;
   TM_MPU6050_Result_t status;
@@ -54,29 +45,37 @@ KB_MPU9150_Init(
       // TODO: enable Pass-Through Mode
         //TODO: Set 1 I2C_BYASS_EN (Bit1 of INT_PIN_CFG register, 0x37)
       temp = TM_I2C_Read(MPU6050_I2C, DataStruct->Address, MPU6050_INT_PIN_CFG);
-      TM_I2C_Write(MPU6050_I2C, DataStruct->Address, MPU6050_INT_PIN_CFG, temp | 0x01);
+      TM_I2C_Write(MPU6050_I2C, DataStruct->Address, MPU6050_INT_PIN_CFG, (uint8_t)(temp | 0x02));
         //TODO: Set 0 I2C_MST_EN (BIT5 of USER_CTRL register, 0x6A)
       temp = TM_I2C_Read(MPU6050_I2C, DataStruct->Address, MPU6050_USER_CTRL);
-      TM_I2C_Write(MPU6050_I2C, DataStruct->Address, MPU6050_INT_PIN_CFG, temp & ~0x20);
+      TM_I2C_Write(MPU6050_I2C, DataStruct->Address, MPU6050_USER_CTRL, (uint8_t)(temp & ~0x20));
 
       // TODO: Try to connect the magnetometer
       // TODO: Check if the magnetometer is valid device using WIA
-
-      /* Set I2C magnetometer address */
       DataStruct->MagnetAddress = MPU9150_MAGNET_I2C_ADDR;
-      if(TM_I2C_Read(MPU6050_I2C, DataStruct->MagnetAddress, MPU9150_MAGNET_WIA) != MPU9150_MAGNET_I_AM)
+      if (!TM_I2C_IsDeviceConnected(MPU6050_I2C, DataStruct->MagnetAddress)) {
+    		/* Return error */
+    		return KB_MPU9150_Result_NoMagnetometer;
+    	}
+      /* Set I2C magnetometer address */
+      temp = TM_I2C_Read(MPU6050_I2C, DataStruct->MagnetAddress, MPU9150_MAGNET_WIA);
+      if(temp != MPU9150_MAGNET_I_AM){
+        /* Return error */
         return KB_MPU9150_Result_NoMagnetometer;
-
+      }
       // TODO: Setting CNTL register into Fuse ROM access mode
       TM_I2C_Write(MPU6050_I2C, DataStruct->MagnetAddress, MPU9150_MAGNET_CNTL, KB_MPU9150_MAGNET_CNTL_FUSE_ROM);
       // TODO: Update sensitivity adjustment value
-      DataStruct->magnetometer_Adj_X = TM_I2C_Read(MPU6050_I2C, DataStruct->MagnetAddress, MPU9150_MAGNET_ASAX);
-      DataStruct->magnetometer_Adj_Y = TM_I2C_Read(MPU6050_I2C, DataStruct->MagnetAddress, MPU9150_MAGNET_ASAY);
-      DataStruct->magnetometer_Adj_Z = TM_I2C_Read(MPU6050_I2C, DataStruct->MagnetAddress, MPU9150_MAGNET_ASAZ);
+      // TODO: fix it to use multiple read
+      DataStruct->Magnetometer_Adj_X = TM_I2C_Read(MPU6050_I2C, DataStruct->MagnetAddress, MPU9150_MAGNET_ASAX);
+      DataStruct->Magnetometer_Adj_Y = TM_I2C_Read(MPU6050_I2C, DataStruct->MagnetAddress, MPU9150_MAGNET_ASAY);
+      DataStruct->Magnetometer_Adj_Z = TM_I2C_Read(MPU6050_I2C, DataStruct->MagnetAddress, MPU9150_MAGNET_ASAZ);
       // TODO: Setting CNTL register into Single measurement mode
       TM_I2C_Write(MPU6050_I2C, DataStruct->MagnetAddress, MPU9150_MAGNET_CNTL, KB_MPU9150_MAGNET_CNTL_SINGLE_MEAS);
       /* Update data */
       DataStruct->Magnet_Mult = MPU9150_MAGNET_SENS;
+
+      /* Return OK */
       return KB_MPU9150_Result_Ok;
     }
     case TM_MPU6050_Result_DeviceNotConnected:
@@ -92,149 +91,93 @@ KB_MPU9150_Init(
   return KB_MPU9150_Result_UnkownProblem;
 }
 
-#ifdef TEST
-TM_MPU6050_Result_t TM_MPU6050_Init(TM_MPU6050_t* DataStruct, TM_MPU6050_Device_t DeviceNumber, TM_MPU6050_Accelerometer_t AccelerometerSensitivity, TM_MPU6050_Gyroscope_t GyroscopeSensitivity) {
-	uint8_t temp;
+KB_MPU9150_Result_t
+KB_MPU9150_ReadAccelerometer(KB_MPU9150_t* DataStruct)
+{
+  TM_MPU6050_t MPU6050_data;
+  /* Format I2C address */
+  MPU6050_data.Address = MPU6050_I2C_ADDR;
 
-	/* Format I2C address */
-	DataStruct->Address = MPU6050_I2C_ADDR | (uint8_t)DeviceNumber;
+  /* Getting the data from MPU6050 library */
+  if(TM_MPU6050_ReadAccelerometer(&MPU6050_data) != TM_MPU6050_Result_Ok){
+    return KB_MPU9150_Result_UnkownProblem;
+  }
 
-	/* Initialize I2C */
-	TM_I2C_Init(MPU6050_I2C, MPU6050_I2C_PINSPACK, MPU6050_I2C_CLOCK);
+  /* Copy the values */
+  KB_MPU9150_CopyData_MPU6050(DataStruct, &MPU6050_data);
 
-	/* Check if device is connected */
-	if (!TM_I2C_IsDeviceConnected(MPU6050_I2C, DataStruct->Address)) {
-		/* Return error */
-		return TM_MPU6050_Result_DeviceNotConnected;
-	}
+  //TODO: return real value
 
-	/* Check who I am */
-	if (TM_I2C_Read(MPU6050_I2C, DataStruct->Address, MPU6050_WHO_AM_I) != MPU6050_I_AM) {
-		/* Return error */
-		return TM_MPU6050_Result_DeviceInvalid;
-	}
-
-	/* Wakeup MPU6050 */
-	TM_I2C_Write(MPU6050_I2C, DataStruct->Address, MPU6050_PWR_MGMT_1, 0x00);
-
-	/* Config accelerometer */
-	temp = TM_I2C_Read(MPU6050_I2C, DataStruct->Address, MPU6050_ACCEL_CONFIG);
-	temp = (temp & 0xE7) | (uint8_t)AccelerometerSensitivity << 3;
-	TM_I2C_Write(MPU6050_I2C, DataStruct->Address, MPU6050_ACCEL_CONFIG, temp);
-
-	/* Config gyroscope */
-	temp = TM_I2C_Read(MPU6050_I2C, DataStruct->Address, MPU6050_GYRO_CONFIG);
-	temp = (temp & 0xE7) | (uint8_t)GyroscopeSensitivity << 3;
-	TM_I2C_Write(MPU6050_I2C, DataStruct->Address, MPU6050_GYRO_CONFIG, temp);
-
-	/* Set sensitivities for multiplying gyro and accelerometer data */
-	switch (AccelerometerSensitivity) {
-		case TM_MPU6050_Accelerometer_2G:
-			DataStruct->Acce_Mult = (float)1 / MPU6050_ACCE_SENS_2;
-			break;
-		case TM_MPU6050_Accelerometer_4G:
-			DataStruct->Acce_Mult = (float)1 / MPU6050_ACCE_SENS_4;
-			break;
-		case TM_MPU6050_Accelerometer_8G:
-			DataStruct->Acce_Mult = (float)1 / MPU6050_ACCE_SENS_8;
-			break;
-		case TM_MPU6050_Accelerometer_16G:
-			DataStruct->Acce_Mult = (float)1 / MPU6050_ACCE_SENS_16;
-		default:
-			break;
-	}
-
-	switch (GyroscopeSensitivity) {
-		case TM_MPU6050_Gyroscope_250s:
-			DataStruct->Gyro_Mult = (float)1 / MPU6050_GYRO_SENS_250;
-			break;
-		case TM_MPU6050_Gyroscope_500s:
-			DataStruct->Gyro_Mult = (float)1 / MPU6050_GYRO_SENS_500;
-			break;
-		case TM_MPU6050_Gyroscope_1000s:
-			DataStruct->Gyro_Mult = (float)1 / MPU6050_GYRO_SENS_1000;
-			break;
-		case TM_MPU6050_Gyroscope_2000s:
-			DataStruct->Gyro_Mult = (float)1 / MPU6050_GYRO_SENS_2000;
-		default:
-			break;
-	}
-
-	/* Return OK */
-	return TM_MPU6050_Result_Ok;
+  return KB_MPU9150_Result_Ok;
 }
 
-TM_MPU6050_Result_t TM_MPU6050_ReadAccelerometer(TM_MPU6050_t* DataStruct) {
-	uint8_t data[6];
+KB_MPU9150_Result_t
+KB_MPU9150_ReadGyroscope(KB_MPU9150_t* DataStruct)
+{
+  TM_MPU6050_t MPU6050_data;
+  /* Format I2C address */
+  MPU6050_data.Address = MPU6050_I2C_ADDR;
 
-	/* Read accelerometer data */
-	TM_I2C_ReadMulti(MPU6050_I2C, DataStruct->Address, MPU6050_ACCEL_XOUT_H, data, 6);
+  /* Getting the data from MPU6050 library */
+  if(TM_MPU6050_ReadGyroscope(&MPU6050_data) != TM_MPU6050_Result_Ok){
+    return KB_MPU9150_Result_UnkownProblem;
+  }
 
-	/* Format */
-	DataStruct->Accelerometer_X = (int16_t)(data[0] << 8 | data[1]);
-	DataStruct->Accelerometer_Y = (int16_t)(data[2] << 8 | data[3]);
-	DataStruct->Accelerometer_Z = (int16_t)(data[4] << 8 | data[5]);
-
-	/* Return OK */
-	return TM_MPU6050_Result_Ok;
+  /* Copy the values */
+  KB_MPU9150_CopyData_MPU6050(DataStruct, &MPU6050_data);
+  return KB_MPU9150_Result_Ok;
 }
 
-TM_MPU6050_Result_t TM_MPU6050_ReadGyroscope(TM_MPU6050_t* DataStruct) {
-	uint8_t data[6];
+KB_MPU9150_Result_t
+KB_MPU9150_ReadTemperature(KB_MPU9150_t* DataStruct)
+{
+  TM_MPU6050_t MPU6050_data;
+  /* Format I2C address */
+  MPU6050_data.Address = MPU6050_I2C_ADDR;
 
-	/* Read gyroscope data */
-	TM_I2C_ReadMulti(MPU6050_I2C, DataStruct->Address, MPU6050_GYRO_XOUT_H, data, 6);
+  /* Getting the data from MPU6050 library */
+  if(TM_MPU6050_ReadTemperature(&MPU6050_data) != TM_MPU6050_Result_Ok){
+    return KB_MPU9150_Result_UnkownProblem;
+  }
 
-	/* Format */
-	DataStruct->Gyroscope_X = (int16_t)(data[0] << 8 | data[1]);
-	DataStruct->Gyroscope_Y = (int16_t)(data[2] << 8 | data[3]);
-	DataStruct->Gyroscope_Z = (int16_t)(data[4] << 8 | data[5]);
-
-	/* Return OK */
-	return TM_MPU6050_Result_Ok;
+  /* Copy the values */
+  KB_MPU9150_CopyData_MPU6050(DataStruct, &MPU6050_data);
+  return KB_MPU9150_Result_Ok;
 }
 
-TM_MPU6050_Result_t TM_MPU6050_ReadTemperature(TM_MPU6050_t* DataStruct) {
-	uint8_t data[2];
-	int16_t temp;
+KB_MPU9150_Result_t
+KB_MPU9150_ReadAll(KB_MPU9150_t* DataStruct)
+{
+  uint8_t data[6];
+  TM_MPU6050_t MPU6050_data;
+  /* Format I2C address */
+  MPU6050_data.Address = MPU6050_I2C_ADDR;
 
-	/* Read temperature */
-	TM_I2C_ReadMulti(MPU6050_I2C, DataStruct->Address, MPU6050_TEMP_OUT_H, data, 2);
+  /* Getting the data from MPU6050 library */
+  if(TM_MPU6050_ReadAll(&MPU6050_data) != TM_MPU6050_Result_Ok){
+    return KB_MPU9150_Result_UnkownProblem;
+  }
 
-	/* Format temperature */
-	temp = (data[0] << 8 | data[1]);
-	DataStruct->Temperature = (float)((int16_t)temp / (float)340.0 + (float)36.53);
+  /* Copy the values */
+  KB_MPU9150_CopyData_MPU6050(DataStruct, &MPU6050_data);
 
-	/* Return OK */
-	return TM_MPU6050_Result_Ok;
+  /* Set the compass into single measurement mode */
+  TM_I2C_Write(MPU6050_I2C, DataStruct->MagnetAddress, MPU9150_MAGNET_CNTL, KB_MPU9150_MAGNET_CNTL_SINGLE_MEAS);
+  /* Get the magnetometer data */
+
+  // TODO: Read magnet data
+  TM_I2C_ReadMulti(MPU6050_I2C, DataStruct->MagnetAddress, MPU9150_MAGNET_HXL, data, 6);
+  DataStruct->Magnetometer_X = (int16_t)(data[1] << 8 | data[0]);
+  DataStruct->Magnetometer_Y = (int16_t)(data[3] << 8 | data[2]);
+  DataStruct->Magnetometer_Z = (int16_t)(data[5] << 8 | data[4]);
+
+  // TODO: calibrate the data
+  DataStruct->Magnetometer_X = MPU9150_MAGNET_ADJ(DataStruct->Magnetometer_X, DataStruct->Magnetometer_Adj_X);
+  DataStruct->Magnetometer_Y = MPU9150_MAGNET_ADJ(DataStruct->Magnetometer_Y, DataStruct->Magnetometer_Adj_Y);
+  DataStruct->Magnetometer_Z = MPU9150_MAGNET_ADJ(DataStruct->Magnetometer_Z, DataStruct->Magnetometer_Adj_Z);
+
+  return KB_MPU9150_Result_Ok;
 }
-
-TM_MPU6050_Result_t TM_MPU6050_ReadAll(TM_MPU6050_t* DataStruct) {
-	uint8_t data[14];
-	int16_t temp;
-
-	/* Read full raw data, 14bytes */
-	TM_I2C_ReadMulti(MPU6050_I2C, DataStruct->Address, MPU6050_ACCEL_XOUT_H, data, 14);
-
-	/* Format accelerometer data */
-	DataStruct->Accelerometer_X = (int16_t)(data[0] << 8 | data[1]);
-	DataStruct->Accelerometer_Y = (int16_t)(data[2] << 8 | data[3]);
-	DataStruct->Accelerometer_Z = (int16_t)(data[4] << 8 | data[5]);
-
-	/* Format temperature */
-	temp = (data[6] << 8 | data[7]);
-	DataStruct->Temperature = (float)((float)((int16_t)temp) / (float)340.0 + (float)36.53);
-
-	/* Format gyroscope data */
-	DataStruct->Gyroscope_X = (int16_t)(data[8] << 8 | data[9]);
-	DataStruct->Gyroscope_Y = (int16_t)(data[10] << 8 | data[11]);
-	DataStruct->Gyroscope_Z = (int16_t)(data[12] << 8 | data[13]);
-
-	/* Return OK */
-	return TM_MPU6050_Result_Ok;
-}
-
-#endif
 
 /* Private Functions */
 void
@@ -243,9 +186,9 @@ KB_MPU9150_CopySettings_MPU6050(
   TM_MPU6050_t* MPU6050_data)
 {
   /* Private */
-MPU9150_data->Address   = MPU6050_data->Address;         /*!< I2C address of device. Only for private use */
-MPU9150_data->Gyro_Mult = MPU6050_data->Gyro_Mult;         /*!< Gyroscope corrector from raw data to "degrees/s". Only for private use */
-MPU9150_data->Acce_Mult = MPU6050_data->Acce_Mult;         /*!< Accelerometer corrector from raw data to "g". Only for private use */
+  MPU9150_data->Address   = MPU6050_data->Address;         /*!< I2C address of device. Only for private use */
+  MPU9150_data->Gyro_Mult = MPU6050_data->Gyro_Mult;         /*!< Gyroscope corrector from raw data to "degrees/s". Only for private use */
+  MPU9150_data->Acce_Mult = MPU6050_data->Acce_Mult;         /*!< Accelerometer corrector from raw data to "g". Only for private use */
 }
 
 void
