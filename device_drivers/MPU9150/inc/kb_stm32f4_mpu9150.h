@@ -10,20 +10,20 @@
  *
 @verbatim
    ----------------------------------------------------------------------
-    Copyright (C) Tilen Majerle, 2015
+	Copyright (C) Tilen Majerle, 2015
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    any later version.
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, see <http://www.gnu.org/licenses/>.
    ----------------------------------------------------------------------
 @endverbatim
  */
@@ -76,12 +76,12 @@ AD0			-			If pin is low, I2C address is 0xD0, if pin is high, the address is 0xD
 @endverbatim
  */
 
+#include "drone_config.h"
 #include "stm32f4xx.h"
-#include "stm32f4xx_rcc.h"
-#include "stm32f4xx_gpio.h"
-#include "stm32f4xx_i2c.h"
-#include "defines.h"
-#include "tm_stm32f4_i2c.h"
+#include "stm32f4xx_hal_rcc.h"
+#include "stm32f4xx_hal_gpio.h"
+#include "stm32f4xx_hal_i2c.h"
+#include "tm_stm32_i2c.h"
 #include "tm_stm32f4_mpu6050.h"
 /**
  * Descrption of the magnetometer of MPU9150:
@@ -116,25 +116,25 @@ AD0			-			If pin is low, I2C address is 0xD0, if pin is high, the address is 0xD
 #define MPU9150_MAGNET_I_AM			0x48
 
 /* MPU9150 registers */
-#define MPU9150_MAGNET_WIA  	0x00
-#define MPU9150_MAGNET_INFO   	0x01
-#define MPU9150_MAGNET_ST1  	0x02
+#define MPU9150_MAGNET_WIA		0x00
+#define MPU9150_MAGNET_INFO		0x01
+#define MPU9150_MAGNET_ST1		0x02
 /* MPU9150 Magnet data registers */
-#define MPU9150_MAGNET_HXL  	0x03
-#define MPU9150_MAGNET_HXH  	0x04
-#define MPU9150_MAGNET_HYL  	0x05
-#define MPU9150_MAGNET_HYH  	0x06
-#define MPU9150_MAGNET_HZL  	0x06
-#define MPU9150_MAGNET_HZH  	0x08
+#define MPU9150_MAGNET_HXL		0x03
+#define MPU9150_MAGNET_HXH		0x04
+#define MPU9150_MAGNET_HYL		0x05
+#define MPU9150_MAGNET_HYH		0x06
+#define MPU9150_MAGNET_HZL		0x06
+#define MPU9150_MAGNET_HZH		0x08
 /* Other MPU9150 registers */
-#define MPU9150_MAGNET_ST2  	0x09
-#define MPU9150_MAGNET_CNTL   	0x0A
-#define MPU9150_MAGNET_ASTC   	0x0C
-#define MPU9150_MAGNET_I2CDIS   0x0F
+#define MPU9150_MAGNET_ST2		0x09
+#define MPU9150_MAGNET_CNTL		0x0A
+#define MPU9150_MAGNET_ASTC		0x0C
+#define MPU9150_MAGNET_I2CDIS	0x0F
 /* Sensitivity Adjestment values */
-#define MPU9150_MAGNET_ASAX   	0x10
-#define MPU9150_MAGNET_ASAY   	0x11
-#define MPU9150_MAGNET_ASAZ   	0x12
+#define MPU9150_MAGNET_ASAX		0x10
+#define MPU9150_MAGNET_ASAY		0x11
+#define MPU9150_MAGNET_ASAZ		0x12
 
 /* magnetometer sensitivity in uT */
 #define	MPU9150_MAGNET_SENS	((float) 0.3)
@@ -148,46 +148,46 @@ AD0			-			If pin is low, I2C address is 0xD0, if pin is high, the address is 0xD
 
 /**
  * @defgroup KB_MPU9150_Typedefs
- * @brief    Library Typedefs
+ * @brief	    Library Typedefs
  * @{
  */
 
 
  typedef enum {
- 	KB_MPU9150_Result_Ok = 0x00,          /*!< Everything OK */
- 	KB_MPU9150_Result_DeviceNotConnected, /*!< There is no device with valid slave address */
- 	KB_MPU9150_Result_DeviceInvalid,       /*!< Connected device with address is not MPU6050 */
-  KB_MPU9150_Result_NoMagnetometer,      /*!< Failed to connect the Compass */
-  KB_MPU9150_Result_UnkownProblem       /*!< Unkown problem */
+	KB_MPU9150_Result_Ok = 0x00,          /*!< Everything OK */
+	KB_MPU9150_Result_DeviceNotConnected, /*!< There is no device with valid slave address */
+	KB_MPU9150_Result_DeviceInvalid,       /*!< Connected device with address is not MPU6050 */
+	KB_MPU9150_Result_NoMagnetometer,      /*!< Failed to connect the Compass */
+	KB_MPU9150_Result_UnkownProblem       /*!< Unkown problem */
 } KB_MPU9150_Result_t;
 
 /**
  * @brief  Parameters for accelerometer range
  */
-#define KB_MPU9150_Accelerometer_2G   TM_MPU6050_Accelerometer_2G
-#define KB_MPU9150_Accelerometer_4G   TM_MPU6050_Accelerometer_4G
-#define KB_MPU9150_Accelerometer_8G   TM_MPU6050_Accelerometer_8G
-#define KB_MPU9150_Accelerometer_16G  TM_MPU6050_Accelerometer_16G
-#define KB_MPU9150_Accelerometer_t    TM_MPU6050_Accelerometer_t
+#define KB_MPU9150_Accelerometer_2G		TM_MPU6050_Accelerometer_2G
+#define KB_MPU9150_Accelerometer_4G		TM_MPU6050_Accelerometer_4G
+#define KB_MPU9150_Accelerometer_8G		TM_MPU6050_Accelerometer_8G
+#define KB_MPU9150_Accelerometer_16G	TM_MPU6050_Accelerometer_16G
+#define KB_MPU9150_Accelerometer_t		TM_MPU6050_Accelerometer_t
 
 
 /**
  * @brief  Parameters for gyroscope range
  */
-#define KB_MPU9150_Gyroscope_250s   TM_MPU6050_Gyroscope_250s
-#define KB_MPU9150_Gyroscope_500s   TM_MPU6050_Gyroscope_500s
-#define KB_MPU9150_Gyroscope_1000s   TM_MPU6050_Gyroscope_1000s
-#define KB_MPU9150_Gyroscope_2000s  TM_MPU6050_Gyroscope_2000s
-#define KB_MPU9150_Gyroscope_t    TM_MPU6050_Gyroscope_t
+#define KB_MPU9150_Gyroscope_250s	TM_MPU6050_Gyroscope_250s
+#define KB_MPU9150_Gyroscope_500s	TM_MPU6050_Gyroscope_500s
+#define KB_MPU9150_Gyroscope_1000s	TM_MPU6050_Gyroscope_1000s
+#define KB_MPU9150_Gyroscope_2000s	TM_MPU6050_Gyroscope_2000s
+#define KB_MPU9150_Gyroscope_t		TM_MPU6050_Gyroscope_t
 
 /**
  * @brief  Settings for CNTL register
  */
 typedef enum {
-	KB_MPU9150_MAGNET_CNTL_POWER_DOWN	=	0X0,
-	KB_MPU9150_MAGNET_CNTL_SINGLE_MEAS	=	0X1,
-	KB_MPU9150_MAGNET_CNTL_SELF_TEST	=	0X8,
-	KB_MPU9150_MAGNET_CNTL_FUSE_ROM	=	0XF,
+	KB_MPU9150_MAGNET_CNTL_POWER_DOWN	= 0X0,
+	KB_MPU9150_MAGNET_CNTL_SINGLE_MEAS	= 0X1,
+	KB_MPU9150_MAGNET_CNTL_SELF_TEST	= 0X8,
+	KB_MPU9150_MAGNET_CNTL_FUSE_ROM		= 0XF
 } KB_MPU9150_MAGNET_CNTL_t;
 
 /**
@@ -195,33 +195,31 @@ typedef enum {
  */
 typedef struct {
 	/* Private */
-	uint8_t Address;         /*!< I2C address of device. Only for private use */
-  uint8_t MagnetAddress;   /*!< I2C Magnetometer address */
-	float Gyro_Div;         /*!< Gyroscope corrector from raw data to "degrees/s". Only for private use */
-	float Acce_Div;         /*!< Accelerometer corrector from raw data to "g". Only for private use */
+	uint8_t Address;		/*!< I2C address of device. Only for private use */
+	uint8_t MagnetAddress;	/*!< I2C Magnetometer address */
+	float Gyro_Div;			/*!< Gyroscope corrector from raw data to "degrees/s". Only for private use */
+	float Acce_Div;			/*!< Accelerometer corrector from raw data to "g". Only for private use */
 	float Magnet_Mult;			 /*!< Magnetometer corrector from raw dato to "uT", Only for private use */
 	/* Public */
-	float Accelerometer_X; /*!< Accelerometer value X axis */
-	float Accelerometer_Y; /*!< Accelerometer value Y axis */
-	float Accelerometer_Z; /*!< Accelerometer value Z axis */
-	float Gyroscope_X;     /*!< Gyroscope value X axis */
-	float Gyroscope_Y;     /*!< Gyroscope value Y axis */
-	float Gyroscope_Z;     /*!< Gyroscope value Z axis */
-	float Magnetometer_X;  /*!< Magnetometer value X axis */
-	float Magnetometer_Y;  /*!< Magnetometer value Y axis */
-	float Magnetometer_Z;  /*!< Magnetometer value Z axis */
+	float Accelerometer_X;	/*!< Accelerometer value X axis */
+	float Accelerometer_Y;	/*!< Accelerometer value Y axis */
+	float Accelerometer_Z;	/*!< Accelerometer value Z axis */
+	float Gyroscope_X;		/*!< Gyroscope value X axis */
+	float Gyroscope_Y;		/*!< Gyroscope value Y axis */
+	float Gyroscope_Z;		/*!< Gyroscope value Z axis */
+	float Magnetometer_X;	/*!< Magnetometer value X axis */
+	float Magnetometer_Y;	/*!< Magnetometer value Y axis */
+	float Magnetometer_Z;	/*!< Magnetometer value Z axis */
+	int8_t  Magnetometer_Adj_X;	/*!< Magnetometer adjust value on X axis */
+	int8_t  Magnetometer_Adj_Y;	/*!< Magnetometer adjust value on X axis */
+	int8_t  Magnetometer_Adj_Z;	/*!< Magnetometer adjust value on X axis */
 
-  int8_t  Magnetometer_Adj_X; /*!< Magnetometer adjust value on X axis */
-  int8_t  Magnetometer_Adj_Y; /*!< Magnetometer adjust value on X axis */
-  int8_t  Magnetometer_Adj_Z; /*!< Magnetometer adjust value on X axis */
-
-	float Temperature;       /*!< Temperature in degrees */
+	float Temperature;	/*!< Temperature in degrees */
 } KB_MPU9150_t;
 
 /**
  * @}
  */
-
 /**
  * @defgroup KB_MPU9150_Functions
  * @brief    Library Functions
@@ -240,9 +238,9 @@ typedef struct {
  */
 KB_MPU9150_Result_t
 KB_MPU9150_Init(
-  KB_MPU9150_t* DataStruct,
-  KB_MPU9150_Accelerometer_t AccelerometerSensitivity,
-  KB_MPU9150_Gyroscope_t GyroscopeSensitivity);
+	KB_MPU9150_t* DataStruct,
+	KB_MPU9150_Accelerometer_t AccelerometerSensitivity,
+	KB_MPU9150_Gyroscope_t GyroscopeSensitivity);
 
 /**
  * @brief  Reads accelerometer data from sensor

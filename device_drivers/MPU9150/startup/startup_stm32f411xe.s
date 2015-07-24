@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file      startup_stm32f411xe.s
   * @author    MCD Application Team
-  * @version   V1.5.0
-  * @date      06-March-2015
+  * @version   V1.1.0
+  * @date      26-December-2014
   * @brief     STM32F411xExx Devices vector table for System Workbench for STM32. 
   *            This module performs:
   *                - Set the initial SP
@@ -16,7 +16,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT 2014 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:

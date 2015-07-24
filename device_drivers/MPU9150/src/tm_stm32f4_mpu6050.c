@@ -34,7 +34,8 @@ TM_MPU6050_Result_t TM_MPU6050_Init(TM_MPU6050_t* DataStruct, TM_MPU6050_Device_
 	}
 	
 	/* Check who I am */
-	if (TM_I2C_Read(MPU6050_I2C, DataStruct->Address, MPU6050_WHO_AM_I) != MPU6050_I_AM) {
+	TM_I2C_Read(MPU6050_I2C, DataStruct->Address, MPU6050_WHO_AM_I, &temp);
+	if (temp != MPU6050_I_AM) {
 		/* Return error */
 		return TM_MPU6050_Result_DeviceInvalid;
 	}
@@ -43,12 +44,12 @@ TM_MPU6050_Result_t TM_MPU6050_Init(TM_MPU6050_t* DataStruct, TM_MPU6050_Device_
 	TM_I2C_Write(MPU6050_I2C, DataStruct->Address, MPU6050_PWR_MGMT_1, 0x00);
 	
 	/* Config accelerometer */
-	temp = TM_I2C_Read(MPU6050_I2C, DataStruct->Address, MPU6050_ACCEL_CONFIG);
+	TM_I2C_Read(MPU6050_I2C, DataStruct->Address, MPU6050_ACCEL_CONFIG, &temp);
 	temp = (temp & 0xE7) | (uint8_t)AccelerometerSensitivity << 3;
 	TM_I2C_Write(MPU6050_I2C, DataStruct->Address, MPU6050_ACCEL_CONFIG, temp);
 	
 	/* Config gyroscope */
-	temp = TM_I2C_Read(MPU6050_I2C, DataStruct->Address, MPU6050_GYRO_CONFIG);
+	TM_I2C_Read(MPU6050_I2C, DataStruct->Address, MPU6050_GYRO_CONFIG, &temp);
 	temp = (temp & 0xE7) | (uint8_t)GyroscopeSensitivity << 3;
 	TM_I2C_Write(MPU6050_I2C, DataStruct->Address, MPU6050_GYRO_CONFIG, temp);
 	

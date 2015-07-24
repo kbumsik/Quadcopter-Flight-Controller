@@ -1,21 +1,24 @@
 /**
- *	Keil project example for MPU9150 6-axes
- *
- *	Before you start, select your target, on the right of the "Load" button
- *
- *	@author		Tilen Majerle
- *	@email		tilen@majerle.eu
- *	@website	http://stm32f4-discovery.com
- *	@ide		Keil uVision 5
- *	@packs		STM32F4xx Keil packs version 2.2.0 or greater required
- *	@stdperiph	STM32F4xx Standard peripheral drivers version 1.4.0 or greater required
- */
+  ******************************************************************************
+  * @file    main.c
+  * @author  Ac6
+  * @version V1.0
+  * @date    01-December-2013
+  * @brief   Default main function.
+  ******************************************************************************
+*/
+
+
+/* Project config */
+#include "drone_config.h"
+
 /* Include core modules */
 #include "stm32f4xx.h"
+#include "stm32f4xx_nucleo.h"
+
 /* Include my libraries here */
-#include "defines.h"
-#include "tm_stm32f4_delay.h"
-#include "tm_stm32f4_usart.h"
+#include "tm_stm32_delay.h"
+#include "tm_stm32_usart.h"
 
 #include "kb_stm32f4_mpu9150.h"
 #include "kb_stm32f4_functions.h"

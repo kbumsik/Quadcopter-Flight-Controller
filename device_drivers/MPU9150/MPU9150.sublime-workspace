@@ -1,0 +1,304 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "src/kb_stm32f4_mpu9150.c",
+			"settings":
+			{
+				"buffer_size": 9337,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "MPU9150.sublime-project",
+			"settings":
+			{
+				"buffer_size": 478,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 375.0,
+		"last_filter": "gitg",
+		"selected_items":
+		[
+			[
+				"gitg",
+				"GitGutter: Show Comparing Against"
+			],
+			[
+				"package con",
+				"Package Control: Install Package"
+			],
+			[
+				"git",
+				"GitGutter: Show Comparing Against"
+			],
+			[
+				"gitgu",
+				"GitGutter: Compare Against HEAD"
+			],
+			[
+				"package",
+				"Package Control: List Packages"
+			],
+			[
+				"Package",
+				"Package Control: Install Package"
+			],
+			[
+				"",
+				"Bookmarks: Select All"
+			]
+		],
+		"width": 624.0
+	},
+	"console":
+	{
+		"height": 276.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = 'eb2297e1a458f27d836c04bb0cbaf282' + 'd0e7a3098092775ccb37ca9d6b2e4b7d'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by) "
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Users/BumSik/Documents/git/Quadcopter-Flight-Controller/device_drivers/MPU9150",
+		"/C/Users/BumSik/Documents/git/Quadcopter-Flight-Controller/device_drivers/MPU9150/inc",
+		"/C/Users/BumSik/Documents/git/Quadcopter-Flight-Controller/device_drivers/MPU9150/src"
+	],
+	"file_history":
+	[
+		"/C/Users/BumSik/Documents/git/Quadcopter-Flight-Controller/device_drivers/MPU9150/inc/kb_stm32f4_mpu9150.h",
+		"/C/Users/BumSik/Documents/git/Quadcopter-Flight-Controller/device_drivers/MPU9150/src/main.c",
+		"/C/Users/BumSik/Documents/git/Quadcopter-Flight-Controller/device_drivers/MPU9150/src/kb_stm32f4_functions.c",
+		"/C/Users/BumSik/Documents/git/Quadcopter-Flight-Controller/device_drivers/MPU9150/MPU9150.sublime-project",
+		"/C/Users/BumSik/AppData/Roaming/Sublime Text 3/Packages/User/SublimeLinter.sublime-settings",
+		"/C/Users/BumSik/AppData/Roaming/Sublime Text 3/Packages/SublimeLinter/SublimeLinter.sublime-settings",
+		"/C/Users/BumSik/Documents/git/Quadcopter-Flight-Controller/device_drivers/MPU9150/src/kb_stm32f4_mpu9150.c",
+		"/C/Users/BumSik/Documents/git/Quadcopter-Flight-Controller/device_drivers/MPU9150/inc/stm32f4xx_it.h",
+		"/C/Users/BumSik/AppData/Roaming/Sublime Text 3/Packages/Cheat Sheets/cheat-sheets/Regular Expressions.cheatsheet",
+		"/C/Users/BumSik/AppData/Roaming/Sublime Text 3/Packages/User/GitGutter.sublime-settings",
+		"/C/Users/BumSik/Documents/git/Quadcopter-Flight-Controller/device_drivers/MPU9150/inc/tm_stm32f4_delay.h",
+		"/C/Users/BumSik/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings"
+	],
+	"find":
+	{
+		"height": 44.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			" ",
+			"  ",
+			"   ",
+			"  ",
+			"   ",
+			"     ",
+			"         ",
+			"        ",
+			"       ",
+			"      ",
+			"     ",
+			"    ",
+			"   ",
+			"  "
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "src/kb_stm32f4_mpu9150.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 9337,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7615,
+								7615
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 7884.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "MPU9150.sublime-project",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 478,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								439,
+								439
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": -0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 44.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "MPU9150.sublime-project",
+	"replace":
+	{
+		"height": 84.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"src\\kb_stm32f4_mpu9150.c"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 317.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

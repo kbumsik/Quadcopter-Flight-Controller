@@ -35,6 +35,7 @@
 extern "C" {
 #endif
 
+
 /**
  * @addtogroup TM_STM32F4xx_Libraries
  * @{
@@ -76,12 +77,12 @@ AD0			-			If pin is low, I2C address is 0xD0, if pin is high, the address is 0xD
 @endverbatim
  */
 
+#include "drone_config.h"
 #include "stm32f4xx.h"
-#include "stm32f4xx_rcc.h"
-#include "stm32f4xx_gpio.h"
-#include "stm32f4xx_i2c.h"
-#include "defines.h"
-#include "tm_stm32f4_i2c.h"
+#include "stm32f4xx_hal_rcc.h"
+#include "stm32f4xx_hal_gpio.h"
+#include "stm32f4xx_hal_i2c.h"
+#include "tm_stm32_i2c.h"
 
 /**
  * @defgroup TM_LIB_Macros
