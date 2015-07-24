@@ -43,7 +43,6 @@ KB_MPU9150_Init(
 	TM_MPU6050_Result_t status;
 	TM_MPU6050_t MPU6050_data;
 	/* Initialize the device aside from the compass */
-	// FIXME: returns invalid.
 	status = TM_MPU6050_Init(&MPU6050_data, TM_MPU6050_Device_0, AccelerometerSensitivity, GyroscopeSensitivity);
 
 	/* Set sensitivities for multiplying gyro and accelerometer data */
@@ -101,7 +100,7 @@ KB_MPU9150_Init(
 			/* Try to connect the magnetometer */
 			/* Check if the magnetometer is valid device using WIA */
 			DataStruct->MagnetAddress = MPU9150_MAGNET_I2C_ADDR;
-			if (!TM_I2C_IsDeviceConnected(MPU6050_I2C, DataStruct->MagnetAddress)) {
+			if (TM_I2C_IsDeviceConnected(MPU6050_I2C, DataStruct->MagnetAddress) != TM_I2C_Result_Ok) {
 				/* Return error */
 				return KB_MPU9150_Result_NoMagnetometer;
 			}
@@ -198,12 +197,7 @@ KB_MPU9150_ReadMagnetometer(KB_MPU9150_t* DataStruct)
 {
 	uint8_t buffer[6];
 	int16_t x,y,z;
-	/* Set the compass into single measurement mode */
-	TM_I2C_Write(MPU6050_I2C, DataStruct->MagnetAddress, MPU9150_MAGNET_CNTL, KB_MPU9150_MAGNET_CNTL_SINGLE_MEAS);
-	if (!TM_I2C_IsDeviceConnected(MPU6050_I2C, DataStruct->MagnetAddress)) {
-			/* Return error */
-			return KB_MPU9150_Result_NoMagnetometer;
-	}
+
 	/* Get the magnetometer data */
 
 	/* Read magnet data */
@@ -226,6 +220,9 @@ KB_MPU9150_ReadMagnetometer(KB_MPU9150_t* DataStruct)
 	DataStruct->Magnetometer_Z *= DataStruct->Magnet_Mult;
 
 
+	/* Set the compass into single measurement mode */
+	TM_I2C_Write(MPU6050_I2C, DataStruct->MagnetAddress, MPU9150_MAGNET_CNTL, KB_MPU9150_MAGNET_CNTL_SINGLE_MEAS);
+
 	return KB_MPU9150_Result_Ok;
 }
 
@@ -233,6 +230,9 @@ KB_MPU9150_Result_t
 KB_MPU9150_ReadAll(KB_MPU9150_t* DataStruct)
 {
 	TM_MPU6050_t MPU6050_data;
+
+	// FIXME: Make the magnetometer more responsive.
+
 	/* Format I2C address */
 	MPU6050_data.Address = MPU6050_I2C_ADDR;
 

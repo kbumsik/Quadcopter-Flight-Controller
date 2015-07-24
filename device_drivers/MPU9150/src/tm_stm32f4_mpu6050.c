@@ -28,7 +28,7 @@ TM_MPU6050_Result_t TM_MPU6050_Init(TM_MPU6050_t* DataStruct, TM_MPU6050_Device_
 	TM_I2C_Init(MPU6050_I2C, MPU6050_I2C_PINSPACK, MPU6050_I2C_CLOCK);
 	
 	/* Check if device is connected */
-	if (!TM_I2C_IsDeviceConnected(MPU6050_I2C, DataStruct->Address)) {
+	if (TM_I2C_IsDeviceConnected(MPU6050_I2C, DataStruct->Address) != TM_I2C_Result_Ok) {
 		/* Return error */
 		return TM_MPU6050_Result_DeviceNotConnected;
 	}

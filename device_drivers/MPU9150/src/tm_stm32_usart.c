@@ -888,7 +888,9 @@ static void TM_USART_INT_Init(
 	/* Set priority */
 	HAL_NVIC_SetPriority(irq, USART_NVIC_PRIORITY, TM_USART_INT_GetSubPriority(USARTx));
 	/* Enable interrupt */
-	HAL_NVIC_EnableIRQ(irq);
+
+	// FIXME: the microcontroller stops(get into infinite IRQ) when this is called.
+	//HAL_NVIC_EnableIRQ(irq);
 	
 	/* We are initialized now */
 	u->Initialized = 1;
