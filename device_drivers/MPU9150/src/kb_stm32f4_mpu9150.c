@@ -17,7 +17,6 @@
  * |----------------------------------------------------------------------
  */
 
-
 #include "kb_stm32f4_mpu9150.h"
 
 /* type definitions for private functions */
@@ -29,8 +28,6 @@ typedef enum {
 
 /* Private functions */
 void KB_MPU9150_CopyData_MPU6050(KB_MPU9150_t* MPU9150_data, TM_MPU6050_t* MPU6050_data, KB_CopyType copy_type);
-
-
 
 
 KB_MPU9150_Result_t
@@ -45,50 +42,51 @@ KB_MPU9150_Init(
 	/* Initialize the device aside from the compass */
 	status = TM_MPU6050_Init(&MPU6050_data, TM_MPU6050_Device_0, AccelerometerSensitivity, GyroscopeSensitivity);
 
-	/* Set sensitivities for multiplying gyro and accelerometer data */
-	switch (AccelerometerSensitivity) {
-		case KB_MPU9150_Accelerometer_2G:
-			DataStruct->Acce_Div = MPU6050_ACCE_SENS_2;
-			break;
-		case KB_MPU9150_Accelerometer_4G:
-			DataStruct->Acce_Div = MPU6050_ACCE_SENS_4;
-			break;
-		case KB_MPU9150_Accelerometer_8G:
-			DataStruct->Acce_Div = MPU6050_ACCE_SENS_8;
-			break;
-		case KB_MPU9150_Accelerometer_16G:
-			DataStruct->Acce_Div = MPU6050_ACCE_SENS_16;
-			break;
-		default:
-			break;
-	}
-
-	switch (GyroscopeSensitivity) {
-		case KB_MPU9150_Gyroscope_250s:
-			DataStruct->Gyro_Div = MPU6050_GYRO_SENS_250;
-			break;
-		case KB_MPU9150_Gyroscope_500s:
-			DataStruct->Gyro_Div = MPU6050_GYRO_SENS_500;
-			break;
-		case KB_MPU9150_Gyroscope_1000s:
-			DataStruct->Gyro_Div = MPU6050_GYRO_SENS_1000;
-			break;
-		case KB_MPU9150_Gyroscope_2000s:
-			DataStruct->Gyro_Div = MPU6050_GYRO_SENS_2000;
-			break;
-		default:
-			break;
-	}
-
-	/* Copy address */
-	DataStruct->Address = MPU6050_data.Address;
-
 	/* act according to the status of MPU6050 connection */
 	switch(status)
 	{
 		case TM_MPU6050_Result_Ok:
 		{
+			/* Set sensitivities for multiplying accelerometer data */
+			switch (AccelerometerSensitivity) {
+				case KB_MPU9150_Accelerometer_2G:
+					DataStruct->Acce_Div = MPU6050_ACCE_SENS_2;
+					break;
+				case KB_MPU9150_Accelerometer_4G:
+					DataStruct->Acce_Div = MPU6050_ACCE_SENS_4;
+					break;
+				case KB_MPU9150_Accelerometer_8G:
+					DataStruct->Acce_Div = MPU6050_ACCE_SENS_8;
+					break;
+				case KB_MPU9150_Accelerometer_16G:
+					DataStruct->Acce_Div = MPU6050_ACCE_SENS_16;
+					break;
+				default:
+					break;
+			}
+		
+			/* Set sensitivities for multiplying gyro data */
+			switch (GyroscopeSensitivity) {
+				case KB_MPU9150_Gyroscope_250s:
+					DataStruct->Gyro_Div = MPU6050_GYRO_SENS_250;
+					break;
+				case KB_MPU9150_Gyroscope_500s:
+					DataStruct->Gyro_Div = MPU6050_GYRO_SENS_500;
+					break;
+				case KB_MPU9150_Gyroscope_1000s:
+					DataStruct->Gyro_Div = MPU6050_GYRO_SENS_1000;
+					break;
+				case KB_MPU9150_Gyroscope_2000s:
+					DataStruct->Gyro_Div = MPU6050_GYRO_SENS_2000;
+					break;
+				default:
+					break;
+			}
+
 			/* Initialize the magnetometer then */
+			/* Copy address */
+			DataStruct->Address = MPU6050_data.Address;
+			
 			/* enable Pass-Through Mode */
 				/* Set 1 I2C_BYASS_EN (Bit1 of INT_PIN_CFG register, 0x37) */
 			TM_I2C_Read(MPU6050_I2C, DataStruct->Address, MPU6050_INT_PIN_CFG, &temp);
@@ -125,10 +123,12 @@ KB_MPU9150_Init(
 			/* Return OK */
 			return KB_MPU9150_Result_Ok;
 		}
+
 		case TM_MPU6050_Result_DeviceNotConnected:
 		{
 			return KB_MPU9150_Result_DeviceNotConnected;
 		}
+
 		case TM_MPU6050_Result_DeviceInvalid:
 		{
 			return KB_MPU9150_Result_DeviceInvalid;
@@ -154,7 +154,6 @@ KB_MPU9150_ReadAccelerometer(KB_MPU9150_t* DataStruct)
 	KB_MPU9150_CopyData_MPU6050(DataStruct, &MPU6050_data, KB_Accelermoter);
 
 	/* return real value */
-
 	return KB_MPU9150_Result_Ok;
 }
 
@@ -204,21 +203,18 @@ KB_MPU9150_ReadMagnetometer(KB_MPU9150_t* DataStruct)
 	TM_I2C_ReadMulti(MPU6050_I2C, DataStruct->MagnetAddress, MPU9150_MAGNET_HXL, buffer, 6);
 
 	x = (int16_t)(buffer[1] << 8 | buffer[0]);
-	DataStruct->Magnetometer_X = (float)MPU9150_MAGNET_ADJ(x, DataStruct->Magnetometer_Adj_X);
-
 	y = (int16_t)(buffer[3] << 8 | buffer[2]);
-	DataStruct->Magnetometer_Y = (float)MPU9150_MAGNET_ADJ(y, DataStruct->Magnetometer_Adj_Y);
-
 	z = (int16_t)(buffer[5] << 8 | buffer[4]);
+	
+	/* Calibrate the magnet data */
+	DataStruct->Magnetometer_X = (float)MPU9150_MAGNET_ADJ(x, DataStruct->Magnetometer_Adj_X);
+	DataStruct->Magnetometer_Y = (float)MPU9150_MAGNET_ADJ(y, DataStruct->Magnetometer_Adj_Y);
 	DataStruct->Magnetometer_Z = (float)MPU9150_MAGNET_ADJ(z, DataStruct->Magnetometer_Adj_Z);
-
-
 
 	/* calibrate the data */
 	DataStruct->Magnetometer_X *= DataStruct->Magnet_Mult;
 	DataStruct->Magnetometer_Y *= DataStruct->Magnet_Mult;
 	DataStruct->Magnetometer_Z *= DataStruct->Magnet_Mult;
-
 
 	/* Set the compass into single measurement mode */
 	TM_I2C_Write(MPU6050_I2C, DataStruct->MagnetAddress, MPU9150_MAGNET_CNTL, KB_MPU9150_MAGNET_CNTL_SINGLE_MEAS);

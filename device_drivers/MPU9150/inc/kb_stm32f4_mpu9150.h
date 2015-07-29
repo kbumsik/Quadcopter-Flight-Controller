@@ -1,16 +1,14 @@
 /**
- * @author  Tilen Majerle
- * @email   tilen@majerle.eu
- * @website http://stm32f4-discovery.com
- * @link    http://stm32f4-discovery.com/2014/10/library-43-mpu-6050-6-axes-gyro-accelerometer-stm32f4/
- * @version v1.0
- * @ide     Keil uVision
+ * @author  BumSik Kim
+ * @email	kbumsik@gmail.com
+ * @website http://www.kbumsik.net/wordpress
+ * @ide     System Workbench for STM32 (SW4STM32)
  * @license GNU GPL v3
- * @brief   MPU6050 library for STM32F4xx
+ * @brief   MPU9150 library for STM32F4xx
  *
 @verbatim
    ----------------------------------------------------------------------
-	Copyright (C) Tilen Majerle, 2015
+	Copyright (C) BumSik Kim, 2015
 
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -42,19 +40,19 @@ extern "C" {
 
 /**
  * @defgroup KB_MPU9150
- * @brief    MPU6050 library for STM32F4xx - http://stm32f4-discovery.com/2014/10/library-43-mpu-6050-6-axes-gyro-accelerometer-stm32f4/
+ * @brief    MPU9150 library for STM32F4xx - http://stm32f4-discovery.com/2014/10/library-43-mpu-6050-6-axes-gyro-accelerometer-stm32f4/
  * @{
  *
  * \par Default pinout
  *
 @verbatim
-MPU6050		STM32F4xx	Descrption
+MPU9150		STM32F4xx	Descrption
 
 SCL			PA8			Clock line for I2C
 SDA			PC9			Data line for I2C
 VCC			3.3V
 GND			GND
-AD0			-			If pin is low, I2C address is 0xD0, if pin is high, the address is 0xD2
+AD0			GND			Should connected to GND if the user want to use the magnetometer
 @endverbatim
  *
  * \par Changelog
@@ -67,11 +65,11 @@ AD0			-			If pin is low, I2C address is 0xD0, if pin is high, the address is 0xD
  * \par Dependencies
  *
 @verbatim
- - STM32F4xx
- - STM32F4xx RCC
- - STM32F4xx GPIO
- - STM32F4xx I2C
- - defines.h
+ - STM32F4xx HAL
+ - STM32F4xx HAL RCC
+ - STM32F4xx HAL GPIO
+ - STM32F4xx HAL I2C
+ - TM MPU6050
  - TM I2C
 @endverbatim
  */
@@ -93,20 +91,20 @@ AD0			-			If pin is low, I2C address is 0xD0, if pin is high, the address is 0xD
  */
 
 /**
- * @defgroup TM_LIB_Macros
+ * @defgroup KB_LIB_Macros
  * @brief    Library defines
  * @{
  */
 
 /* Default I2C used */
-#ifndef MPU6050_I2C
-#define	MPU6050_I2C					I2C3
-#define MPU6050_I2C_PINSPACK		TM_I2C_PinsPack_1
+#ifndef MPU9150_I2C
+#define	MPU9150_I2C					I2C3
+#define MPU9150_I2C_PINSPACK		TM_I2C_PinsPack_1
 #endif
 
 /* Default I2C clock */
-#ifndef MPU6050_I2C_CLOCK
-#define MPU6050_I2C_CLOCK			400000
+#ifndef MPU9150_I2C_CLOCK
+#define MPU9150_I2C_CLOCK			400000
 #endif
 
 /* Default I2C address */
@@ -151,8 +149,6 @@ AD0			-			If pin is low, I2C address is 0xD0, if pin is high, the address is 0xD
  * @brief	    Library Typedefs
  * @{
  */
-
-
  typedef enum {
 	KB_MPU9150_Result_Ok = 0x00,          /*!< Everything OK */
 	KB_MPU9150_Result_DeviceNotConnected, /*!< There is no device with valid slave address */
@@ -160,6 +156,7 @@ AD0			-			If pin is low, I2C address is 0xD0, if pin is high, the address is 0xD
 	KB_MPU9150_Result_NoMagnetometer,      /*!< Failed to connect the Compass */
 	KB_MPU9150_Result_UnkownProblem       /*!< Unkown problem */
 } KB_MPU9150_Result_t;
+
 
 /**
  * @brief  Parameters for accelerometer range
@@ -169,7 +166,6 @@ AD0			-			If pin is low, I2C address is 0xD0, if pin is high, the address is 0xD
 #define KB_MPU9150_Accelerometer_8G		TM_MPU6050_Accelerometer_8G
 #define KB_MPU9150_Accelerometer_16G	TM_MPU6050_Accelerometer_16G
 #define KB_MPU9150_Accelerometer_t		TM_MPU6050_Accelerometer_t
-
 
 /**
  * @brief  Parameters for gyroscope range
@@ -191,7 +187,7 @@ typedef enum {
 } KB_MPU9150_MAGNET_CNTL_t;
 
 /**
- * @brief  Main MPU6050 structure
+ * @brief  Main MPU9150 structure
  */
 typedef struct {
 	/* Private */
@@ -199,22 +195,21 @@ typedef struct {
 	uint8_t MagnetAddress;	/*!< I2C Magnetometer address */
 	float Gyro_Div;			/*!< Gyroscope corrector from raw data to "degrees/s". Only for private use */
 	float Acce_Div;			/*!< Accelerometer corrector from raw data to "g". Only for private use */
-	float Magnet_Mult;			 /*!< Magnetometer corrector from raw dato to "uT", Only for private use */
+	float Magnet_Mult;		/*!< Magnetometer corrector from raw dato to "uT", Only for private use */
 	/* Public */
-	float Accelerometer_X;	/*!< Accelerometer value X axis */
-	float Accelerometer_Y;	/*!< Accelerometer value Y axis */
-	float Accelerometer_Z;	/*!< Accelerometer value Z axis */
-	float Gyroscope_X;		/*!< Gyroscope value X axis */
-	float Gyroscope_Y;		/*!< Gyroscope value Y axis */
-	float Gyroscope_Z;		/*!< Gyroscope value Z axis */
-	float Magnetometer_X;	/*!< Magnetometer value X axis */
-	float Magnetometer_Y;	/*!< Magnetometer value Y axis */
-	float Magnetometer_Z;	/*!< Magnetometer value Z axis */
+	float Accelerometer_X;		/*!< Accelerometer value X axis */
+	float Accelerometer_Y;		/*!< Accelerometer value Y axis */
+	float Accelerometer_Z;		/*!< Accelerometer value Z axis */
+	float Gyroscope_X;			/*!< Gyroscope value X axis */
+	float Gyroscope_Y;			/*!< Gyroscope value Y axis */
+	float Gyroscope_Z;			/*!< Gyroscope value Z axis */
+	float Magnetometer_X;		/*!< Magnetometer value X axis */
+	float Magnetometer_Y;		/*!< Magnetometer value Y axis */
+	float Magnetometer_Z;		/*!< Magnetometer value Z axis */
 	int8_t  Magnetometer_Adj_X;	/*!< Magnetometer adjust value on X axis */
 	int8_t  Magnetometer_Adj_Y;	/*!< Magnetometer adjust value on X axis */
 	int8_t  Magnetometer_Adj_Z;	/*!< Magnetometer adjust value on X axis */
-
-	float Temperature;	/*!< Temperature in degrees */
+	float Temperature;			/*!< Temperature in degrees */
 } KB_MPU9150_t;
 
 /**
@@ -227,14 +222,14 @@ typedef struct {
  */
 
 /**
- * @brief  Initializes MPU9150 and I2C peripheral
- * @param  *DataStruct: Pointer to empty @ref KB_MPU9150_t structure
+ * @brief      Initializes MPU9150 and I2C peripheral
  *
- * @param  AccelerometerSensitivity: Set accelerometer sensitivity. This parameter can be a value of @ref KB_MPU9150_Accelerometer_t enumeration
- * @param  GyroscopeSensitivity: Set gyroscope sensitivity. This parameter can be a value of @ref KB_MPU9150_Gyroscope_t enumeration
- * @retval Status:
- *            - KB_MPU9150_Result_t: Everything OK
- *            - Other member: in other cases
+ * @param      *DataStruct                Pointer to empty @ref KB_MPU9150_t structure
+ * @param[in]  AccelerometerSensitivity  Set accelerometer sensitivity. This parameter can be a value of @ref KB_MPU9150_Accelerometer_t enumeration
+ * @param[in]  GyroscopeSensitivity      Set gyroscope sensitivity. This parameter can be a value of @ref KB_MPU9150_Gyroscope_t enumeration
+ *
+ * @return     Status	- KB_MPU9150_Result_t: Everything OK
+ *            			- Other member: in other cases
  */
 KB_MPU9150_Result_t
 KB_MPU9150_Init(
@@ -245,8 +240,8 @@ KB_MPU9150_Init(
 /**
  * @brief  Reads accelerometer data from sensor
  * @param  *DataStruct: Pointer to @ref KB_MPU9150_t structure to store data to
- * @retval Member of @ref TM_MPU6050_Result_t:
- *            - TM_MPU6050_Result_Ok: everything is OK
+ * @return Member of @ref TM_MPU6050_Result_t:
+ *            - KB_MPU9150_Result_Ok: everything is OK
  *            - Other: in other cases
  */
 KB_MPU9150_Result_t
@@ -255,7 +250,7 @@ KB_MPU9150_ReadAccelerometer(KB_MPU9150_t* DataStruct);
 /**
  * @brief  Reads gyroscope data from sensor
  * @param  *DataStruct: Pointer to @ref KB_MPU9150_t structure to store data to
- * @retval Member of @ref KB_MPU9150_Result_t:
+ * @return Member of @ref KB_MPU9150_Result_t:
  *            - KB_MPU9150_Result_Ok: everything is OK
  *            - Other: in other cases
  */
@@ -265,7 +260,7 @@ KB_MPU9150_ReadGyroscope(KB_MPU9150_t* DataStruct);
 /**
  * @brief  Reads temperature data from sensor
  * @param  *DataStruct: Pointer to @ref KB_MPU9150_t structure to store data to
- * @retval Member of @ref KB_MPU9150_Result_t:
+ * @return Member of @ref KB_MPU9150_Result_t:
  *            - KB_MPU9150_Result_Ok: everything is OK
  *            - Other: in other cases
  */
@@ -275,7 +270,7 @@ KB_MPU9150_ReadTemperature(KB_MPU9150_t* DataStruct);
 /**
  * @brief  Reads temperature data from sensor
  * @param  *DataStruct: Pointer to @ref KB_MPU9150_t structure to store data to
- * @retval Member of @ref KB_MPU9150_Result_t:
+ * @return Member of @ref KB_MPU9150_Result_t:
  *            - KB_MPU9150_Result_Ok: everything is OK
  *            - Other: in other cases
  */
@@ -285,7 +280,7 @@ KB_MPU9150_ReadMagnetometer(KB_MPU9150_t* DataStruct);
 /**
  * @brief  Reads accelerometer, gyroscope and temperature data from sensor
  * @param  *DataStruct: Pointer to @ref KB_MPU9150_t structure to store data to
- * @retval Member of @ref KB_MPU9150_Result_t:
+ * @return Member of @ref KB_MPU9150_Result_t:
  *            - KB_MPU9150_Result_Ok: everything is OK
  *            - Other: in other cases
  */
