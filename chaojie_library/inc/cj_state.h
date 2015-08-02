@@ -30,6 +30,7 @@ extern "C" {
 #define PI 3.14159265359
 
 /*sensor*/
+static KB_MPU9150_t MPU9150_Data;
 static TM_MPU6050_t MPU6050_Data;
 
 /*calibration data*/
@@ -59,6 +60,14 @@ int cj_state_init();
  * @side effect: angles and angles_v
  */
 void cj_state_update();
+
+/**
+ * Assuming the system is in equilibrium. Calculate the angle between 
+ * local frame and body frame. This is same code for doing initial state
+ * estimation.
+ * @side effect: angles and angles_v
+ */
+void recalculate_state();
 
 /**
  * get angles.
