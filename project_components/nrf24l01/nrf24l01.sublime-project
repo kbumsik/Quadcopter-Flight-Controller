@@ -1,0 +1,25 @@
+{
+	"folders":
+	[
+		{
+			"path": "."
+		}
+	],
+	"SublimeLinter":
+	{
+	    "linters":
+	    {
+	        "clang": {
+	            "include_dirs": [
+	                "${project_folder}/inc",
+	                "${project_folder}/src",
+	                "${project_folder}/CMSIS/core",
+	                "${project_folder}/CMSIS/device",
+	                "${project_folder}/HAL_Driver/Inc/Legacy",
+	                "${project_folder}/HAL_Driver/Inc",
+	                "${project_folder}/Utilities/STM32F4xx-Nucleo"
+	            ]
+	        }
+	    }
+	}
+}
