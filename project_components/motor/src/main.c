@@ -73,6 +73,19 @@ int main(void)
     /* Blinking the LED 2 times a second */
 	  HAL_GPIO_TogglePin(LED_PORT, LED_PIN);
 	  HAL_Delay(500); /* Delay for 500ms */
+
+	  HAL_GPIO_TogglePin(LED_PORT, LED_PIN);
+	  update_Speed(70000);
+	  KB_STM32_Motor_Start();
+	  HAL_Delay(500); /* Delay for 500ms */
+
+	  HAL_GPIO_TogglePin(LED_PORT, LED_PIN);
+	  KB_STM32_Motor_Stop();
+	  HAL_Delay(500); /* Delay for 500ms */
+
+	  HAL_GPIO_TogglePin(LED_PORT, LED_PIN);
+	  KB_STM32_Motor_Start();
+	  HAL_Delay(500); /* Delay for 500ms */
   }
 }
 

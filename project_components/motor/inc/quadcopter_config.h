@@ -9,15 +9,10 @@
 #define DRONE_CONFIG_H_ 100
 
 /* Basic CMSIS setting */
-#ifndef STM32F411xE
-	#define STM32F411xE
- 	#ifndef __FPU_PRESENT
- 		#define __FPU_PRESENT 1
-	#endif
- 	#ifndef ARM_MATH_CM4
- 		#define ARM_MATH_CM4
- 	#endif
-#endif
+//#define STM32
+//#define STM32F4
+//#define STM32F411RETx
+//#define STM32F411xE
 
 /* definition for HAL Driver */
 #ifndef USE_HAL_DRIVER
@@ -27,12 +22,22 @@
 /* definition for NUCLEO Board */
 #ifndef NUCLEO_F411RE
 	#define NUCLEO_F411RE
- 	#ifndef LED_PIN
-		#define LED_PIN GPIO_PIN_5
-		#define LED_PORT GPIOA
- 	#endif
 #endif
 
+#ifndef LED_PIN
+	#define LED_PIN GPIO_PIN_5
+	#define LED_PORT GPIOA
+#endif
+
+#ifdef USE_HAL_DRIVER
+	#ifdef LED_PIN
+		#ifdef LED_PORT
+			#define LED_TOGGLE()	HAL_GPIO_TogglePin(LED_PORT, LED_PIN)
+			#define LED_ON()		HAL_GPIO_WritePin(LED_PORT, LED_PIN, GPIO_PIN_SET)
+			#define LED_OFF()		HAL_GPIO_WritePin(LED_PORT, LED_PIN, GPIO_PIN_RESET)
+		#endif
+	#endif
+#endif
 /* definition for TM's library */
 #ifndef STM32F4xx
 	#define STM32F4xx
