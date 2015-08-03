@@ -3,37 +3,27 @@
 <section name="org.eclipse.cdt.internal.ui.wizards.settingswizards.IncludePaths">
 <language name="C Source File">
 <includepath>${ProjDirPath}/inc</includepath>
-<includepath workspace_path="true">/motor/Drivers/CMSIS/Include</includepath>
-<includepath workspace_path="true">/motor/Drivers/CMSIS/Device/ST/STM32F4xx/Include</includepath>
-<includepath workspace_path="true">/motor/Drivers/STM32F4xx_HAL_Driver/Inc</includepath>
-<includepath workspace_path="true">/motor/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy</includepath>
+<includepath>${ProjDirPath}/Drivers/CMSIS/Include</includepath>
+<includepath>${ProjDirPath}/Drivers/STM32F4xx_HAL_Driver/Inc</includepath>
+<includepath>${ProjDirPath}/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy</includepath>
+<includepath>${ProjDirPath}/Drivers/CMSIS/Device/ST/STM32F4xx/Include</includepath>
 
 </language>
 <language name="S">
 <includepath>${ProjDirPath}/inc</includepath>
-<includepath workspace_path="true">/motor/Drivers/CMSIS/Include</includepath>
-<includepath workspace_path="true">/motor/Drivers/CMSIS/Device/ST/STM32F4xx/Include</includepath>
-<includepath workspace_path="true">/motor/Drivers/STM32F4xx_HAL_Driver/Inc</includepath>
-<includepath workspace_path="true">/motor/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy</includepath>
+<includepath>${ProjDirPath}/Drivers/CMSIS/Include</includepath>
+<includepath>${ProjDirPath}/Drivers/STM32F4xx_HAL_Driver/Inc</includepath>
+<includepath>${ProjDirPath}/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy</includepath>
+<includepath>${ProjDirPath}/Drivers/CMSIS/Device/ST/STM32F4xx/Include</includepath>
 
 </language>
 <language name="Object File">
 
 </language>
-<language name="s">
-<includepath>${ProjDirPath}/inc</includepath>
-<includepath workspace_path="true">/motor/Drivers/CMSIS/Include</includepath>
-<includepath workspace_path="true">/motor/Drivers/CMSIS/Device/ST/STM32F4xx/Include</includepath>
-<includepath workspace_path="true">/motor/Drivers/STM32F4xx_HAL_Driver/Inc</includepath>
-<includepath workspace_path="true">/motor/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy</includepath>
+<language name="Assembly Source File">
 
 </language>
-<language name="Assembly Source File">
-<includepath>${ProjDirPath}/inc</includepath>
-<includepath workspace_path="true">/motor/Drivers/CMSIS/Include</includepath>
-<includepath workspace_path="true">/motor/Drivers/CMSIS/Device/ST/STM32F4xx/Include</includepath>
-<includepath workspace_path="true">/motor/Drivers/STM32F4xx_HAL_Driver/Inc</includepath>
-<includepath workspace_path="true">/motor/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy</includepath>
+<language name="s">
 
 </language>
 </section>
@@ -77,10 +67,10 @@
 <language name="Object File">
 
 </language>
-<language name="s">
+<language name="Assembly Source File">
 
 </language>
-<language name="Assembly Source File">
+<language name="s">
 
 </language>
 </section>
