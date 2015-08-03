@@ -87,9 +87,9 @@ void cj_state_update() {
     angles.c = angles.c + delta_time*angles_v.c;
 
     KB_MPU9150_ReadAll(&MPU9150_Data);
-    angles_v.a = MPU9150_Data.Gyroscope_X;
-    angles_v.b = MPU9150_Data.Gyroscope_Y;
-    angles_v.c = MPU9150_Data.Gyroscope_Z;
+    angles_v.a = MPU9150_Data.Gyroscope_X - vcali.a;
+    angles_v.b = MPU9150_Data.Gyroscope_Y - vcali.b;
+    angles_v.c = MPU9150_Data.Gyroscope_Z - vcali.c;
 }
 
 void recalculate_state() {
