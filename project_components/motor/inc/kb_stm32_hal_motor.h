@@ -5,18 +5,18 @@
  *      Author: BumSik
  *      
  * -----------------------------------------------------------------------
- *TIM2 Configuration: generate 4 PWM signals with 4 different duty cycles.
- *  In this example TIM2 input clock (TIM2CLK) is set to 2 * APB1 clock (PCLK1),
+ *TIM4 Configuration: generate 4 PWM signals with 4 different duty cycles.
+ *  In this example TIM4 input clock (TIM4CLK) is set to 2 * APB1 clock (PCLK1),
  *  since APB1 prescaler is different from 1.
- *    TIM2CLK = 2 * PCLK1
+ *    TIM4CLK = 2 * PCLK1
  *    PCLK1 = HCLK 
- *    => TIM2CLK = HCLK = SystemCoreClock
- *  To get TIM2 counter clock at 50 MHz, the prescaler is computed as follows:
- *     Prescaler = (TIM2CLK / TIM2 counter clock) - 1
+ *    => TIM4CLK = HCLK = SystemCoreClock
+ *  To get TIM4 counter clock at 50 MHz, the prescaler is computed as follows:
+ *     Prescaler = (TIM4CLK / TIM4 counter clock) - 1
  *     Prescaler = ((SystemCoreClock) /50 MHz) - 1
  *               = 2
- *  To get TIM2 output clock at 500 Hz, the period (ARR) is computed as follows:
- *     ARR = (TIM2 counter clock / TIM2 output clock) - 1
+ *  To get TIM4 output clock at 500 Hz, the period (ARR) is computed as follows:
+ *     ARR = (TIM4 counter clock / TIM4 output clock) - 1
  *         = 100,000
  *  Note:
  *   SystemCoreClock variable holds HCLK frequency and is defined in system_stm32f4xx.c file.
@@ -49,29 +49,29 @@
 /* User can use this section to tailor TIMx instance used and associated
    resources */
 /* Definition for TIMx clock resources */
-#define MOTOR_TIMx							TIM2
-#define MOTOR_TIMx_CLK_ENABLE()				__HAL_RCC_TIM2_CLK_ENABLE()
-#define MOTOR_TIMx_CLK_DISABLE()			__HAL_RCC_TIM2_CLK_DISABLE()
+#define MOTOR_TIMx							TIM4
+#define MOTOR_TIMx_CLK_ENABLE()				__HAL_RCC_TIM4_CLK_ENABLE()
+#define MOTOR_TIMx_CLK_DISABLE()			__HAL_RCC_TIM4_CLK_DISABLE()
 
 /* Prescaler Definition at f = 50MHz */
 #define MOTOR_TIM_PRESCALER					(((SystemCoreClock) /50000000) - 1)
 
 /* Definition for TIMx Channel Pins */
-#define MOTOR_GPIO_PORT 					GPIOA
-#define MOTOR_TIMx_CHANNEL_GPIO_PORT()		__HAL_RCC_GPIOA_CLK_ENABLE()
-#define MOTOR_GPIO_ALTERNATE				GPIO_AF1_TIM2
-#define MOTOR_GPIO_PIN_CHANNEL_1			GPIO_PIN_0
-#define MOTOR_GPIO_PIN_CHANNEL_2			GPIO_PIN_1
-#define MOTOR_GPIO_PIN_CHANNEL_3			GPIO_PIN_2
-#define MOTOR_GPIO_PIN_CHANNEL_4			GPIO_PIN_3
+#define MOTOR_GPIO_PORT 					GPIOB
+#define MOTOR_TIMx_CHANNEL_GPIO_PORT()		__HAL_RCC_GPIOB_CLK_ENABLE()
+#define MOTOR_GPIO_ALTERNATE				GPIO_AF2_TIM4
+#define MOTOR_GPIO_PIN_CHANNEL_1			GPIO_PIN_6
+#define MOTOR_GPIO_PIN_CHANNEL_2			GPIO_PIN_7
+#define MOTOR_GPIO_PIN_CHANNEL_3			GPIO_PIN_8
+#define MOTOR_GPIO_PIN_CHANNEL_4			GPIO_PIN_9
 
 /* Definition for PWM pulse */
-#define MOTOR_PERIOD_VALUE		(100000 - 1)  /* Period Value  */
+#define MOTOR_PERIOD_VALUE		(10000 - 1)  /* Period Value  */
 
 /* Motor Maxium speed and limit */
-#define MOTOR_SPEED_MAX		(100000)
+#define MOTOR_SPEED_MAX		(10000)
 /* 80% of the maximum speed */
-#define MOTOR_SPEED_LIMIT	(80000)
+#define MOTOR_SPEED_LIMIT	(8000)
 
 /**
  * Typedef
@@ -107,7 +107,8 @@ KB_STM32_Status_t KB_STM32_Motor_Init(void);
  * @param[in]  channel  The channel of the motor.
  *
  * @return     Status of the result
- */		
+ */
+// FIXME:Seems like it needs KB_STM32_Motor_Start again after this function. Make it that function is not need
 KB_STM32_Status_t KB_STM32_Motor_SetSpeed(int32_t speed, KB_STM32_Motor_Channel_t channel);
 
 /**

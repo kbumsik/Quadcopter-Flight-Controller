@@ -62,7 +62,7 @@ int main(void)
   }
 
   /* Update the speed of motor */
-  update_Speed(30000);
+  update_Speed(3000);
 
   /* Then start the pwm signal */
   KB_STM32_Motor_Start();
@@ -75,7 +75,7 @@ int main(void)
 	  HAL_Delay(500); /* Delay for 500ms */
 
 	  HAL_GPIO_TogglePin(LED_PORT, LED_PIN);
-	  update_Speed(70000);
+	  update_Speed(7000);
 	  KB_STM32_Motor_Start();
 	  HAL_Delay(500); /* Delay for 500ms */
 

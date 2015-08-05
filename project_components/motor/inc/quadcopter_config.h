@@ -12,7 +12,9 @@
 //#define STM32
 //#define STM32F4
 //#define STM32F411RETx
-//#define STM32F411xE
+#ifndef STM32F411xE
+	#define STM32F411xE
+#endif
 
 /* definition for HAL Driver */
 #ifndef USE_HAL_DRIVER

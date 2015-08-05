@@ -214,7 +214,7 @@ KB_STM32_Motor_DeInit(void)
 /**
  * @brief      Initialize all configured GPIO Pins
  */
-void
+static void
 GPIO_Init(void){
 	GPIO_InitTypeDef GPIO_InitStruct;
 
