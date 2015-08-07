@@ -68,8 +68,8 @@ extern "C" {
 @endverbatim
  */
 
-#include "drone_config.h"
-#include "stm32fxxx_hal.h"
+#include "quadcopter_config.h"
+#include "stm32f4xx.h"
 #include "stdlib.h"
 
 /**

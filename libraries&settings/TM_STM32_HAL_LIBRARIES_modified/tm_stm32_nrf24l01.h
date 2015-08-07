@@ -32,7 +32,7 @@
 
 /* C++ detection */
 #ifdef __cplusplus
-extern C {
+extern "C" {
 #endif
 
 /**
@@ -104,8 +104,8 @@ IRQ			Not used	Interrupt pin. Goes low when active. Pin functionality is active,
  - TM GPIO
 @endverbatim
  */
-#include "stm32fxxx_hal.h"
-#include "defines.h"
+#include "quadcopter_config.h"
+#include "stm32f4xx.h"
 #include "tm_stm32_spi.h"
 #include "tm_stm32_gpio.h"
 
