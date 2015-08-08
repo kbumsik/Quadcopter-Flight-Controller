@@ -636,6 +636,8 @@ void TM_UART8_InitPins(TM_USART_PinsPack_t pinspack) {
 
 #ifdef USART1
 void USART1_IRQHandler(void) {
+	/* FIXME: Find the better solution not using this NOP instruction */
+	/* This happens because the register of USART is updated slowly. */
 	__NOP();
 	__NOP();
 	/* Check if interrupt was because data is received */
@@ -898,7 +900,6 @@ static void TM_USART_INT_Init(
 	HAL_NVIC_SetPriority(USART1_IRQn, USART_NVIC_PRIORITY, TM_USART_INT_GetSubPriority(USART1));
 
 	/* Enable interrupt */
-	// FIXME: the microcontroller stops(get into infinite IRQ) when this is called.
 	HAL_NVIC_EnableIRQ(USART1_IRQn);
 
 	/* We are initialized now */
@@ -911,6 +912,7 @@ void HAL_UART_MspInit(UART_HandleTypeDef *huart)
   /* NOTE: This function Should not be modified, when the callback is needed,
            the HAL_UART_MspInit could be implemented in the user file
    */
+	/* FIXME: Sort this mess */
 	/* Disable all interrupt */
 	__HAL_UART_DISABLE_IT(huart, UART_IT_CTS);
 	__HAL_UART_DISABLE_IT(huart, UART_IT_LBD);

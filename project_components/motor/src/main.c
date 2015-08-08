@@ -90,24 +90,6 @@ int main(void)
 	  update_Speed(input_speed);
 	  KB_STM32_Motor_Start();
 	  HAL_Delay(500);
-#ifdef TEST
-    /* Blinking the LED 2 times a second */
-	LED_TOGGLE();
-	HAL_Delay(500); /* Delay for 500ms */
-
-	LED_TOGGLE();
-	update_Speed(1700);
-	KB_STM32_Motor_Start();
-	HAL_Delay(500); /* Delay for 500ms */
-
-	LED_TOGGLE();
-	KB_STM32_Motor_Stop();
-	HAL_Delay(500); /* Delay for 500ms */
-
-	LED_TOGGLE();
-	KB_STM32_Motor_Start();
-	HAL_Delay(500); /* Delay for 500ms */
-#endif
   }
 }
 

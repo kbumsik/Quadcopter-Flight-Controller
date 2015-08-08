@@ -473,10 +473,17 @@ uint8_t TM_USART_INT_GetSubPriority(USART_TypeDef* USARTx) {
 
 #ifdef USART1
 void TM_USART1_InitPins(TM_USART_PinsPack_t pinspack) {	
+	GPIO_InitTypeDef GPIO_InitStruct;
 	/* Init pins */
 #if defined(GPIOA)
 	if (pinspack == TM_USART_PinsPack_1) {
-		TM_GPIO_InitAlternate(GPIOA, GPIO_Pin_9 | GPIO_Pin_10, TM_GPIO_OType_PP, TM_GPIO_PuPd_UP, TM_GPIO_Speed_High, GPIO_AF7_USART1);
+		__HAL_RCC_GPIOA_CLK_ENABLE();
+		GPIO_InitStruct.Pin = (GPIO_Pin_9 | GPIO_Pin_10);
+		GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+		GPIO_InitStruct.Pull = GPIO_PULLUP;
+		GPIO_InitStruct.Speed = GPIO_SPEED_FAST;
+		GPIO_InitStruct.Alternate = GPIO_AF7_USART1;
+		HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 	}
 #endif
 #if defined(GPIOB)
@@ -629,8 +636,12 @@ void TM_UART8_InitPins(TM_USART_PinsPack_t pinspack) {
 
 #ifdef USART1
 void USART1_IRQHandler(void) {
+	/* FIXME: Find the better solution not using this NOP instruction */
+	/* This happens because the register of USART is updated slowly. */
+	__NOP();
+	__NOP();
 	/* Check if interrupt was because data is received */
-	if (USART1->USART_STATUS_REG & USART_ISR_RXNE) {
+	if (USART1->USART_STATUS_REG & (uint32_t)USART_ISR_RXNE) {
 #ifdef TM_USART1_USE_CUSTOM_IRQ
 		/* Call user function */
 		TM_USART1_ReceiveHandler(USART_READ_DATA(USART1));
@@ -761,10 +772,6 @@ static void TM_USART_INT_Init(
 	TM_USART_t* u = TM_USART_INT_GetUsart(USARTx);
 	IRQn_Type irq;
 
-	/* Set USART baudrate */
-	UARTHandle.Instance = USARTx;
-	UARTHandle.Init.BaudRate = baudrate;
-	
 	/*
 	 * Initialize USARTx pins
 	 * Set channel for USARTx NVIC
@@ -865,37 +872,54 @@ static void TM_USART_INT_Init(
 		irq = UART8_IRQn;
 	}
 #endif
-	
+
+	/* Set USART baudrate */
+	UARTHandle.Instance = USARTx;
+	UARTHandle.Init.BaudRate = baudrate;
+
 	/* Fill default settings */
 	UARTHandle.Init.HwFlowCtl = FlowControl;
 	UARTHandle.Init.Mode = Mode;
 	UARTHandle.Init.Parity = Parity;
 	UARTHandle.Init.StopBits = StopBits;
 	UARTHandle.Init.WordLength = WordLength;
+	/* FIXME: Added */
+	UARTHandle.Init.OverSampling = UART_OVERSAMPLING_16;
 	
 	/* We are not initialized */
 	u->Initialized = 0;
-	
-	/* Disable if not already */
-	USARTx->CR1 &= ~USART_CR1_UE;
-	
+
 	/* Init */
 	HAL_UART_Init(&UARTHandle);
-	
+
 	/* Enable RX interrupt */
-	USARTx->CR1 |= USART_CR1_RXNEIE;
-
-	/* Set priority */
-	HAL_NVIC_SetPriority(irq, USART_NVIC_PRIORITY, TM_USART_INT_GetSubPriority(USARTx));
-	/* Enable interrupt */
-
-	// FIXME: the microcontroller stops(get into infinite IRQ) when this is called.
-	//HAL_NVIC_EnableIRQ(irq);
+	__HAL_UART_ENABLE_IT(&UARTHandle, UART_IT_RXNE);
+	//USARTx->CR1 |= USART_CR1_RXNEIE;
 	
+	/* Set priority */
+	HAL_NVIC_SetPriority(USART1_IRQn, USART_NVIC_PRIORITY, TM_USART_INT_GetSubPriority(USART1));
+
+	/* Enable interrupt */
+	HAL_NVIC_EnableIRQ(USART1_IRQn);
+
 	/* We are initialized now */
 	u->Initialized = 1;
 	
-	/* Enable USART peripheral */
-	USARTx->CR1 |= USART_CR1_UE;
+}
+
+void HAL_UART_MspInit(UART_HandleTypeDef *huart)
+{
+  /* NOTE: This function Should not be modified, when the callback is needed,
+           the HAL_UART_MspInit could be implemented in the user file
+   */
+	/* FIXME: Sort this mess */
+	/* Disable all interrupt */
+	__HAL_UART_DISABLE_IT(huart, UART_IT_CTS);
+	__HAL_UART_DISABLE_IT(huart, UART_IT_LBD);
+	__HAL_UART_DISABLE_IT(huart, UART_IT_TXE);
+	__HAL_UART_DISABLE_IT(huart, UART_IT_RXNE);
+	__HAL_UART_DISABLE_IT(huart, UART_IT_IDLE);
+	__HAL_UART_DISABLE_IT(huart, UART_IT_PE);
+	__HAL_UART_DISABLE_IT(huart, UART_IT_ERR);
 }
 
