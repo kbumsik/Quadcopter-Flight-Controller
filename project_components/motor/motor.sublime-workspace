@@ -11,6 +11,30 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "inc/quadcopter_config.h",
+			"settings":
+			{
+				"buffer_size": 1850,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "inc/kb_stm32_hal_motor.h",
+			"settings":
+			{
+				"buffer_size": 4070,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/kb_stm32_hal_motor.c",
+			"settings":
+			{
+				"buffer_size": 5373,
+				"line_ending": "Windows"
+			}
+		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -252,8 +276,95 @@
 	"groups":
 	[
 		{
+			"selected": 1,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "inc/quadcopter_config.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1850,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								258,
+								258
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "inc/kb_stm32_hal_motor.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4070,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1739,
+								1739
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 1224.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "src/kb_stm32_hal_motor.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5373,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1582,
+								1582
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1632.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				}
 			]
 		}
 	],

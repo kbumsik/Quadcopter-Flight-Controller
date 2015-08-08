@@ -36,13 +36,17 @@
 #include "stm32f4xx.h"
 #include "kb_stm32_hal_motor.h"
 #include "kb_functions.h"
-
+#include "tm_stm32_usart.h"
+#include <stdio.h>
 
 /* Private function prototypes -----------------------------------------------*/
 static void Error_Handler(void);
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
-static void update_Speed(int32_t speed);
+static void update_Speed(int speed);
+
+char buffer_input[30];
+int	input_speed;
 
 int main(void)
 {
@@ -55,37 +59,55 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
 
-  
+  /* Initialize USART, TX: PA9, RX: PA10 */
+  TM_USART_Init(USART1, TM_USART_PinsPack_1, 115200);
+
+  /* Initialize the motor */
   if (KB_STM32_Motor_Init() != KB_STM32_OK)
   {
     Error_Handler();
   }
 
   /* Update the speed of motor */
-  update_Speed(3000);
+  update_Speed(1500);
 
   /* Then start the pwm signal */
   KB_STM32_Motor_Start();
   
+  /* Display on USART */
+  TM_USART_Puts(USART1, "Motor Started\n Wait...");
+
+  /* Initial speed */
+  input_speed = 1500;
+
   /* Infinite loop */
   while (1)
   {
+	  if (TM_USART_Gets(USART1, buffer_input, 30) != 0)
+	  {
+		  sscanf(buffer_input, "%d", &input_speed);
+	  }
+	  update_Speed(input_speed);
+	  KB_STM32_Motor_Start();
+	  HAL_Delay(500);
+#ifdef TEST
     /* Blinking the LED 2 times a second */
-	  LED_TOGGLE();
-	  HAL_Delay(500); /* Delay for 500ms */
+	LED_TOGGLE();
+	HAL_Delay(500); /* Delay for 500ms */
 
-	  LED_TOGGLE();
-	  update_Speed(7000);
-	  KB_STM32_Motor_Start();
-	  HAL_Delay(500); /* Delay for 500ms */
+	LED_TOGGLE();
+	update_Speed(1700);
+	KB_STM32_Motor_Start();
+	HAL_Delay(500); /* Delay for 500ms */
 
-	  LED_TOGGLE();
-	  KB_STM32_Motor_Stop();
-	  HAL_Delay(500); /* Delay for 500ms */
+	LED_TOGGLE();
+	KB_STM32_Motor_Stop();
+	HAL_Delay(500); /* Delay for 500ms */
 
-	  LED_TOGGLE();
-	  KB_STM32_Motor_Start();
-	  HAL_Delay(500); /* Delay for 500ms */
+	LED_TOGGLE();
+	KB_STM32_Motor_Start();
+	HAL_Delay(500); /* Delay for 500ms */
+#endif
   }
 }
 
@@ -177,7 +199,7 @@ void MX_GPIO_Init(void)
   HAL_GPIO_Init(LED_PORT, &GPIO_InitStruct);
 }
 
-static void update_Speed(int32_t speed)
+static void update_Speed(int speed)
 {
   KB_STM32_Motor_SetSpeed(speed, KB_STM32_Motor_Channel_1);
   KB_STM32_Motor_SetSpeed(speed, KB_STM32_Motor_Channel_2);

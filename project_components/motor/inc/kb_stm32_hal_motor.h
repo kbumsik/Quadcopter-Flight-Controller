@@ -11,13 +11,13 @@
  *    TIM4CLK = 2 * PCLK1
  *    PCLK1 = HCLK 
  *    => TIM4CLK = HCLK = SystemCoreClock
- *  To get TIM4 counter clock at 50 MHz, the prescaler is computed as follows:
+ *  To get TIM4 counter clock at 1 MHz, the prescaler is computed as follows:
  *     Prescaler = (TIM4CLK / TIM4 counter clock) - 1
- *     Prescaler = ((SystemCoreClock) /50 MHz) - 1
- *               = 2
- *  To get TIM4 output clock at 500 Hz, the period (ARR) is computed as follows:
+ *     Prescaler = ((SystemCoreClock) /1 MHz) - 1
+ *               = 99
+ *  To get TIM4 output clock at 50 Hz, the period (ARR) is computed as follows:
  *     ARR = (TIM4 counter clock / TIM4 output clock) - 1
- *         = 100,000
+ *         = 19,999
  *  Note:
  *   SystemCoreClock variable holds HCLK frequency and is defined in system_stm32f4xx.c file.
  *   Each time the core clock (HCLK) changes, user had to update SystemCoreClock
@@ -54,7 +54,7 @@
 #define MOTOR_TIMx_CLK_DISABLE()			__HAL_RCC_TIM4_CLK_DISABLE()
 
 /* Prescaler Definition at f = 50MHz */
-#define MOTOR_TIM_PRESCALER					(((SystemCoreClock) /50000000) - 1)
+#define MOTOR_TIM_PRESCALER					(((SystemCoreClock) /1000000) - 1)
 
 /* Definition for TIMx Channel Pins */
 #define MOTOR_GPIO_PORT 					GPIOB
@@ -66,12 +66,11 @@
 #define MOTOR_GPIO_PIN_CHANNEL_4			GPIO_PIN_9
 
 /* Definition for PWM pulse */
-#define MOTOR_PERIOD_VALUE		(10000 - 1)  /* Period Value  */
+#define MOTOR_PERIOD_VALUE		(19999 - 1)  /* Period Value  */
 
-/* Motor Maxium speed and limit */
-#define MOTOR_SPEED_MAX		(10000)
-/* 80% of the maximum speed */
-#define MOTOR_SPEED_LIMIT	(8000)
+/* Motor Maxium and minimum speed */
+#define MOTOR_SPEED_MAX		(2000)
+#define MOTOR_SPEED_MIN		(1000)
 
 /**
  * Typedef
@@ -109,7 +108,7 @@ KB_STM32_Status_t KB_STM32_Motor_Init(void);
  * @return     Status of the result
  */
 // FIXME:Seems like it needs KB_STM32_Motor_Start again after this function. Make it that function is not need
-KB_STM32_Status_t KB_STM32_Motor_SetSpeed(int32_t speed, KB_STM32_Motor_Channel_t channel);
+KB_STM32_Status_t KB_STM32_Motor_SetSpeed(int speed, KB_STM32_Motor_Channel_t channel);
 
 /**
  * @brief      Start rotating the motors

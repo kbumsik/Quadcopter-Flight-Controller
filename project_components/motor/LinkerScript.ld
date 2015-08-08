@@ -56,6 +56,15 @@ _estack = 0x20020000;    /* end of RAM */
 _Min_Heap_Size = 0;      /* required amount of heap  */
 _Min_Stack_Size = 0; /* required amount of stack */
 
+/* Adding Library */
+ GROUP(
+   libgcc.a
+   libg.a
+   libc.a
+   libm.a
+   libnosys.a
+ )
+
 /* Specify the memory areas */
 MEMORY
 {

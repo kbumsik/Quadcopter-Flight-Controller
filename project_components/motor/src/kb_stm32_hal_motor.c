@@ -57,17 +57,17 @@ KB_STM32_Motor_Init(void){
 
 KB_STM32_Status_t
 KB_STM32_Motor_SetSpeed(
-	int32_t speed,
+	int speed,
 	KB_STM32_Motor_Channel_t channel)
 {
 	/* Verify the speed value */
-	if (speed >= (uint32_t)MOTOR_SPEED_LIMIT)
+	if (speed >= MOTOR_SPEED_MAX)
 	{
-		speed = (uint32_t)MOTOR_SPEED_LIMIT;
+		speed = MOTOR_SPEED_MAX;
 	}
-	else if (speed < 0)
+	else if (speed < MOTOR_SPEED_MIN)
 	{
-		speed = 0;
+		speed = MOTOR_SPEED_MIN;
 	}
 
 	/*##-2- Configure the PWM channels #########################################*/
