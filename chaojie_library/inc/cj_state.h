@@ -24,14 +24,13 @@ extern "C" {
 
 #include <math.h>
 #include "tm_stm32f4_delay.h"
-#include "tm_stm32f4_mpu6050.h"
+#include "kb_stm32f4_mpu9150.h"
 #include "cj_helper.h"
 
 #define PI 3.14159265359
 
 /*sensor*/
 static KB_MPU9150_t MPU9150_Data;
-static TM_MPU6050_t MPU6050_Data;
 
 /*calibration data*/
 static struct Cj_helper_float3 vcali;
