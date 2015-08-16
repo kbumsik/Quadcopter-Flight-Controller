@@ -47,11 +47,11 @@ static struct Cj_helper_float3 acali;
 static struct Cj_helper_float3 mcali;
 
 /* parameters that we need to keep track of. all these are with respect to inertia frame*/
-//angles in unit degree
+//angles in unit degree, a is phi(roll), b is theta(pitch), c is psi(yaw)
 static struct Cj_helper_float3 angles;
 //angular velocity
 static struct Cj_helper_float3 angles_v;
-//acceleration
+//acceleration, (x,y,z)
 static struct Cj_helper_float3 accel;
 //magnetic field
 static struct Cj_helper_float3 mag_v;

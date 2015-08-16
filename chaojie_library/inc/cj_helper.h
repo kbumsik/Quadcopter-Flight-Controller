@@ -14,10 +14,18 @@
 #define PI 3.14159265359
 
 //placeholder of 3 float
-typedef struct Cj_helper_float3 {
-	float a;
-	float b;
-	float c;
+struct Cj_helper_float3 {
+    float a;
+    float b;
+    float c;
+};
+
+//placeholder of 4 float
+struct Cj_helper_float4 {
+    float a;
+    float b;
+    float c;
+    float d;
 };
 
 /**

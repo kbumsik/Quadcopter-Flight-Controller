@@ -91,9 +91,9 @@ void cj_state_update() {
     accel.c = accel.c*G;
     
     //lastly update the angular velocity
-    angles_v.a = MPU9150_Data.Gyroscope_X - vcali.a;
-    angles_v.b = MPU9150_Data.Gyroscope_Y - vcali.b;
-    angles_v.c = MPU9150_Data.Gyroscope_Z - vcali.c;
+    angles_v.a = (MPU9150_Data.Gyroscope_X - vcali.a)*180/PI;
+    angles_v.b = (MPU9150_Data.Gyroscope_Y - vcali.b)*180/PI;
+    angles_v.c = (MPU9150_Data.Gyroscope_Z - vcali.c)*180/PI;
 }
 
 void cj_state_get_angles(struct Cj_helper_float3* a) {
