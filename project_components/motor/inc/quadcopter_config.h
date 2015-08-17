@@ -48,6 +48,9 @@
 	#define STM32F4xx
 #endif
 
+/* definition for USART device */
+#define USART_DRONE	USART1
+
 /**
  * @defgroup NRF24L01+ Settings
  * @brief    Pin settings for NRF24L01+
@@ -78,6 +81,16 @@ IRQ			Not used(PD2)	Interrupt pin. Goes low when active. Pin functionality is ac
 #define NRF24L01_CE_PORT				GPIOC
 #define NRF24L01_CE_PIN					GPIO_PIN_3
 #define NRF24L01_CE_PORT_CLK_ENABLE		__HAL_RCC_GPIOC_CLK_ENABLE
+
+
+#include <stdio.h>
+
+#define DECIMAL_TO_PRINT 1000000
+#define ABS(num)	((num>0)? num : -num)
+
+int get_decimal(float floatToGet);
+
+void conv_FloatToString(float floatToConv, char* str);
 /**
  * @}
  */

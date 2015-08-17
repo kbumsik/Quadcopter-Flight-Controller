@@ -35,7 +35,6 @@
 #include "quadcopter_config.h"
 #include "stm32f4xx.h"
 #include "kb_stm32_hal_motor.h"
-#include "kb_functions.h"
 #include "tm_stm32_usart.h"
 #include <stdio.h>
 
@@ -60,7 +59,7 @@ int main(void)
   MX_GPIO_Init();
 
   /* Initialize USART, TX: PA9, RX: PA10 */
-  TM_USART_Init(USART1, TM_USART_PinsPack_1, 115200);
+  TM_USART_Init(USART_DRONE, TM_USART_PinsPack_1, 115200);
 
   /* Initialize the motor */
   if (KB_STM32_Motor_Init() != KB_STM32_OK)
@@ -75,7 +74,7 @@ int main(void)
   KB_STM32_Motor_Start();
   
   /* Display on USART */
-  TM_USART_Puts(USART1, "Motor Started\n Wait...");
+  printf("Motor Started Wait...\n");
 
   /* Initial speed */
   input_speed = 1500;
@@ -83,13 +82,16 @@ int main(void)
   /* Infinite loop */
   while (1)
   {
-	  if (TM_USART_Gets(USART1, buffer_input, 30) != 0)
+	  // FIXME: gets infinite loop when unexpected input occurred.
+	  if(scanf("%d", &input_speed)!=1)
 	  {
-		  sscanf(buffer_input, "%d", &input_speed);
+		  printf("wrong input!\n");
+		  continue;
 	  }
+	  LED_TOGGLE();
+	  printf("%d\n", input_speed);
 	  update_Speed(input_speed);
 	  KB_STM32_Motor_Start();
-	  HAL_Delay(500);
   }
 }
 

@@ -28,6 +28,41 @@
 			}
 		},
 		{
+			"file": "motor.sublime-project",
+			"settings":
+			{
+				"buffer_size": 761,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "/**\n  ******************************************************************************\n  * File Name          : main.c\n  * Description        : Main program body\n  ******************************************************************************\n  *\n  * COPYRIGHT(c) 2015 STMicroelectronics\n  *\n  * Redistribution and use in source and binary forms, with or without modification,\n  * are permitted provided that the following conditions are met:\n  *   1. Redistributions of source code must retain the above copyright notice,\n  *      this list of conditions and the following disclaimer.\n  *   2. Redistributions in binary form must reproduce the above copyright notice,\n  *      this list of conditions and the following disclaimer in the documentation\n  *      and/or other materials provided with the distribution.\n  *   3. Neither the name of STMicroelectronics nor the names of its contributors\n  *      may be used to endorse or promote products derived from this software\n  *      without specific prior written permission.\n  *\n  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \"AS IS\"\n  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE\n  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE\n  * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE\n  * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL\n  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR\n  * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\n  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,\n  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\n  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n  *\n  ******************************************************************************\n  */\n/* Includes ------------------------------------------------------------------*/\n\n#include \"quadcopter_config.h\"\n#include \"stm32f4xx.h\"\n#include \"kb_stm32_hal_motor.h\"\n#include \"kb_functions.h\"\n#include \"tm_stm32_usart.h\"\n#include <stdio.h>\n/* Private function prototypes -----------------------------------------------*/\nstatic void Error_Handler(void);\nvoid SystemClock_Config(void);\nstatic void MX_GPIO_Init(void);\nstatic void update_Speed(int speed);\n\nchar buffer_input[30];\nint	input_speed;\n\nint main(void)\n{\n  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */\n  HAL_Init();\n\n  /* Configure the system clock */\n  SystemClock_Config();\n\n  /* Initialize all configured peripherals */\n  MX_GPIO_Init();\n\n  /* Initialize USART, TX: PA9, RX: PA10 */\n  TM_USART_Init(USART1, TM_USART_PinsPack_1, 115200);\n\n  /* Initialize the motor */\n  if (KB_STM32_Motor_Init() != KB_STM32_OK)\n  {\n    Error_Handler();\n  }\n\n  /* Update the speed of motor */\n  update_Speed(1500);\n\n  /* Then start the pwm signal */\n  KB_STM32_Motor_Start();\n  \n  /* Display on USART */\n  TM_USART_Puts(USART1, \"Motor Started\\n Wait...\");\n\n  /* Initial speed */\n  input_speed = 1500;\n\n  /* Infinite loop */\n  while (1)\n  {\n	  if (TM_USART_Gets(USART1, buffer_input, 30) != 0)\n	  {\n		  sscanf(buffer_input, \"%d\", &input_speed);\n	  }\n	  update_Speed(input_speed);\n	  KB_STM32_Motor_Start();\n	  HAL_Delay(500);\n  }\n}\n\n/**\n  * @brief  This function is executed in case of error occurrence.\n  * @param  None\n  * @retval None\n  */\nstatic void Error_Handler(void)\n{\n  while(1)\n  {\n  }\n}\n\n/** System Clock Configuration\n*/\nvoid SystemClock_Config(void)\n{\n  RCC_OscInitTypeDef RCC_OscInitStruct;\n  RCC_ClkInitTypeDef RCC_ClkInitStruct;\n\n  __PWR_CLK_ENABLE();\n\n  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE2);\n\n  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;\n  RCC_OscInitStruct.HSIState = RCC_HSI_ON;\n  RCC_OscInitStruct.HSICalibrationValue = 16;\n  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;\n  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;\n  RCC_OscInitStruct.PLL.PLLM = 8;\n  RCC_OscInitStruct.PLL.PLLN = 200;\n  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV4;\n  RCC_OscInitStruct.PLL.PLLQ = 4;\n  HAL_RCC_OscConfig(&RCC_OscInitStruct);\n\n  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_SYSCLK|RCC_CLOCKTYPE_PCLK1;\n  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;\n  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;\n  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;\n  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;\n  HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2);\n\n  HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);\n\n  HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);\n}\n\n/** Configure pins as\n        * Analog\n        * Input\n        * Output\n        * EVENT_OUT\n        * EXTI\n     PA2   ------> USART2_TX\n     PA3   ------> USART2_RX\n*/\nvoid MX_GPIO_Init(void)\n{\n\n  GPIO_InitTypeDef GPIO_InitStruct;\n\n  /* GPIO Ports Clock Enable */\n  __GPIOC_CLK_ENABLE();\n  __GPIOH_CLK_ENABLE();\n  __GPIOA_CLK_ENABLE();\n  __GPIOB_CLK_ENABLE();\n\n  /*Configure GPIO pin : PC13 */\n  GPIO_InitStruct.Pin = GPIO_PIN_13;\n  GPIO_InitStruct.Mode = GPIO_MODE_EVT_RISING;\n  GPIO_InitStruct.Pull = GPIO_NOPULL;\n  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);\n\n  /*Configure GPIO pins : PA2 PA3 */\n  GPIO_InitStruct.Pin = GPIO_PIN_2|GPIO_PIN_3;\n  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;\n  GPIO_InitStruct.Pull = GPIO_NOPULL;\n  GPIO_InitStruct.Speed = GPIO_SPEED_HIGH;\n  GPIO_InitStruct.Alternate = GPIO_AF7_USART2;\n  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);\n\n  /*Configure LD2 pin : PA5 */\n  GPIO_InitStruct.Pin = LED_PIN;\n  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;\n  GPIO_InitStruct.Pull = GPIO_NOPULL;\n  GPIO_InitStruct.Speed = GPIO_SPEED_LOW;\n  HAL_GPIO_Init(LED_PORT, &GPIO_InitStruct);\n}\n\nstatic void update_Speed(int speed)\n{\n  KB_STM32_Motor_SetSpeed(speed, KB_STM32_Motor_Channel_1);\n  KB_STM32_Motor_SetSpeed(speed, KB_STM32_Motor_Channel_2);\n  KB_STM32_Motor_SetSpeed(speed, KB_STM32_Motor_Channel_3);\n  KB_STM32_Motor_SetSpeed(speed, KB_STM32_Motor_Channel_4);\n}\n\n#ifdef USE_FULL_ASSERT\n\n/**\n   * @brief Reports the name of the source file and the source line number\n   * where the assert_param error has occurred.\n   * @param file: pointer to the source file name\n   * @param line: assert_param error line source number\n   * @retval None\n   */\nvoid assert_failed(uint8_t* file, uint32_t line)\n{\n  /* USER CODE BEGIN 6 */\n  /* User can add his own implementation to report the file name and line number,\n    ex: printf(\"Wrong parameters value: file %s on line %d\\r\\n\", file, line) */\n  /* USER CODE END 6 */\n\n}\n\n#endif\n\n/**\n  * @}\n  */\n\n/**\n  * @}\n*/\n\n/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/\n",
+			"file": "src/main.c",
+			"file_size": 6941,
+			"file_write_time": 130841692080865872,
+			"settings":
+			{
+				"buffer_size": 6680,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/git/Quadcopter-Flight-Controller/libraries&settings/kb_functions/Src/kb_functions.c",
+			"settings":
+			{
+				"buffer_size": 546,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h",
+			"settings":
+			{
+				"buffer_size": 8448,
+				"line_ending": "Windows"
+			}
+		},
+		{
 			"file": "src/kb_stm32_hal_motor.c",
 			"settings":
 			{
@@ -43,8 +78,8 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 588.0,
-		"last_filter": "package",
+		"height": 55.0,
+		"last_filter": "",
 		"selected_items":
 		[
 			[
@@ -76,7 +111,7 @@
 				"Bookmarks: Select All"
 			]
 		],
-		"width": 624.0
+		"width": 792.0
 	},
 	"console":
 	{
@@ -97,13 +132,19 @@
 	},
 	"expanded_folders":
 	[
-		"/C/Users/BumSik/Documents/git/Quadcopter-Flight-Controller/project_components/motor",
-		"/C/Users/BumSik/Documents/git/Quadcopter-Flight-Controller/project_components/motor/Drivers",
-		"/C/Users/BumSik/Documents/git/Quadcopter-Flight-Controller/project_components/motor/inc",
-		"/C/Users/BumSik/Documents/git/Quadcopter-Flight-Controller/project_components/motor/src"
+		"/C/git/Quadcopter-Flight-Controller/project_components/motor",
+		"/C/git/Quadcopter-Flight-Controller/project_components/motor/inc",
+		"/C/git/Quadcopter-Flight-Controller/project_components/motor/src"
 	],
 	"file_history":
 	[
+		"/C/Develop/LLVM/lib/clang/3.6.2/include/stdbool.h",
+		"/C/git/Quadcopter-Flight-Controller/project_components/motor/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h",
+		"/C/git/glibc.git/NAMESPACE",
+		"/C/git/glibc.git/README",
+		"/C/git/glibc.git/PROJECTS",
+		"/C/git/glibc.git/sysdeps/x86_64/fpu/printf_fphex.c",
+		"/C/git/glibc.git/io/write.c",
 		"/C/Users/BumSik/Documents/git/Quadcopter-Flight-Controller/project_components/nrf24l01/transmitter/src/main.c",
 		"/C/Users/BumSik/Documents/git/Quadcopter-Flight-Controller/project_components/motor/src/main.c",
 		"/C/Users/BumSik/Documents/git/Quadcopter-Flight-Controller/project_components/motor/src/kb_stm32_hal_motor.c",
@@ -168,7 +209,7 @@
 	],
 	"find":
 	{
-		"height": 42.0
+		"height": 37.0
 	},
 	"find_in_files":
 	{
@@ -276,7 +317,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 4,
 			"sheets":
 			[
 				{
@@ -292,8 +333,8 @@
 						"selection":
 						[
 							[
-								258,
-								258
+								321,
+								321
 							]
 						],
 						"settings":
@@ -305,7 +346,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
@@ -321,8 +362,8 @@
 						"selection":
 						[
 							[
-								1739,
-								1739
+								2616,
+								2616
 							]
 						],
 						"settings":
@@ -330,14 +371,131 @@
 							"syntax": "Packages/C++/C.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 1224.0,
+						"translation.y": 1186.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "motor.sublime-project",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 761,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								721,
+								721
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/main.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6680,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								697,
+								697
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 174.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/C/git/Quadcopter-Flight-Controller/libraries&settings/kb_functions/Src/kb_functions.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 546,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 5,
+					"file": "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8448,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7084,
+								7095
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 3393.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
 					"file": "src/kb_stm32_hal_motor.c",
 					"semi_transient": false,
 					"settings":
@@ -362,7 +520,7 @@
 						"translation.y": 1632.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 6,
 					"type": "text"
 				}
 			]
@@ -370,7 +528,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 42.0
+		"height": 37.0
 	},
 	"input":
 	{
@@ -407,7 +565,7 @@
 	"project": "motor.sublime-project",
 	"replace":
 	{
-		"height": 80.0
+		"height": 70.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -416,6 +574,14 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"stm32f4xx.h",
+				"Drivers\\CMSIS\\Device\\ST\\STM32F4xx\\Include\\stm32f4xx.h"
+			],
+			[
+				"quadcopter_config.h",
+				"inc\\quadcopter_config.h"
+			],
 			[
 				"system",
 				"Drivers\\CMSIS\\Device\\ST\\STM32F4xx\\Source\\Templates\\system_stm32f4xx.c"

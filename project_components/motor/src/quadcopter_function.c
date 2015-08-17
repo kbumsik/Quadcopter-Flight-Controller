@@ -1,12 +1,13 @@
 /*
- * kb_functions.c
+ * quadcopter_function.c
  *
- *  Created on: Jul 21, 2015
- *      Author: BumSik
+ *  Created on: Aug 15, 2015
+ *      Author: kbums
  */
 
-
-#include "kb_functions.h"
+#include "quadcopter_config.h"
+#include "stm32f4xx_hal.h"
+#include "tm_stm32_usart.h"
 
 int
 get_decimal(float floatToGet)
@@ -28,3 +29,4 @@ conv_FloatToString(float floatToConv, char* str)
       sprintf(str, "-%d.%06d",(int)ABS(floatToConv),get_decimal(floatToConv));
   }
 }
+

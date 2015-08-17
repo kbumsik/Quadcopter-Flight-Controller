@@ -368,6 +368,7 @@ void TM_USART_INT_InsertToBuffer(TM_USART_t* u, uint8_t c) {
 		u->Buffer[u->In] = c;
 		u->In++;
 		u->Num++;
+
 	}
 }
 
@@ -923,3 +924,45 @@ void HAL_UART_MspInit(UART_HandleTypeDef *huart)
 	__HAL_UART_DISABLE_IT(huart, UART_IT_ERR);
 }
 
+int
+_write(int file, char *ptr, int len) {
+	TM_USART_t* u = TM_USART_INT_GetUsart(USART_DRONE);
+	int i;
+	/* If we are not initialized */
+	if (u->Initialized == 0) {
+		return 0;
+	}
+	/* Go through entire string */
+	for (i = 0; i< len; i++)
+	{
+		/* Wait to be ready, buffer empty */
+		USART_WAIT(USART_DRONE);
+		/* Send data */
+		USART_WRITE_DATA(USART_DRONE, (uint16_t)*(ptr + i));
+		/* Wait to be ready, buffer empty */
+		USART_WAIT(USART_DRONE);
+	}
+	return len;
+}
+
+int _read(int file, char *ptr, int len) {
+    int n = 0;
+    int num = 0;
+    char buffer_input[30];
+    int buffer_length;
+
+    switch (file)
+    {
+    	case 0:	//stdin
+    		while((buffer_length = TM_USART_Gets(USART_DRONE, buffer_input, 30)) == 0);
+    		for (n = 0; n < buffer_length; n++)
+    		{
+    			*ptr++ = buffer_input[n];
+    			num++;
+    		}
+        break;
+    default:
+    	return 0;
+    }
+    return num;
+}
