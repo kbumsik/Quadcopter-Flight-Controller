@@ -85,12 +85,9 @@ IRQ			Not used(PD2)	Interrupt pin. Goes low when active. Pin functionality is ac
 
 #include <stdio.h>
 
-#define DECIMAL_TO_PRINT 1000000
-#define ABS(num)	((num>0)? num : -num)
+void quadcopter_Init(void);
+void SystemClock_Config(void);
 
-int get_decimal(float floatToGet);
-
-void conv_FloatToString(float floatToConv, char* str);
 /**
  * @}
  */
