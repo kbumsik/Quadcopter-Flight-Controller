@@ -52,11 +52,12 @@ int main(void)
 	  HAL_Delay(500);
 	  LED_OFF();
 	  HAL_Delay(500);
+    printf("%d\n", ++count);
 	  LED_TOGGLE();
 	  HAL_Delay(500);
 	  LED_TOGGLE();
 	  HAL_Delay(500);
-    printf("%d", ++count);
+    printf("%d\n", ++count);
   }
 
 }
