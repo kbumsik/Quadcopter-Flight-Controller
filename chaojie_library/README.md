@@ -10,4 +10,4 @@ Tested. Another implementation of state estimation based on this [paper](http://
 Tested. Important helper functions. 
 
 ### cj_ctrl.h
-Untested. This is PI controller. Each contant K is determined by the Linear-quadratic regulator. Consult my review for determine that(some quantities needs to be measured, like moment of inertia, length of wings).
+Untested. This is a Linear-quadratic regulator(LQR). It looks like a PD(proportional-derivative) controller, in which each contant K is determined by using the Linear-quadratic regulator. Consult my review for determine that(some quantities needs to be measured, like moment of inertia, length of wings).
