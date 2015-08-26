@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cdtprojectproperties>
 <section name="org.eclipse.cdt.internal.ui.wizards.settingswizards.IncludePaths">
-<language name="S">
-<includepath>${ProjDirPath}/inc</includepath>
-<includepath>${ProjDirPath}/Drivers/CMSIS/Include</includepath>
-<includepath>${ProjDirPath}/Drivers/STM32F4xx_HAL_Driver/Inc</includepath>
-<includepath>${ProjDirPath}/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy</includepath>
-<includepath>${ProjDirPath}/Drivers/CMSIS/Device/ST/STM32F4xx/Include</includepath>
-<includepath>${ProjDirPath}/TM</includepath>
-
-</language>
 <language name="C Source File">
 <includepath>${ProjDirPath}/inc</includepath>
 <includepath>${ProjDirPath}/Drivers/CMSIS/Include</includepath>
 <includepath>${ProjDirPath}/Drivers/STM32F4xx_HAL_Driver/Inc</includepath>
 <includepath>${ProjDirPath}/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy</includepath>
 <includepath>${ProjDirPath}/Drivers/CMSIS/Device/ST/STM32F4xx/Include</includepath>
-<includepath>${ProjDirPath}/TM</includepath>
+<includepath>${ProjDirPath}/Hardware</includepath>
+
+</language>
+<language name="S">
+<includepath>${ProjDirPath}/inc</includepath>
+<includepath>${ProjDirPath}/Drivers/CMSIS/Include</includepath>
+<includepath>${ProjDirPath}/Drivers/STM32F4xx_HAL_Driver/Inc</includepath>
+<includepath>${ProjDirPath}/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy</includepath>
+<includepath>${ProjDirPath}/Drivers/CMSIS/Device/ST/STM32F4xx/Include</includepath>
+<includepath>${ProjDirPath}/Hardware</includepath>
 
 </language>
 <language name="Object File">
@@ -34,7 +34,7 @@
 </language>
 </section>
 <section name="org.eclipse.cdt.internal.ui.wizards.settingswizards.Macros">
-<language name="S">
+<language name="C Source File">
 <macro>
 <name>DEBUG</name><value/>
 </macro>
@@ -64,7 +64,7 @@
 </macro>
 
 </language>
-<language name="C Source File">
+<language name="S">
 <macro>
 <name>DEBUG</name><value/>
 </macro>
