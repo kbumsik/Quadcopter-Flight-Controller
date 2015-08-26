@@ -12,26 +12,114 @@
 	"buffers":
 	[
 		{
-			"file": "inc/quadcopter_config.h",
+			"file": "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h",
 			"settings":
 			{
-				"buffer_size": 1850,
+				"buffer_size": 11560,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "inc/kb_stm32_hal_motor.h",
+			"file": "/C/Users/kbums/Documents/Dropbox/Documents/Archive/datasheets/Sensors/MPU-9150/motion_driver_6.12/arm/STM32F4_MD6/Projects/eMD6/User/src/main.c",
 			"settings":
 			{
-				"buffer_size": 4070,
+				"buffer_size": 35392,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "src/kb_stm32_hal_motor.c",
+			"file": "/C/Users/kbums/Documents/Dropbox/Documents/Archive/datasheets/Sensors/MPU-9150/motion_driver_6.12/arm/STM32F4_MD6/Projects/eMD6/Peripheral/src/i2c.c",
 			"settings":
 			{
-				"buffer_size": 5373,
+				"buffer_size": 13566,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/kbums/Documents/Dropbox/Documents/Archive/datasheets/Sensors/MPU-9150/motion_driver_6.12/arm/STM32F4_MD6/Projects/eMD6/Peripheral/src/gpio.c",
+			"settings":
+			{
+				"buffer_size": 3467,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/kbums/Documents/Dropbox/Documents/Archive/datasheets/Sensors/MPU-9150/motion_driver_6.12/arm/STM32F4_MD6/Projects/eMD6/Peripheral/src/uart.c",
+			"settings":
+			{
+				"buffer_size": 3540,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/kbums/Documents/Dropbox/Documents/Archive/datasheets/Sensors/MPU-9150/motion_driver_6.12/arm/STM32F4_MD6/Projects/eMD6/DeviceSupport/src/stm32f4xx_it.c",
+			"settings":
+			{
+				"buffer_size": 5531,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/kbums/Documents/Dropbox/Documents/Archive/datasheets/Sensors/MPU-9150/motion_driver_6.12/arm/STM32F4_MD6/Projects/eMD6/DeviceSupport/src/system_stm32f4xx.c",
+			"settings":
+			{
+				"buffer_size": 21173,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/kbums/Documents/Dropbox/Documents/Archive/datasheets/Sensors/MPU-9150/motion_driver_6.12/arm/STM32F4_MD6/Projects/eMD6/DeviceSupport/src/board-st_discovery.c",
+			"settings":
+			{
+				"buffer_size": 1575,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/kbums/Documents/Dropbox/Documents/Archive/datasheets/Sensors/MPU-9150/motion_driver_6.12/arm/STM32F4_MD6/Projects/eMD6/core/driver/stm32L/log_stm32.c",
+			"settings":
+			{
+				"buffer_size": 5835,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/kbums/Documents/Dropbox/Documents/Archive/datasheets/Sensors/MPU-9150/motion_driver_6.12/arm/STM32F4_MD6/Projects/eMD6/core/eMPL-hal/eMPL_outputs.c",
+			"settings":
+			{
+				"buffer_size": 10881,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/kbums/Documents/Dropbox/Documents/Archive/datasheets/Sensors/MPU-9150/aar_library/aar_engine.h",
+			"settings":
+			{
+				"buffer_size": 24304,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/kbums/Documents/Dropbox/Documents/Archive/datasheets/Sensors/MPU-9150/motion_driver_6.12/emd 6.1.2 release note.txt",
+			"settings":
+			{
+				"buffer_size": 1567,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/kbums/Documents/Dropbox/Documents/Archive/datasheets/Sensors/MPU-9150/motion_driver_6.12/arm/STM32F4_MD6/Projects/eMD6/core/mllite/mpl.c",
+			"settings":
+			{
+				"buffer_size": 1716,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "motor.sublime-project",
+			"settings":
+			{
+				"buffer_size": 761,
 				"line_ending": "Windows"
 			}
 		}
@@ -43,8 +131,8 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 588.0,
-		"last_filter": "package",
+		"height": 55.0,
+		"last_filter": "",
 		"selected_items":
 		[
 			[
@@ -76,7 +164,7 @@
 				"Bookmarks: Select All"
 			]
 		],
-		"width": 624.0
+		"width": 792.0
 	},
 	"console":
 	{
@@ -97,13 +185,33 @@
 	},
 	"expanded_folders":
 	[
-		"/C/Users/BumSik/Documents/git/Quadcopter-Flight-Controller/project_components/motor",
-		"/C/Users/BumSik/Documents/git/Quadcopter-Flight-Controller/project_components/motor/Drivers",
-		"/C/Users/BumSik/Documents/git/Quadcopter-Flight-Controller/project_components/motor/inc",
-		"/C/Users/BumSik/Documents/git/Quadcopter-Flight-Controller/project_components/motor/src"
+		"/C/git/Quadcopter-Flight-Controller/project_components/motor",
+		"/C/git/Quadcopter-Flight-Controller/project_components/motor/inc",
+		"/C/git/Quadcopter-Flight-Controller/project_components/motor/src"
 	],
 	"file_history":
 	[
+		"/C/git/Quadcopter-Flight-Controller/libraries&settings/STM32F4 Template/Inc/stm32f4xx_hal_conf.h",
+		"/C/git/Quadcopter-Flight-Controller/libraries&settings/STM32F4 Template/Src/main.c",
+		"/C/git/Quadcopter-Flight-Controller/libraries&settings/STM32F4 Template/Hardware/tm_stm32_usart.h",
+		"/C/git/Quadcopter-Flight-Controller/libraries&settings/STM32F4 Template/Hardware/tm_stm32_gpio.c",
+		"/C/git/Quadcopter-Flight-Controller/libraries&settings/STM32F4 Template/Hardware/tm_stm32_gpio.h",
+		"/C/git/Quadcopter-Flight-Controller/libraries&settings/STM32F4 Template/Hardware/tm_stm32_usart.c",
+		"/C/git/Quadcopter-Flight-Controller/libraries&settings/STM32F4 Template/Inc/quadcopter_config.h",
+		"/C/git/Quadcopter-Flight-Controller/libraries&settings/STM32F4 Template/Src/quadcopter_system.c",
+		"/C/git/Quadcopter-Flight-Controller/project_components/motor/src/kb_stm32_hal_motor.c",
+		"/C/git/Quadcopter-Flight-Controller/project_components/motor/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h",
+		"/C/git/Quadcopter-Flight-Controller/libraries&settings/kb_functions/Src/kb_functions.c",
+		"/C/git/Quadcopter-Flight-Controller/project_components/motor/motor.sublime-project",
+		"/C/git/Quadcopter-Flight-Controller/project_components/motor/inc/kb_stm32_hal_motor.h",
+		"/C/git/Quadcopter-Flight-Controller/project_components/motor/inc/quadcopter_config.h",
+		"/C/git/Quadcopter-Flight-Controller/project_components/motor/src/main.c",
+		"/C/Develop/LLVM/lib/clang/3.6.2/include/stdbool.h",
+		"/C/git/glibc.git/NAMESPACE",
+		"/C/git/glibc.git/README",
+		"/C/git/glibc.git/PROJECTS",
+		"/C/git/glibc.git/sysdeps/x86_64/fpu/printf_fphex.c",
+		"/C/git/glibc.git/io/write.c",
 		"/C/Users/BumSik/Documents/git/Quadcopter-Flight-Controller/project_components/nrf24l01/transmitter/src/main.c",
 		"/C/Users/BumSik/Documents/git/Quadcopter-Flight-Controller/project_components/motor/src/main.c",
 		"/C/Users/BumSik/Documents/git/Quadcopter-Flight-Controller/project_components/motor/src/kb_stm32_hal_motor.c",
@@ -168,7 +276,7 @@
 	],
 	"find":
 	{
-		"height": 42.0
+		"height": 37.0
 	},
 	"find_in_files":
 	{
@@ -276,24 +384,234 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 13,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "inc/quadcopter_config.h",
+					"file": "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1850,
+						"buffer_size": 11560,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								258,
-								258
+								8970,
+								8980
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 4081.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 13,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/C/Users/kbums/Documents/Dropbox/Documents/Archive/datasheets/Sensors/MPU-9150/motion_driver_6.12/arm/STM32F4_MD6/Projects/eMD6/User/src/main.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 35392,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								316,
+								316
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 12,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/C/Users/kbums/Documents/Dropbox/Documents/Archive/datasheets/Sensors/MPU-9150/motion_driver_6.12/arm/STM32F4_MD6/Projects/eMD6/Peripheral/src/i2c.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 13566,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 10962.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 11,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/C/Users/kbums/Documents/Dropbox/Documents/Archive/datasheets/Sensors/MPU-9150/motion_driver_6.12/arm/STM32F4_MD6/Projects/eMD6/Peripheral/src/gpio.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3467,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": -0.0,
+						"translation.y": 1131.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/C/Users/kbums/Documents/Dropbox/Documents/Archive/datasheets/Sensors/MPU-9150/motion_driver_6.12/arm/STM32F4_MD6/Projects/eMD6/Peripheral/src/uart.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3540,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								551,
+								551
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": -0.0,
+						"translation.y": 1218.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "/C/Users/kbums/Documents/Dropbox/Documents/Archive/datasheets/Sensors/MPU-9150/motion_driver_6.12/arm/STM32F4_MD6/Projects/eMD6/DeviceSupport/src/stm32f4xx_it.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5531,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "/C/Users/kbums/Documents/Dropbox/Documents/Archive/datasheets/Sensors/MPU-9150/motion_driver_6.12/arm/STM32F4_MD6/Projects/eMD6/DeviceSupport/src/system_stm32f4xx.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 21173,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								8232,
+								8232
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": -0.0,
+						"translation.y": 13514.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "/C/Users/kbums/Documents/Dropbox/Documents/Archive/datasheets/Sensors/MPU-9150/motion_driver_6.12/arm/STM32F4_MD6/Projects/eMD6/DeviceSupport/src/board-st_discovery.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1575,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								315,
+								315
 							]
 						],
 						"settings":
@@ -302,67 +620,185 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
+						"translation.y": 261.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "/C/Users/kbums/Documents/Dropbox/Documents/Archive/datasheets/Sensors/MPU-9150/motion_driver_6.12/arm/STM32F4_MD6/Projects/eMD6/core/driver/stm32L/log_stm32.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5835,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": -0.0,
+						"translation.y": 3683.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "/C/Users/kbums/Documents/Dropbox/Documents/Archive/datasheets/Sensors/MPU-9150/motion_driver_6.12/arm/STM32F4_MD6/Projects/eMD6/core/eMPL-hal/eMPL_outputs.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 10881,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								287,
+								287
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": -0.0,
+						"translation.y": 8178.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "/C/Users/kbums/Documents/Dropbox/Documents/Archive/datasheets/Sensors/MPU-9150/aar_library/aar_engine.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 24304,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": -0.0,
+						"translation.y": 9048.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "/C/Users/kbums/Documents/Dropbox/Documents/Archive/datasheets/Sensors/MPU-9150/motion_driver_6.12/emd 6.1.2 release note.txt",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1567,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								528,
+								528
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
 						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"file": "/C/Users/kbums/Documents/Dropbox/Documents/Archive/datasheets/Sensors/MPU-9150/motion_driver_6.12/arm/STM32F4_MD6/Projects/eMD6/core/mllite/mpl.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1716,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1389,
+								1389
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": -0.0,
+						"translation.y": 957.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 1,
-					"file": "inc/kb_stm32_hal_motor.h",
-					"semi_transient": false,
+					"buffer": 13,
+					"file": "motor.sublime-project",
+					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 4070,
+						"buffer_size": 761,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1739,
-								1739
+								0,
+								761
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 1224.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "src/kb_stm32_hal_motor.c",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5373,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1582,
-								1582
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C.tmLanguage",
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1632.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 0,
 					"type": "text"
 				}
 			]
@@ -370,7 +806,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 42.0
+		"height": 37.0
 	},
 	"input":
 	{
@@ -407,7 +843,7 @@
 	"project": "motor.sublime-project",
 	"replace":
 	{
-		"height": 80.0
+		"height": 70.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -416,6 +852,14 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"stm32f4xx.h",
+				"Drivers\\CMSIS\\Device\\ST\\STM32F4xx\\Include\\stm32f4xx.h"
+			],
+			[
+				"quadcopter_config.h",
+				"inc\\quadcopter_config.h"
+			],
 			[
 				"system",
 				"Drivers\\CMSIS\\Device\\ST\\STM32F4xx\\Source\\Templates\\system_stm32f4xx.c"
@@ -435,7 +879,7 @@
 		[
 			[
 				"",
-				"C:\\Users\\BumSik\\Documents\\git\\Quadcopter-Flight-Controller\\device_drivers\\nrf24l01\\nrf24l01.sublime-project"
+				"C:\\git\\Quadcopter-Flight-Controller\\project_components\\RFreceiver\\RFreceiver.sublime-project"
 			]
 		],
 		"width": 570.0
