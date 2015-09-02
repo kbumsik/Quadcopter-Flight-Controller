@@ -1,0 +1,27 @@
+{
+	"folders":
+	[
+		{
+			"path": "."
+		}
+	],
+	"SublimeLinter":
+	{
+	    "linters":
+	    {
+	        "clang": {
+	            "include_dirs": [
+	                "${project_folder}/inc",
+	                "${project_folder}/src",
+	                "${project_folder}/Drivers/CMSIS/Include",
+	                "${project_folder}/Drivers/CMSIS/Device/ST/STM32F4xx/Include",
+	                "${project_folder}/Drivers/CMSIS/Device/ST/STM32F4xx/Source/Templates",
+	                "${project_folder}/Drivers/CMSIS/Device/ST/STM32F4xx/Source/Templates/gcc",
+	                "${project_folder}/Drivers/CMSIS/DSP_Lib/Source",
+	                "${project_folder}/Drivers/STM32F4xx_HAL_Driver/Inc",
+	                "${project_folder}/Hardware"
+	            ]
+	        }
+	    }
+	}
+}
