@@ -81,7 +81,7 @@ void HAL_TIM_IC_MspInit(TIM_HandleTypeDef *htim)
 
   /*##-2- Configure the NVIC for PWMinput_TIMx ########################################*/
   /* Set the PWMinput_TIMx priority */
-  HAL_NVIC_SetPriority(PWMinput_TIMx_IRQn, 0, 1);
+  HAL_NVIC_SetPriority(PWMinput_TIMx_IRQn, 1, 1);
   
   /* Enable the PWMinput_TIMx global Interrupt */
   HAL_NVIC_EnableIRQ(PWMinput_TIMx_IRQn);

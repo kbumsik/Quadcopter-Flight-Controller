@@ -70,7 +70,7 @@ extern TIM_HandleTypeDef    TimHandle;
   * @param  None
   * @retval None
   */
-void TIMx_IRQHandler(void)
+void PWMinput_TIMx_IRQHandler(void)
 {
   HAL_TIM_IRQHandler(&TimHandle);
 }

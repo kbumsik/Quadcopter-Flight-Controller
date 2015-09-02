@@ -33,6 +33,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "quadcopter_config.h"
 #include "stm32f4xx.h"
+#include "stm32f4xx_it.h"
 
 /* Private variables ---------------------------------------------------------*/
 /* Timer handler declaration */
@@ -66,12 +67,12 @@ int main(void)
  
   /* Initialize PWMinput_TIMx peripheral as follows:
        + Period = 0xFFFF
-       + Prescaler = 0
+       + Prescaler = 499
        + ClockDivision = 0
        + Counter direction = Up
   */
   TimHandle.Init.Period = 0xFFFF;
-  TimHandle.Init.Prescaler = 0;
+  TimHandle.Init.Prescaler = 499;
   TimHandle.Init.ClockDivision = 0;
   TimHandle.Init.CounterMode = TIM_COUNTERMODE_UP;  
   if(HAL_TIM_IC_Init(&TimHandle) != HAL_OK)
@@ -127,9 +128,13 @@ int main(void)
     Error_Handler();
   }
 
+  printf("test started\n");
+
   /* Infinite loop */
   while (1)
   {
+	  printf("freq: %d, Duty Cycle: :%d\n", (int)uwFrequency,uwDutyCycle);
+	  HAL_Delay(2000);
   }
 }
 
@@ -153,7 +158,7 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
       
       /* uwFrequency computation
       TIM4 counter clock = (RCC_Clocks.HCLK_Frequency) */      
-      uwFrequency = (HAL_RCC_GetHCLKFreq()) / uwIC2Value;
+      uwFrequency = (HAL_RCC_GetHCLKFreq()) / uwIC2Value /500;
     }
     else
     {

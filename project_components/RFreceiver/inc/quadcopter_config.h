@@ -55,6 +55,21 @@
 /* definition for USART device */
 #define USART_DRONE	USART1
 
+
+/* definition of motor */
+#define MOTOR_TIMx							TIM4
+#define MOTOR_TIMx_CLK_ENABLE()				__HAL_RCC_TIM4_CLK_ENABLE()
+#define MOTOR_TIMx_CLK_DISABLE()			__HAL_RCC_TIM4_CLK_DISABLE()
+/* Definition for TIMx Channel Pins */
+#define MOTOR_GPIO_PORT 					GPIOB
+#define MOTOR_TIMx_CHANNEL_GPIO_PORT()		__HAL_RCC_GPIOB_CLK_ENABLE()
+#define MOTOR_GPIO_ALTERNATE				GPIO_AF2_TIM4
+#define MOTOR_GPIO_PIN_CHANNEL_1			GPIO_PIN_6
+#define MOTOR_GPIO_PIN_CHANNEL_2			GPIO_PIN_7
+#define MOTOR_GPIO_PIN_CHANNEL_3			GPIO_PIN_8
+#define MOTOR_GPIO_PIN_CHANNEL_4			GPIO_PIN_9
+
+
 /**
  * @defgroup NRF24L01+ Settings
  * @brief    Pin settings for NRF24L01+
@@ -169,18 +184,18 @@ In order to make the program work, you must do the following :
 /* User can use this section to tailor TIMx instance used and associated 
    resources */
 /* Definition for TIMx clock resources */
-#define PWMinput_TIMx                           TIM4
-#define PWMinput_TIMx_CLK_ENABLE()              __HAL_RCC_TIM4_CLK_ENABLE()
+#define PWMinput_TIMx                           TIM3
+#define PWMinput_TIMx_CLK_ENABLE()              __HAL_RCC_TIM3_CLK_ENABLE()
 
 /* Definition for PWMinput_TIMx Pins */
 #define PWMinput_TIMx_CHANNEL_GPIO_PORT()       __HAL_RCC_GPIOB_CLK_ENABLE()
 #define GPIO_PORT                      GPIOB
-#define GPIO_PIN_CHANNEL2              GPIO_PIN_7
-#define GPIO_AF_PWMinput_TIMx                   GPIO_AF2_TIM4
+#define GPIO_PIN_CHANNEL2              GPIO_PIN_5
+#define GPIO_AF_PWMinput_TIMx                   GPIO_AF2_TIM3
 
 /* Definition for PWMinput_TIMx's NVIC */
-#define PWMinput_TIMx_IRQn                      TIM4_IRQn
-#define PWMinput_TIMx_IRQHandler                TIM4_IRQHandler
+#define PWMinput_TIMx_IRQn                      TIM3_IRQn
+#define PWMinput_TIMx_IRQHandler                TIM3_IRQHandler
 
 /**
  * @}

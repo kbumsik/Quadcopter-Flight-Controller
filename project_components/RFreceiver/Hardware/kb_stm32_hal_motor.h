@@ -41,6 +41,7 @@
 
 #endif /* KB_STM32_HAL_MOTOR_H_ */
 
+#include "quadcopter_config.h"
 #include "stm32f4xx_hal.h"
 #include "stm32f4xx_hal_rcc.h"
 #include "stm32f4xx_hal_tim.h"
@@ -49,12 +50,12 @@
 /* User can use this section to tailor TIMx instance used and associated
    resources */
 /* Definition for TIMx clock resources */
+#ifndef MOTOR_TIMx
 #define MOTOR_TIMx							TIM4
 #define MOTOR_TIMx_CLK_ENABLE()				__HAL_RCC_TIM4_CLK_ENABLE()
 #define MOTOR_TIMx_CLK_DISABLE()			__HAL_RCC_TIM4_CLK_DISABLE()
 
-/* Prescaler Definition at f = 50MHz */
-#define MOTOR_TIM_PRESCALER					(((SystemCoreClock) /1000000) - 1)
+
 
 /* Definition for TIMx Channel Pins */
 #define MOTOR_GPIO_PORT 					GPIOB
@@ -64,7 +65,10 @@
 #define MOTOR_GPIO_PIN_CHANNEL_2			GPIO_PIN_7
 #define MOTOR_GPIO_PIN_CHANNEL_3			GPIO_PIN_8
 #define MOTOR_GPIO_PIN_CHANNEL_4			GPIO_PIN_9
+#endif
 
+/* Prescaler Definition at f = 50MHz */
+#define MOTOR_TIM_PRESCALER					(((SystemCoreClock) /1000000) - 1)
 /* Definition for PWM pulse */
 #define MOTOR_PERIOD_VALUE		(19999 - 1)  /* Period Value  */
 

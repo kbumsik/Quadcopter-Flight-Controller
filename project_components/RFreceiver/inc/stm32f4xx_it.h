@@ -35,6 +35,8 @@
 #ifndef __STM32F4xx_IT_H
 #define __STM32F4xx_IT_H
 
+#include "quadcopter_config.h"
+
 #ifdef __cplusplus
  extern "C" {
 #endif 
@@ -49,7 +51,7 @@
 void SysTick_Handler(void);
 
 /* RFreceiver Handler */
-void TIMx_IRQHandler(void);
+void PWMinput_TIMx_IRQHandler(void);
 
 #ifdef __cplusplus
 }
