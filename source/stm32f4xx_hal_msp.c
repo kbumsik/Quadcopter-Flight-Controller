@@ -44,10 +44,14 @@
   */
 void HAL_MspInit(void)
 {
-  HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_0);
+  /* USER CODE BEGIN MspInit 0 */
+
+  /* USER CODE END MspInit 0 */
+
+  HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
 
   /* System interrupt init*/
-/* SysTick_IRQn interrupt configuration */
+  /* SysTick_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
 }
 
@@ -86,6 +90,10 @@ void HAL_TIM_IC_MspInit(TIM_HandleTypeDef *htim)
   /* Enable the PWMinput_TIMx global Interrupt */
   HAL_NVIC_EnableIRQ(PWMinput_TIMx_IRQn);
 }
+
+/* USER CODE BEGIN 1 */
+
+/* USER CODE END 1 */
 
 /**
   * @}

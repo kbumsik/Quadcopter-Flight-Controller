@@ -1,75 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cdtprojectproperties>
 <section name="org.eclipse.cdt.internal.ui.wizards.settingswizards.IncludePaths">
-<language name="C Source File">
-<includepath>${ProjDirPath}/inc</includepath>
-<includepath>${ProjDirPath}/Drivers/CMSIS/Include</includepath>
-<includepath>${ProjDirPath}/Drivers/STM32F4xx_HAL_Driver/Inc</includepath>
-<includepath>${ProjDirPath}/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy</includepath>
-<includepath>${ProjDirPath}/Drivers/CMSIS/Device/ST/STM32F4xx/Include</includepath>
-<includepath>${ProjDirPath}/Hardware</includepath>
+<language name="S,s,asm">
+<includepath workspace_path="true">/blinky/source/Middlewares/Third_Party/FreeRTOS/Source/include</includepath>
+<includepath>C:/Users/Bumsik Kim/Desktop/Quadcopter-Flight-Controller/project_components/blinky/src</includepath>
+<includepath workspace_path="true">/blinky/source/Drivers/CMSIS/Include</includepath>
+<includepath workspace_path="true">/blinky/source/Drivers/CMSIS/Device/ST/STM32F4xx/Include</includepath>
+<includepath workspace_path="true">/blinky/source/Drivers/STM32F4xx_HAL_Driver/Inc</includepath>
+<includepath workspace_path="true">/blinky/source/TM_STM32_HAL_LIBRARIES</includepath>
+<includepath workspace_path="true">/blinky/source/kb_motor</includepath>
+<includepath workspace_path="true">/blinky/source/kb_mpu9150</includepath>
+<includepath workspace_path="true">/blinky/source</includepath>
+<includepath workspace_path="true">/blinky/source/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS</includepath>
+<includepath workspace_path="true">/blinky/source/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F</includepath>
 
 </language>
-<language name="S">
-<includepath>${ProjDirPath}/inc</includepath>
-<includepath>${ProjDirPath}/Drivers/CMSIS/Include</includepath>
-<includepath>${ProjDirPath}/Drivers/STM32F4xx_HAL_Driver/Inc</includepath>
-<includepath>${ProjDirPath}/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy</includepath>
-<includepath>${ProjDirPath}/Drivers/CMSIS/Device/ST/STM32F4xx/Include</includepath>
-<includepath>${ProjDirPath}/Hardware</includepath>
+<language name="C Source File">
+<includepath workspace_path="true">/blinky/source/Middlewares/Third_Party/FreeRTOS/Source/include</includepath>
+<includepath>C:/Users/Bumsik Kim/Desktop/Quadcopter-Flight-Controller/project_components/blinky/src</includepath>
+<includepath workspace_path="true">/blinky/source</includepath>
+<includepath workspace_path="true">/blinky/source/Drivers/CMSIS/Include</includepath>
+<includepath workspace_path="true">/blinky/source/Drivers/CMSIS/Device/ST/STM32F4xx/Include</includepath>
+<includepath workspace_path="true">/blinky/source/Drivers/STM32F4xx_HAL_Driver/Inc</includepath>
+<includepath workspace_path="true">/blinky/source/TM_STM32_HAL_LIBRARIES</includepath>
+<includepath workspace_path="true">/blinky/source/kb_motor</includepath>
+<includepath workspace_path="true">/blinky/source/kb_mpu9150</includepath>
+<includepath workspace_path="true">/blinky/source/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS</includepath>
+<includepath workspace_path="true">/blinky/source/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F</includepath>
+
+</language>
+<language name="C++ Source File">
+<includepath workspace_path="true">/blinky/source/Middlewares/Third_Party/FreeRTOS/Source/include</includepath>
+<includepath>C:/Users/Bumsik Kim/Desktop/Quadcopter-Flight-Controller/project_components/blinky/src</includepath>
+<includepath workspace_path="true">/blinky/source/Drivers/CMSIS/Include</includepath>
+<includepath workspace_path="true">/blinky/source/Drivers/CMSIS/Device/ST/STM32F4xx/Include</includepath>
+<includepath workspace_path="true">/blinky/source/Drivers/STM32F4xx_HAL_Driver/Inc</includepath>
+<includepath workspace_path="true">/blinky/source/TM_STM32_HAL_LIBRARIES</includepath>
+<includepath workspace_path="true">/blinky/source/kb_motor</includepath>
+<includepath workspace_path="true">/blinky/source/kb_mpu9150</includepath>
+<includepath workspace_path="true">/blinky/source</includepath>
+<includepath workspace_path="true">/blinky/source/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS</includepath>
+<includepath workspace_path="true">/blinky/source/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F</includepath>
 
 </language>
 <language name="Object File">
-
-</language>
-<language name="Assembly Source File">
-<includepath>${ProjDirPath}/inc</includepath>
-<includepath>${ProjDirPath}/TM</includepath>
-
-</language>
-<language name="s">
-<includepath>${ProjDirPath}/inc</includepath>
-<includepath>${ProjDirPath}/TM</includepath>
 
 </language>
 </section>
 <section name="org.eclipse.cdt.internal.ui.wizards.settingswizards.Macros">
-<language name="C Source File">
+<language name="S,s,asm">
 <macro>
-<name>DEBUG</name><value/>
-</macro>
-<macro>
-<name>USE_HAL_DRIVER</name><value/>
+<name>STM32F411xE</name><value/>
 </macro>
 <macro>
 <name>ARM_MATH_CM4</name><value/>
 </macro>
 <macro>
 <name>__FPU_PRESENT</name><value>1</value>
-</macro>
-<macro>
-<name>STM32F411xE</name><value/>
-</macro>
-<macro>
-<name>NUCLEO_F411RE</name><value/>
-</macro>
-<macro>
-<name>STM32F4</name><value/>
-</macro>
-<macro>
-<name>STM32</name><value/>
-</macro>
-<macro>
-<name>STM32F411RETx</name><value/>
 </macro>
 
 </language>
-<language name="S">
+<language name="C Source File">
 <macro>
-<name>DEBUG</name><value/>
-</macro>
-<macro>
-<name>USE_HAL_DRIVER</name><value/>
+<name>STM32F411xE</name><value/>
 </macro>
 <macro>
 <name>ARM_MATH_CM4</name><value/>
@@ -77,30 +70,21 @@
 <macro>
 <name>__FPU_PRESENT</name><value>1</value>
 </macro>
+
+</language>
+<language name="C++ Source File">
 <macro>
 <name>STM32F411xE</name><value/>
 </macro>
 <macro>
-<name>NUCLEO_F411RE</name><value/>
+<name>ARM_MATH_CM4</name><value/>
 </macro>
 <macro>
-<name>STM32F4</name><value/>
-</macro>
-<macro>
-<name>STM32</name><value/>
-</macro>
-<macro>
-<name>STM32F411RETx</name><value/>
+<name>__FPU_PRESENT</name><value>1</value>
 </macro>
 
 </language>
 <language name="Object File">
-
-</language>
-<language name="Assembly Source File">
-
-</language>
-<language name="s">
 
 </language>
 </section>
