@@ -82,3 +82,6 @@ local.properties
 
 RemoteSystemsTempFiles
 Debug
+
+AtollicWebServices_app.log
+AtollicWebServices_app.log.lck
