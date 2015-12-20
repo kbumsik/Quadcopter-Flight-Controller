@@ -33,7 +33,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "config.h"
 #include "cmsis_os.h"
-
+#include "stdio.h"
 /* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */
@@ -47,6 +47,7 @@ static GPIO_InitTypeDef  GPIO_InitStruct;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
+void scanInput(void const * argument);
 void StartDefaultTask(void const * argument);
 
 /* USER CODE BEGIN PFP */
@@ -60,6 +61,7 @@ void StartDefaultTask(void const * argument);
 
 int main(void)
 {
+	int input = 1;
 
   /* USER CODE BEGIN 1 */
 
@@ -85,6 +87,8 @@ int main(void)
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   GPIO_InitStruct.Speed = GPIO_SPEED_FAST;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  scanf("%d",&input);
   /* USER CODE END 2 */
 
   /* USER CODE BEGIN RTOS_MUTEX */
@@ -102,7 +106,9 @@ int main(void)
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
   osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
+  osThreadDef(scan, scanInput, osPriorityRealtime, 0, 128);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+  defaultTaskHandle = osThreadCreate(osThread(scan), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -132,7 +138,36 @@ int main(void)
 }
 
 /* USER CODE BEGIN 4 */
+/* StartDefaultTask function */
+void scanInput(void const * argument)
+{
+	int count = 1;
+	int check = 0;
+	int input = 0;
+	char str[30];
 
+  /* USER CODE BEGIN 5 */
+  /* Infinite loop */
+  for(;;)
+  {
+	  printf("ready\r\n");
+	  check = scanf("%d",&input);
+	  if(check!=1)
+	  {
+		  printf("Wrong Input!: ");
+		  // flush the buffer
+		  scanf("%s",&str);
+		  printf("%s\r\n",str);
+	  }
+	  else
+	  {
+		  printf("%d\r\n",input);
+		  printf("count=%d\r\n",count++);
+	  }
+	  osDelay(1000);
+  }
+  /* USER CODE END 5 */
+}
 /* USER CODE END 4 */
 
 /* StartDefaultTask function */
