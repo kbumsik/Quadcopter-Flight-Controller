@@ -33,13 +33,12 @@
 /* Includes ------------------------------------------------------------------*/
 #include "config.h"
 #include "cmsis_os.h"
-#include "stdio.h"
+
 /* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
-osThreadId defaultTaskHandle;
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
@@ -47,8 +46,8 @@ static GPIO_InitTypeDef  GPIO_InitStruct;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
-void scanInput(void const * argument);
-void StartDefaultTask(void const * argument);
+void vScanInput(void *pvParameters);
+void vStartDefaultTask(void *pvParameters);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
@@ -103,10 +102,14 @@ int main(void)
 
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
-  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
-  osThreadDef(scan, scanInput, osPriorityRealtime, 0, 128);
-  defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
-  defaultTaskHandle = osThreadCreate(osThread(scan), NULL);
+  /* TODO: change it to the FreeRTOS functions */
+  xTaskCreate(vStartDefaultTask,			/* Pointer to the function that implements the task */
+		  	  "Blinky",						/* Text name for the task. This is to facilitate debugging only. It is not used in the scheduler */
+		  	  configMINIMAL_STACK_SIZE,		/* Stack depth in words */
+		  	  NULL,							/* Pointer to a task parameters */
+		  	  configMAX_PRIORITIES-2,		/* The task priority */
+		  	  NULL);						/* Pointer to a task used by this task */
+  xTaskCreate(vScanInput, "Scan", configMINIMAL_STACK_SIZE+200, NULL, configMAX_PRIORITIES-1, NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -118,27 +121,16 @@ int main(void)
  
 
   /* Start scheduler */
-  osKernelStart();
+  vTaskStartScheduler();
   /* NOTE: We should never get here as control is now taken by the scheduler */
-
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
   while (1)
   {
-  /* USER CODE END WHILE */
-  /* USER CODE BEGIN 3 */
-  /* NOTE: Assigning any in this section is not preferred, since this project use RTOS that is thread-based. */
-
   }
-  /* USER CODE END 3 */
-
 }
 
-/* USER CODE BEGIN 4 */
-/* StartDefaultTask function */
-void scanInput(void const * argument)
+/* vScanInput Task function */
+void vScanInput(void *pvParameters)
 {
-  /* USER CODE BEGIN 5 */
   int count = 1;
   int check = 0;
   int input = 0;
@@ -160,23 +152,18 @@ void scanInput(void const * argument)
 		  printf("%d\r\n",input);
 		  printf("count=%d\r\n",count++);
 	  }
+	  vTaskDelay(1000 / portTICK_RATE_MS);
   }
-  /* USER CODE END 5 */
 }
-/* USER CODE END 4 */
 
-/* StartDefaultTask function */
-void StartDefaultTask(void const * argument)
+/* vStartDefaultTask function */
+void vStartDefaultTask(void *pvParameters)
 {
-
-  /* USER CODE BEGIN 5 */
-  /* Infinite loop */
   for(;;)
   {
 	HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-    osDelay(100);
+    vTaskDelay(100 / portTICK_RATE_MS);		/* Delay for 100ms */
   }
-  /* USER CODE END 5 */ 
 }
 
 #ifdef USE_FULL_ASSERT
