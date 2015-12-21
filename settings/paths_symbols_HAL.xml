@@ -3,7 +3,6 @@
 <section name="org.eclipse.cdt.internal.ui.wizards.settingswizards.IncludePaths">
 <language name="S,s,asm">
 <includepath workspace_path="true">/blinky/source/Middlewares/Third_Party/FreeRTOS/Source/include</includepath>
-<includepath>C:/Users/Bumsik Kim/Desktop/Quadcopter-Flight-Controller/project_components/blinky/src</includepath>
 <includepath workspace_path="true">/blinky/source/Drivers/CMSIS/Include</includepath>
 <includepath workspace_path="true">/blinky/source/Drivers/CMSIS/Device/ST/STM32F4xx/Include</includepath>
 <includepath workspace_path="true">/blinky/source/Drivers/STM32F4xx_HAL_Driver/Inc</includepath>
@@ -17,7 +16,6 @@
 </language>
 <language name="C Source File">
 <includepath workspace_path="true">/blinky/source/Middlewares/Third_Party/FreeRTOS/Source/include</includepath>
-<includepath>C:/Users/Bumsik Kim/Desktop/Quadcopter-Flight-Controller/project_components/blinky/src</includepath>
 <includepath workspace_path="true">/blinky/source</includepath>
 <includepath workspace_path="true">/blinky/source/Drivers/CMSIS/Include</includepath>
 <includepath workspace_path="true">/blinky/source/Drivers/CMSIS/Device/ST/STM32F4xx/Include</includepath>
@@ -31,7 +29,6 @@
 </language>
 <language name="C++ Source File">
 <includepath workspace_path="true">/blinky/source/Middlewares/Third_Party/FreeRTOS/Source/include</includepath>
-<includepath>C:/Users/Bumsik Kim/Desktop/Quadcopter-Flight-Controller/project_components/blinky/src</includepath>
 <includepath workspace_path="true">/blinky/source/Drivers/CMSIS/Include</includepath>
 <includepath workspace_path="true">/blinky/source/Drivers/CMSIS/Device/ST/STM32F4xx/Include</includepath>
 <includepath workspace_path="true">/blinky/source/Drivers/STM32F4xx_HAL_Driver/Inc</includepath>
