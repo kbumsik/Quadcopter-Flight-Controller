@@ -33,24 +33,16 @@
 #endif
 
 /* definition for NUCLEO Board */
-#ifndef NUCLEO_F411RE
-	#define NUCLEO_F411RE
+/* Define only one board!!! */
+#define INCLUDE_NUCLEO_F411RE
+/* Add custom board here */
+
+
+/* Include board configuration */
+#ifdef INCLUDE_NUCLEO_F411RE
+#include "config_NUCLEO_F411RE.h"
 #endif
 
-#ifndef LED_PIN
-	#define LED_PIN GPIO_PIN_5
-	#define LED_PORT GPIOA
-#endif
-
-#ifdef USE_HAL_DRIVER
-	#ifdef LED_PIN
-		#ifdef LED_PORT
-			#define LED_TOGGLE()	HAL_GPIO_TogglePin(LED_PORT, LED_PIN)
-			#define LED_ON()		HAL_GPIO_WritePin(LED_PORT, LED_PIN, GPIO_PIN_SET)
-			#define LED_OFF()		HAL_GPIO_WritePin(LED_PORT, LED_PIN, GPIO_PIN_RESET)
-		#endif
-	#endif
-#endif
 /* definition for TM's library */
 #ifndef STM32F4XX
 	#define STM32F4XX

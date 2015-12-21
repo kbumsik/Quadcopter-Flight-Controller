@@ -33,7 +33,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "config.h"
 #include "cmsis_os.h"
-
+#include "stdio.h"
 /* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */
@@ -42,7 +42,7 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-static GPIO_InitTypeDef  GPIO_InitStruct;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -76,16 +76,7 @@ int main(void)
   /* Initialize all configured peripherals */
 
   /* USER CODE BEGIN 2 */
-  /*##-1- Enable GPIOA Clock (to be able to program the configuration registers) */
-  __GPIOA_CLK_ENABLE();
   
-  /*##-2- Configure PA05 IO in output push-pull mode to drive external LED ###*/  
-  GPIO_InitStruct.Pin = GPIO_PIN_5;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FAST;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
   /* USER CODE END 2 */
 
   /* USER CODE BEGIN RTOS_MUTEX */
@@ -107,7 +98,7 @@ int main(void)
 		  	  "Blinky",						/* Text name for the task. This is to facilitate debugging only. It is not used in the scheduler */
 		  	  configMINIMAL_STACK_SIZE,		/* Stack depth in words */
 		  	  NULL,							/* Pointer to a task parameters */
-		  	  configMAX_PRIORITIES-2,		/* The task priority */
+		  	  configMAX_PRIORITIES-1,		/* The task priority */
 		  	  NULL);						/* Pointer to a task used by this task */
   xTaskCreate(vScanInput, "Scan", configMINIMAL_STACK_SIZE+200, NULL, configMAX_PRIORITIES-1, NULL);
 
@@ -131,26 +122,27 @@ int main(void)
 /* vScanInput Task function */
 void vScanInput(void *pvParameters)
 {
-  int count = 1;
-  int check = 0;
-  int input = 0;
-  char str[30];
+  uint32_t	ulCount = 1;
+  int32_t	lCheck = 0;
+  int		lInput = 0;
+  char pcStr[30];
+
   /* Infinite loop */
   for(;;)
   {
 	  printf("ready\r\n");
-	  check = scanf("%d",&input);
-	  if(check!=1)
+	  lCheck = scanf("%d",&lInput);
+	  if(lCheck!=1)
 	  {
 		  printf("Wrong Input!: ");
 		  // flush the buffer
-		  scanf("%s",&str);
-		  printf("%s\r\n",str);
+		  scanf("%s",pcStr);
+		  printf("%s\r\n",pcStr);
 	  }
 	  else
 	  {
-		  printf("%d\r\n",input);
-		  printf("count=%d\r\n",count++);
+		  printf("%d\r\n",lInput);
+		  printf("count=%d\r\n",ulCount++);
 	  }
 	  vTaskDelay(1000 / portTICK_RATE_MS);
   }
@@ -161,7 +153,7 @@ void vStartDefaultTask(void *pvParameters)
 {
   for(;;)
   {
-	HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+	vLED_0_Toggle();
     vTaskDelay(100 / portTICK_RATE_MS);		/* Delay for 100ms */
   }
 }

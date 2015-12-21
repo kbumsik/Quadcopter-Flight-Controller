@@ -98,12 +98,12 @@ static void GPIO_Init(void)
   GPIO_InitStruct.Alternate = GPIO_AF7_USART2;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure LD2 pin : PA5 */
-  GPIO_InitStruct.Pin = LED_PIN;
+  /*Configure LD2 pin : LED0 Pin */
+  GPIO_InitStruct.Pin = portLED_0_PIN;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
-  HAL_GPIO_Init(LED_PORT, &GPIO_InitStruct);
+  HAL_GPIO_Init(portLED_0_PORT, &GPIO_InitStruct);
 }
 
 static void Hardware_Init(void)

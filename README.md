@@ -9,3 +9,6 @@ To see how to set up the development environments for this drone project, see ht
 * `project_main`: main project of this drone.
 * `Theory references`: PDF files we referenced.
 * `tracking_with_MPU9150`: tracking the position of the sensor. If this works, we will have a fix coordinate to represent all relevent quantities, like forces, accelerations, angles and so on. 
+
+##Naming and Coding conventions
+our naming and coding conventions is following FreeRTOS's coding conventions: http://www.freertos.org/FreeRTOS-Coding-Standard-and-Style-Guide.html
