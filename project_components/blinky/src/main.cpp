@@ -42,12 +42,19 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
+xTaskHandle xBlinkyHandle;
+xTaskHandle xScanInputHandle;
+
+uint32_t ulIdleCycleCount = 0UL;
 
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
-void vScanInput(void *pvParameters);
-void vStartDefaultTask(void *pvParameters);
+void vBlinkyTask(void *pvParameters);
+void vScanInputTask(void *pvParameters);
+
+extern "C" void vApplicationIdleHook( void ); /* Idle Hook Function, Must look at */
+                                   /* configUSE_IDLE_HOOK to use this function*/
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
@@ -94,13 +101,18 @@ int main(void)
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
   /* TODO: change it to the FreeRTOS functions */
-  xTaskCreate(vStartDefaultTask,			/* Pointer to the function that implements the task */
+  xTaskCreate(vBlinkyTask,			        /* Pointer to the function that implements the task */
 		  	  "Blinky",						/* Text name for the task. This is to facilitate debugging only. It is not used in the scheduler */
 		  	  configMINIMAL_STACK_SIZE,		/* Stack depth in words */
 		  	  NULL,							/* Pointer to a task parameters */
 		  	  configMAX_PRIORITIES-1,		/* The task priority */
-		  	  NULL);						/* Pointer to a task used by this task */
-  xTaskCreate(vScanInput, "Scan", configMINIMAL_STACK_SIZE+200, NULL, configMAX_PRIORITIES-1, NULL);
+		  	  &xBlinkyHandle);                        /* Pointer of its task handler, if you don't want to use, you can leave it NULL */
+  xTaskCreate(vScanInputTask,
+              "Scan",
+              configMINIMAL_STACK_SIZE+200,
+              NULL,
+              configMAX_PRIORITIES-1,
+              &xScanInputHandle);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -115,47 +127,82 @@ int main(void)
   vTaskStartScheduler();
   /* NOTE: We should never get here as control is now taken by the scheduler */
   while (1)
-  {
-  }
+    {
+    }
 }
 
-/* vScanInput Task function */
-void vScanInput(void *pvParameters)
+/* Idle Hook fuction */
+/* This function is called every time the Idle task is called by the scheduler */
+void vApplicationIdleHook( void )
 {
+  ulIdleCycleCount++;
+}
+
+/* vBlinkyTask function */
+void vBlinkyTask(void *pvParameters)
+{
+  uint32_t ulCount = 0;
+
+  portTickType xLastWakeTime;
+  /* Initialize xLastWakeTime for vTaskDelayUntil */
+  /* This variable is updated every vTaskDelayUntil is called */
+  xLastWakeTime = xTaskGetTickCount();
+  for(;;)
+    {
+      vLED_0_Toggle();
+      /* Call this Task explicitly every 50ms ,NOT Delay for 50ms */
+      vTaskDelayUntil(&xLastWakeTime, (50/portTICK_RATE_MS));
+    }
+
+  /* It never goes here, but the task should be deleted when it reached here */
+  vTaskDelete(NULL);
+}
+
+/* vScanInputTask Task function */
+void vScanInputTask(void *pvParameters)
+{
+  unsigned portBASE_TYPE uxPriority;
   uint32_t	ulCount = 1;
   int32_t	lCheck = 0;
   int		lInput = 0;
   char pcStr[30];
 
+  /* Get the priority of this task */
+  uxPriority = uxTaskPriorityGet(NULL);
+
   /* Infinite loop */
   for(;;)
-  {
-	  printf("ready\r\n");
-	  lCheck = scanf("%d",&lInput);
-	  if(lCheck!=1)
-	  {
-		  printf("Wrong Input!: ");
-		  // flush the buffer
-		  scanf("%s",pcStr);
-		  printf("%s\r\n",pcStr);
-	  }
-	  else
-	  {
-		  printf("%d\r\n",lInput);
-		  printf("count=%d\r\n",ulCount++);
-	  }
-	  vTaskDelay(1000 / portTICK_RATE_MS);
-  }
-}
+    {
+      printf("ready\r\n");
+      /* Set Blinky task less than this task, meaning stop blinking */
+      vTaskPrioritySet(xBlinkyHandle, uxPriority-1);
 
-/* vStartDefaultTask function */
-void vStartDefaultTask(void *pvParameters)
-{
-  for(;;)
-  {
-	vLED_0_Toggle();
-    vTaskDelay(100 / portTICK_RATE_MS);		/* Delay for 100ms */
-  }
+      lCheck = scanf("%d",&lInput);
+      if(lCheck!=1)
+        {
+          printf("Wrong Input!: ");
+          // flush the buffer
+          scanf("%s",pcStr);
+          printf("%s ,",pcStr);
+          printf("%d\r\n", ulIdleCycleCount);
+        }
+      else
+        {
+          printf("%d\r\n",lInput);
+          /* Print the Idle count */
+          printf("count=%d\r\n",ulCount++);
+        }
+
+      /* Set Blinky back */
+      vTaskPrioritySet(xBlinkyHandle, uxPriority);
+
+      /* Set the task into blocking mode for 1000ms */
+      /* The task becomes ready state after 1000ms */
+      vTaskDelay(1000 / portTICK_RATE_MS);
+    }
+
+  /* It never goes here, but the task should be deleted when it reached here */
+  vTaskDelete(NULL);
 }
 
 #ifdef USE_FULL_ASSERT
