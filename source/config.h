@@ -44,8 +44,26 @@
 #include "stm32f4xx.h"
 #include "stm32f4xx_it.h"
 
+
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
+
+/* ########################## Module Selection ############################## */
+/**
+  * @brief This is the list of modules to be used in the HAL driver
+  */
+#define QUADCOPTER_MODULE_ENABLED
+
+#define PWMINPUT_ENABLED
+
+/**
+  * @brief Include module's header file
+  */
+
+#ifdef PWMINPUT_ENABLED
+  #include "PWMInput.h"
+#endif /* HAL_RCC_MODULE_ENABLED */
+
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
 

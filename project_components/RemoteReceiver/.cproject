@@ -44,6 +44,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RemoteReceiver/source/kb_mpu9150}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RemoteReceiver/source/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RemoteReceiver/source/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RemoteReceiver/source/PWMInput}&quot;"/>
 								</option>
 								<inputType id="com.atollic.truestudio.as.input.1308884570" name="Input" superClass="com.atollic.truestudio.as.input"/>
 							</tool>
@@ -64,6 +65,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RemoteReceiver/source/kb_mpu9150}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RemoteReceiver/source/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RemoteReceiver/source/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RemoteReceiver/source/PWMInput}&quot;"/>
 								</option>
 								<option id="com.atollic.truestudio.common_options.target.endianess.1587698495" name="Endianess" superClass="com.atollic.truestudio.common_options.target.endianess"/>
 								<option id="com.atollic.truestudio.common_options.target.mcpu.579018713" name="Microcontroller" superClass="com.atollic.truestudio.common_options.target.mcpu" value="STM32F411RE" valueType="enumerated"/>
@@ -101,6 +103,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RemoteReceiver/source/kb_mpu9150}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RemoteReceiver/source/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RemoteReceiver/source/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RemoteReceiver/source/PWMInput}&quot;"/>
 								</option>
 								<option id="com.atollic.truestudio.common_options.target.endianess.834990620" name="Endianess" superClass="com.atollic.truestudio.common_options.target.endianess"/>
 								<option id="com.atollic.truestudio.common_options.target.mcpu.574254787" name="Microcontroller" superClass="com.atollic.truestudio.common_options.target.mcpu" value="STM32F411RE" valueType="enumerated"/>
@@ -175,6 +178,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RemoteReceiver/source/kb_mpu9150}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RemoteReceiver/source/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RemoteReceiver/source/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RemoteReceiver/source/PWMInput}&quot;"/>
 								</option>
 								<inputType id="com.atollic.truestudio.as.input.1445291828" name="Input" superClass="com.atollic.truestudio.as.input"/>
 							</tool>
@@ -199,6 +203,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RemoteReceiver/source/kb_mpu9150}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RemoteReceiver/source/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RemoteReceiver/source/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RemoteReceiver/source/PWMInput}&quot;"/>
 								</option>
 								<option id="com.atollic.truestudio.common_options.target.endianess.847318706" name="Endianess" superClass="com.atollic.truestudio.common_options.target.endianess"/>
 								<option id="com.atollic.truestudio.common_options.target.mcpu.852341802" name="Microcontroller" superClass="com.atollic.truestudio.common_options.target.mcpu" value="STM32F411RE" valueType="enumerated"/>
@@ -240,6 +245,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RemoteReceiver/source/kb_mpu9150}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RemoteReceiver/source/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RemoteReceiver/source/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RemoteReceiver/source/PWMInput}&quot;"/>
 								</option>
 								<option id="com.atollic.truestudio.common_options.target.endianess.814903505" name="Endianess" superClass="com.atollic.truestudio.common_options.target.endianess"/>
 								<option id="com.atollic.truestudio.common_options.target.mcpu.954635310" name="Microcontroller" superClass="com.atollic.truestudio.common_options.target.mcpu" value="STM32F411RE" valueType="enumerated"/>
