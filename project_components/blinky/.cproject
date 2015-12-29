@@ -46,6 +46,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/blinky/source}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/blinky/source/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/blinky/source/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/blinky/source/PWMInput}&quot;"/>
 								</option>
 								<inputType id="com.atollic.truestudio.as.input.1219773249" name="Input" superClass="com.atollic.truestudio.as.input"/>
 							</tool>
@@ -66,6 +67,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/blinky/source/kb_mpu9150}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/blinky/source/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/blinky/source/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/blinky/source/PWMInput}&quot;"/>
 								</option>
 								<option id="com.atollic.truestudio.common_options.target.endianess.917410618" name="Endianess" superClass="com.atollic.truestudio.common_options.target.endianess"/>
 								<option id="com.atollic.truestudio.common_options.target.mcpu.48607162" name="Microcontroller" superClass="com.atollic.truestudio.common_options.target.mcpu" value="STM32F411RE" valueType="enumerated"/>
@@ -103,6 +105,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/blinky/source}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/blinky/source/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/blinky/source/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/blinky/source/PWMInput}&quot;"/>
 								</option>
 								<option id="com.atollic.truestudio.common_options.target.endianess.405676766" name="Endianess" superClass="com.atollic.truestudio.common_options.target.endianess"/>
 								<option id="com.atollic.truestudio.common_options.target.mcpu.628385987" name="Microcontroller" superClass="com.atollic.truestudio.common_options.target.mcpu" value="STM32F411RE" valueType="enumerated"/>
@@ -165,7 +168,9 @@
 								<option id="com.atollic.truestudio.common_options.target.fpucore.2045927512" name="FPU" superClass="com.atollic.truestudio.common_options.target.fpucore" value="FPv4-SP-D16" valueType="enumerated"/>
 								<option id="com.atollic.truestudio.common_options.target.fpu.1892289499" name="Floating point" superClass="com.atollic.truestudio.common_options.target.fpu" value="com.atollic.truestudio.common_options.target.fpu.hard" valueType="enumerated"/>
 								<option id="com.atollic.truestudio.as.symbols.defined.1084406241" name="Defined symbols" superClass="com.atollic.truestudio.as.symbols.defined"/>
-								<option id="com.atollic.truestudio.as.general.incpath.1848504582" name="Include path" superClass="com.atollic.truestudio.as.general.incpath"/>
+								<option id="com.atollic.truestudio.as.general.incpath.1848504582" name="Include path" superClass="com.atollic.truestudio.as.general.incpath" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/blinky/source/PWMInput}&quot;"/>
+								</option>
 								<inputType id="com.atollic.truestudio.as.input.770992456" name="Input" superClass="com.atollic.truestudio.as.input"/>
 							</tool>
 							<tool id="com.atollic.truestudio.exe.release.toolchain.gcc.1348520081" name="C Compiler" superClass="com.atollic.truestudio.exe.release.toolchain.gcc">
@@ -178,6 +183,7 @@
 									<listOptionValue builtIn="false" value="..\Drivers\CMSIS\Device\ST\STM32F4xx\Include"/>
 									<listOptionValue builtIn="false" value="..\Drivers\STM32F4xx_HAL_Driver\Inc"/>
 									<listOptionValue builtIn="false" value="..\Drivers\BSP\STM32F4xx-Nucleo"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/blinky/source/PWMInput}&quot;"/>
 								</option>
 								<option id="com.atollic.truestudio.common_options.target.endianess.1165674176" name="Endianess" superClass="com.atollic.truestudio.common_options.target.endianess"/>
 								<option id="com.atollic.truestudio.common_options.target.mcpu.2043139617" name="Microcontroller" superClass="com.atollic.truestudio.common_options.target.mcpu" value="STM32F411RE" valueType="enumerated"/>
@@ -208,6 +214,7 @@
 									<listOptionValue builtIn="false" value="..\Drivers\CMSIS\Device\ST\STM32F4xx\Include"/>
 									<listOptionValue builtIn="false" value="..\Drivers\STM32F4xx_HAL_Driver\Inc"/>
 									<listOptionValue builtIn="false" value="..\Drivers\BSP\STM32F4xx-Nucleo"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/blinky/source/PWMInput}&quot;"/>
 								</option>
 								<option id="com.atollic.truestudio.common_options.target.endianess.970238092" name="Endianess" superClass="com.atollic.truestudio.common_options.target.endianess"/>
 								<option id="com.atollic.truestudio.common_options.target.mcpu.343403730" name="Microcontroller" superClass="com.atollic.truestudio.common_options.target.mcpu" value="STM32F411RE" valueType="enumerated"/>
@@ -255,6 +262,12 @@
 	<storageModule moduleId="scannerConfiguration">
 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		<scannerConfigBuildInfo instanceId="com.atollic.truestudio.exe.debug.1369361037;com.atollic.truestudio.exe.debug.1369361037.;com.atollic.truestudio.exe.debug.toolchain.gcc.302836031;com.atollic.truestudio.gcc.input.1345719637">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.atollic.truestudio.mbs.ARMToolsPerProjectProfileC"/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="com.atollic.truestudio.configuration.release.695327474;com.atollic.truestudio.configuration.release.695327474.;com.atollic.truestudio.exe.release.toolchain.gpp.339879791;com.atollic.truestudio.gpp.input.1951513043">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.atollic.truestudio.mbs.ARMToolsPerProjectProfileCPP"/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="com.atollic.truestudio.configuration.release.695327474;com.atollic.truestudio.configuration.release.695327474.;com.atollic.truestudio.exe.release.toolchain.gcc.1348520081;com.atollic.truestudio.gcc.input.694097443">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.atollic.truestudio.mbs.ARMToolsPerProjectProfileC"/>
 		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="com.atollic.truestudio.exe.debug.1369361037;com.atollic.truestudio.exe.debug.1369361037.;com.atollic.truestudio.exe.debug.toolchain.gpp.395355802;com.atollic.truestudio.gpp.input.1167325283">

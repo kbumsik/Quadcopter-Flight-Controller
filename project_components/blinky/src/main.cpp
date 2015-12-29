@@ -33,7 +33,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "config.h"
 #include "cmsis_os.h"
-#include "stdio.h"
+#include <stdio.h>
 /* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */
@@ -52,9 +52,6 @@ uint32_t ulIdleCycleCount = 0UL;
 /* Private function prototypes -----------------------------------------------*/
 void vBlinkyTask(void *pvParameters);
 void vScanInputTask(void *pvParameters);
-
-extern "C" void vApplicationIdleHook( void ); /* Idle Hook Function, Must look at */
-                                   /* configUSE_IDLE_HOOK to use this function*/
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
@@ -107,12 +104,14 @@ int main(void)
 		  	  NULL,							/* Pointer to a task parameters */
 		  	  configMAX_PRIORITIES-1,		/* The task priority */
 		  	  &xBlinkyHandle);                        /* Pointer of its task handler, if you don't want to use, you can leave it NULL */
+ /*
   xTaskCreate(vScanInputTask,
               "Scan",
               configMINIMAL_STACK_SIZE+200,
               NULL,
               configMAX_PRIORITIES-1,
               &xScanInputHandle);
+              */
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */

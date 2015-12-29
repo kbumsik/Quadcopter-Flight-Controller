@@ -908,23 +908,6 @@ static void TM_USART_INT_Init(
 	
 }
 
-void HAL_UART_MspInit(UART_HandleTypeDef *huart)
-{
-  /* NOTE: This function Should not be modified, when the callback is needed,
-           the HAL_UART_MspInit could be implemented in the user file
-   */
-	/* FIXME: Sort this mess */
-	/* Disable all interrupt */
-	__HAL_UART_DISABLE_IT(huart, UART_IT_CTS);
-	__HAL_UART_DISABLE_IT(huart, UART_IT_LBD);
-	__HAL_UART_DISABLE_IT(huart, UART_IT_TXE);
-	__HAL_UART_DISABLE_IT(huart, UART_IT_RXNE);
-	__HAL_UART_DISABLE_IT(huart, UART_IT_IDLE);
-	__HAL_UART_DISABLE_IT(huart, UART_IT_PE);
-	__HAL_UART_DISABLE_IT(huart, UART_IT_ERR);
-}
-
-
 int _read(int32_t file, uint8_t *ptr, int32_t len) {
     int n = 0;
     int num = 0;

@@ -47,7 +47,8 @@
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
 
-
+/* Systick Handler */
+void SysTick_Handler(void);
 
 /* Exception Handler */
 void NMI_Handler(void);
@@ -59,11 +60,12 @@ void SVC_Handler(void);
 void DebugMon_Handler(void);
 void PendSV_Handler(void);
 
-/* Systick Handler */
-void SysTick_Handler(void);
-
 /* RFreceiver Handler */
-void PWMinput_TIMx_IRQHandler(void);
+void TIM1_TRG_COM_TIM11_IRQHandler(void);
+void TIM2_IRQHandler(void);
+void TIM3_IRQHandler(void);
+void USART1_IRQHandler(void);
+void TIM5_IRQHandler(void);
 
 #ifdef __cplusplus
 }

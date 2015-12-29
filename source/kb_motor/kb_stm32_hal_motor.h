@@ -9,12 +9,12 @@
  *  In this example TIM4 input clock (TIM4CLK) is set to 2 * APB1 clock (PCLK1),
  *  since APB1 prescaler is different from 1.
  *    TIM4CLK = 2 * PCLK1
- *    PCLK1 = HCLK 
- *    => TIM4CLK = HCLK = SystemCoreClock
+ *    PCLK1 = HCLK / 4
+ *    => TIM4CLK = HCLK / 2 = SystemCoreClock / 2
  *  To get TIM4 counter clock at 1 MHz, the prescaler is computed as follows:
  *     Prescaler = (TIM4CLK / TIM4 counter clock) - 1
- *     Prescaler = ((SystemCoreClock) /1 MHz) - 1
- *               = 99
+ *     Prescaler = (((SystemCoreClock)/2) /1 MHz) - 1
+ *               = 49
  *  To get TIM4 output clock at 50 Hz, the period (ARR) is computed as follows:
  *     ARR = (TIM4 counter clock / TIM4 output clock) - 1
  *         = 19,999
@@ -55,7 +55,7 @@
 #define MOTOR_TIMx_CLK_DISABLE()			__HAL_RCC_TIM4_CLK_DISABLE()
 
 /* Prescaler Definition at f = 50MHz */
-#define MOTOR_TIM_PRESCALER					(((SystemCoreClock) /1000000) - 1)
+#define MOTOR_TIM_PRESCALER					(((SystemCoreClock)/2000000) - 1)
 
 /* Definition for TIMx Channel Pins */
 #define MOTOR_GPIO_PORT 					GPIOB

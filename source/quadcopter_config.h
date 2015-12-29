@@ -77,8 +77,8 @@ NRF24L01+	STM32Fxxx	DESCRIPTION
 
 GND			GND			Ground
 VCC			3.3V		3.3V
-CE			PC15		RF activated pin
-CSN			PC14		Chip select pin for SPI
+CE			PC2		RF activated pin
+CSN			PC3		Chip select pin for SPI
 SCK			PC10		SCK pin for SPI
 MOSI		PC12		MOSI pin for SPI
 MISO		PC11		MISO pin for SPI
