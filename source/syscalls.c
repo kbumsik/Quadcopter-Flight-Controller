@@ -34,7 +34,9 @@
 #include <sys/time.h>
 #include <sys/times.h>
 
-#include "tm_stm32_usart.h"
+/* Custom Includes */
+#include "config.h"
+#include "cmsis_os.h"
 
 /* Variables */
 #undef errno
@@ -42,6 +44,12 @@ extern int errno;
 
 uint8_t *__env[1] = { 0 };
 uint8_t **environ = __env;
+
+/* Global variables */
+/* They are located in stm32f4xx_it.c */
+UART_HandleTypeDef huart1;
+/* They are located in main.cpp */
+QueueHandle_t qUARTReceive;
 
 
 /* Functions */
@@ -66,7 +74,18 @@ void _exit (int32_t status)
   while (1) {}    /* Make sure we hang here */
 }
 
-// TODO: move _write here
+int _write(int32_t file, uint8_t *ptr, int32_t len) {
+  HAL_StatusTypeDef result;
+  result = HAL_UART_Transmit(&huart1, ptr, (uint16_t)len, 500);
+  if (result == HAL_OK)
+    {
+      return len;
+    }
+  else
+    {
+      return 0;
+    }
+}
 
 caddr_t _sbrk(int32_t incr)
 {
@@ -115,7 +134,30 @@ int _lseek(int32_t file, int32_t ptr, int32_t dir)
   return 0;
 }
 
-// TODO: Move _read here
+int _read(int32_t file, uint8_t *ptr, int32_t len) {
+    int n = 0;
+    int num = 0;
+    char buffer_input[confUART_RECEIVE_BUFFER_SIZE];
+
+    switch (file)
+    {
+        case 0: //stdin
+          xQueueReceive(qUARTReceive, (void*) buffer_input, portMAX_DELAY);
+          /* Find the number of character */
+          for (n = 0; n < confUART_RECEIVE_BUFFER_SIZE; n++)
+          {
+            *ptr++ = buffer_input[n];
+            if( buffer_input[n] == '\0')
+            {
+              break;
+            }
+          }
+        break;
+    default:
+        return 0;
+    }
+    return n;
+}
 
 int _open(uint8_t *path, int32_t flags, int32_t mode)
 {

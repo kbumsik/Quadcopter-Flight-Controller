@@ -52,6 +52,7 @@ TIM_HandleTypeDef htim5;
 UART_HandleTypeDef huart1;
 
 osThreadId defaultTaskHandle;
+osMessageQId xQueueUARTReceiveHandle;
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
@@ -130,6 +131,11 @@ int main(void)
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
+
+  /* Create the queue(s) */
+  /* definition and creation of xQueueUARTReceive */
+  osMessageQDef(xQueueUARTReceive, 3, char);
+  xQueueUARTReceiveHandle = osMessageCreate(osMessageQ(xQueueUARTReceive), NULL);
 
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */

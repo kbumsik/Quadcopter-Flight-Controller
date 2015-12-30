@@ -10,7 +10,6 @@
 #include "quadcopter_config.h"
 #include "stm32f4xx.h"
 #include "kb_stm32_hal_motor.h"
-#include "tm_stm32_usart.h"
 
 /* Private variables ---------------------------------------------------------*/
 I2C_HandleTypeDef hi2c3;

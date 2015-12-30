@@ -43,6 +43,7 @@
 #include "quadcopter_config.h"
 #include "stm32f4xx.h"
 #include "stm32f4xx_it.h"
+#include "FreeRTOSConfig.h"
 
 
 /* Exported types ------------------------------------------------------------*/
@@ -65,6 +66,8 @@
 #endif /* HAL_RCC_MODULE_ENABLED */
 
 /* Exported macro ------------------------------------------------------------*/
+#define confUART_RECEIVE_QUEUE_LENGTH 3 /* length of input buffer */
+#define confUART_RECEIVE_BUFFER_SIZE 30 /* size of input buffer */
 /* Exported functions ------------------------------------------------------- */
 
 #endif /* __MAIN_H */

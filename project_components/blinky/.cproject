@@ -47,6 +47,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/blinky/source/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/blinky/source/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/blinky/source/PWMInput}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/blinky/source/components}&quot;"/>
 								</option>
 								<inputType id="com.atollic.truestudio.as.input.1219773249" name="Input" superClass="com.atollic.truestudio.as.input"/>
 							</tool>
@@ -68,6 +69,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/blinky/source/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/blinky/source/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/blinky/source/PWMInput}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/blinky/source/components}&quot;"/>
 								</option>
 								<option id="com.atollic.truestudio.common_options.target.endianess.917410618" name="Endianess" superClass="com.atollic.truestudio.common_options.target.endianess"/>
 								<option id="com.atollic.truestudio.common_options.target.mcpu.48607162" name="Microcontroller" superClass="com.atollic.truestudio.common_options.target.mcpu" value="STM32F411RE" valueType="enumerated"/>
@@ -106,6 +108,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/blinky/source/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/blinky/source/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/blinky/source/PWMInput}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/blinky/source/components}&quot;"/>
 								</option>
 								<option id="com.atollic.truestudio.common_options.target.endianess.405676766" name="Endianess" superClass="com.atollic.truestudio.common_options.target.endianess"/>
 								<option id="com.atollic.truestudio.common_options.target.mcpu.628385987" name="Microcontroller" superClass="com.atollic.truestudio.common_options.target.mcpu" value="STM32F411RE" valueType="enumerated"/>
@@ -170,6 +173,7 @@
 								<option id="com.atollic.truestudio.as.symbols.defined.1084406241" name="Defined symbols" superClass="com.atollic.truestudio.as.symbols.defined"/>
 								<option id="com.atollic.truestudio.as.general.incpath.1848504582" name="Include path" superClass="com.atollic.truestudio.as.general.incpath" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/blinky/source/PWMInput}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/blinky/source/components}&quot;"/>
 								</option>
 								<inputType id="com.atollic.truestudio.as.input.770992456" name="Input" superClass="com.atollic.truestudio.as.input"/>
 							</tool>
@@ -184,6 +188,7 @@
 									<listOptionValue builtIn="false" value="..\Drivers\STM32F4xx_HAL_Driver\Inc"/>
 									<listOptionValue builtIn="false" value="..\Drivers\BSP\STM32F4xx-Nucleo"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/blinky/source/PWMInput}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/blinky/source/components}&quot;"/>
 								</option>
 								<option id="com.atollic.truestudio.common_options.target.endianess.1165674176" name="Endianess" superClass="com.atollic.truestudio.common_options.target.endianess"/>
 								<option id="com.atollic.truestudio.common_options.target.mcpu.2043139617" name="Microcontroller" superClass="com.atollic.truestudio.common_options.target.mcpu" value="STM32F411RE" valueType="enumerated"/>
@@ -215,6 +220,7 @@
 									<listOptionValue builtIn="false" value="..\Drivers\STM32F4xx_HAL_Driver\Inc"/>
 									<listOptionValue builtIn="false" value="..\Drivers\BSP\STM32F4xx-Nucleo"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/blinky/source/PWMInput}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/blinky/source/components}&quot;"/>
 								</option>
 								<option id="com.atollic.truestudio.common_options.target.endianess.970238092" name="Endianess" superClass="com.atollic.truestudio.common_options.target.endianess"/>
 								<option id="com.atollic.truestudio.common_options.target.mcpu.343403730" name="Microcontroller" superClass="com.atollic.truestudio.common_options.target.mcpu" value="STM32F411RE" valueType="enumerated"/>

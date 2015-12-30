@@ -1,6 +1,7 @@
 #MicroXplorer Configuration settings - do not modify
 FREERTOS.INCLUDE_vTaskDelayUntil=1
-FREERTOS.IPParameters=Tasks01,configMINIMAL_STACK_SIZE,configENABLE_BACKWARD_COMPATIBILITY,INCLUDE_vTaskDelayUntil
+FREERTOS.IPParameters=Tasks01,configMINIMAL_STACK_SIZE,configENABLE_BACKWARD_COMPATIBILITY,INCLUDE_vTaskDelayUntil,Queues01
+FREERTOS.Queues01=xQueueUARTReceive,3,char,NULL
 FREERTOS.Tasks01=defaultTask,0,128,StartDefaultTask
 FREERTOS.configENABLE_BACKWARD_COMPATIBILITY=0
 FREERTOS.configMINIMAL_STACK_SIZE=64

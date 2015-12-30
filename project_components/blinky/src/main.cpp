@@ -34,6 +34,7 @@
 #include "config.h"
 #include "cmsis_os.h"
 #include <stdio.h>
+#include "uart.h"
 /* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */
@@ -42,10 +43,12 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-xTaskHandle xBlinkyHandle;
-xTaskHandle xScanInputHandle;
+/* Task Handlers */
+TaskHandle_t xBlinkyHandle;
+TaskHandle_t xScanInputHandle;
 
-uint32_t ulIdleCycleCount = 0UL;
+/* Queue Handlers */
+QueueHandle_t qUARTReceive;
 
 /* USER CODE END PV */
 
@@ -97,30 +100,28 @@ int main(void)
 
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
-  /* TODO: change it to the FreeRTOS functions */
   xTaskCreate(vBlinkyTask,			        /* Pointer to the function that implements the task */
 		  	  "Blinky",						/* Text name for the task. This is to facilitate debugging only. It is not used in the scheduler */
 		  	  configMINIMAL_STACK_SIZE,		/* Stack depth in words */
 		  	  NULL,							/* Pointer to a task parameters */
 		  	  configMAX_PRIORITIES-1,		/* The task priority */
 		  	  &xBlinkyHandle);                        /* Pointer of its task handler, if you don't want to use, you can leave it NULL */
- /*
   xTaskCreate(vScanInputTask,
               "Scan",
-              configMINIMAL_STACK_SIZE+200,
+              configMINIMAL_STACK_SIZE+1500,
               NULL,
               configMAX_PRIORITIES-1,
               &xScanInputHandle);
-              */
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
 
   /* USER CODE BEGIN RTOS_QUEUES */
-  /* add queues, ... */
+  /* definition and creation of xQueueUARTReceive */
+  qUARTReceive = xQueueCreate(confUART_RECEIVE_QUEUE_LENGTH, /* length of queue */
+                              sizeof(uint8_t)*confUART_RECEIVE_BUFFER_SIZE); /* size in byte of each item */
   /* USER CODE END RTOS_QUEUES */
- 
 
   /* Start scheduler */
   vTaskStartScheduler();
@@ -128,13 +129,6 @@ int main(void)
   while (1)
     {
     }
-}
-
-/* Idle Hook fuction */
-/* This function is called every time the Idle task is called by the scheduler */
-void vApplicationIdleHook( void )
-{
-  ulIdleCycleCount++;
 }
 
 /* vBlinkyTask function */
@@ -150,7 +144,7 @@ void vBlinkyTask(void *pvParameters)
     {
       vLED_0_Toggle();
       /* Call this Task explicitly every 50ms ,NOT Delay for 50ms */
-      vTaskDelayUntil(&xLastWakeTime, (50/portTICK_RATE_MS));
+      vTaskDelayUntil(&xLastWakeTime, (200/portTICK_RATE_MS));
     }
 
   /* It never goes here, but the task should be deleted when it reached here */
@@ -174,7 +168,7 @@ void vScanInputTask(void *pvParameters)
     {
       printf("ready\r\n");
       /* Set Blinky task less than this task, meaning stop blinking */
-      vTaskPrioritySet(xBlinkyHandle, uxPriority-1);
+      //vTaskPrioritySet(xBlinkyHandle, uxPriority-1);
 
       lCheck = scanf("%d",&lInput);
       if(lCheck!=1)
@@ -182,8 +176,7 @@ void vScanInputTask(void *pvParameters)
           printf("Wrong Input!: ");
           // flush the buffer
           scanf("%s",pcStr);
-          printf("%s ,",pcStr);
-          printf("%d\r\n", ulIdleCycleCount);
+          printf("%s\r\n",pcStr);
         }
       else
         {
@@ -193,7 +186,7 @@ void vScanInputTask(void *pvParameters)
         }
 
       /* Set Blinky back */
-      vTaskPrioritySet(xBlinkyHandle, uxPriority);
+      //vTaskPrioritySet(xBlinkyHandle, uxPriority);
 
       /* Set the task into blocking mode for 1000ms */
       /* The task becomes ready state after 1000ms */

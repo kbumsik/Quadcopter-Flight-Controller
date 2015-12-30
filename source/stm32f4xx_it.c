@@ -38,7 +38,7 @@
 #include "cmsis_os.h"
 
 /* USER CODE BEGIN 0 */
-
+#include "uart.h"
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
@@ -230,18 +230,16 @@ void TIM3_IRQHandler(void)
 * @brief This function handles USART1 global interrupt.
 */
 /* TODO: implement USART */
-#ifdef TEST
 void USART1_IRQHandler(void)
 {
   /* USER CODE BEGIN USART1_IRQn 0 */
-
+  vUARTIRQHandler(&huart1);
   /* USER CODE END USART1_IRQn 0 */
-  HAL_UART_IRQHandler(&huart1);
+  //HAL_UART_IRQHandler(&huart1);
   /* USER CODE BEGIN USART1_IRQn 1 */
 
   /* USER CODE END USART1_IRQn 1 */
 }
-#endif
 
 /**
 * @brief This function handles TIM5 global interrupt.
