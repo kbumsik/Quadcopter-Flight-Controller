@@ -33,21 +33,29 @@
 /* Includes ------------------------------------------------------------------*/
 #include "config.h"
 #include "cmsis_os.h"
-
+#include <stdio.h>
 /* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
-osThreadId defaultTaskHandle;
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-static GPIO_InitTypeDef  GPIO_InitStruct;
+/* Task Handlers */
+TaskHandle_t xBlinkyHandle;
+TaskHandle_t xScanInputHandle;
+
+/* Queue Handlers */
+QueueHandle_t qUARTReceive;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
-void StartDefaultTask(void const * argument);
+void vBlinkyTask(void *pvParameters);
+void vScanInputTask(void *pvParameters);
+
+static void update_Speed(int speed);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
@@ -74,18 +82,9 @@ int main(void)
   SystemClock_Config();
 
   /* Initialize all configured peripherals */
-  MX_GPIO_Init();
 
   /* USER CODE BEGIN 2 */
-  /*##-1- Enable GPIOA Clock (to be able to program the configuration registers) */
-  __GPIOA_CLK_ENABLE();
   
-  /*##-2- Configure PA05 IO in output push-pull mode to drive external LED ###*/  
-  GPIO_InitStruct.Pin = GPIO_PIN_5;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FAST;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
   /* USER CODE END 2 */
 
   /* USER CODE BEGIN RTOS_MUTEX */
@@ -102,56 +101,101 @@ int main(void)
 
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
-  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
-  defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+  xTaskCreate(vBlinkyTask,			        /* Pointer to the function that implements the task */
+		  	  "Blinky",						/* Text name for the task. This is to facilitate debugging only. It is not used in the scheduler */
+		  	  configMINIMAL_STACK_SIZE,		/* Stack depth in words */
+		  	  NULL,							/* Pointer to a task parameters */
+		  	  configMAX_PRIORITIES-1,		/* The task priority */
+		  	  &xBlinkyHandle);                        /* Pointer of its task handler, if you don't want to use, you can leave it NULL */
+  xTaskCreate(vScanInputTask,
+              "Scan",
+              configMINIMAL_STACK_SIZE+1500,
+              NULL,
+              configMAX_PRIORITIES-1,
+              &xScanInputHandle);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
 
   /* USER CODE BEGIN RTOS_QUEUES */
-  /* add queues, ... */
+  /* definition and creation of xQueueUARTReceive */
+  qUARTReceive = xQueueCreate(confUART_RECEIVE_QUEUE_LENGTH, /* length of queue */
+                              sizeof(uint8_t)*confUART_RECEIVE_BUFFER_SIZE); /* size in byte of each item */
   /* USER CODE END RTOS_QUEUES */
- 
 
   /* Start scheduler */
-  osKernelStart();
-  
-  /* We should never get here as control is now taken by the scheduler */
-
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
+  vTaskStartScheduler();
+  /* NOTE: We should never get here as control is now taken by the scheduler */
   while (1)
-  {
-    HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-    
-    /* Insert delay 100 ms */
-    HAL_Delay(100);
-  /* USER CODE END WHILE */
-
-  /* USER CODE BEGIN 3 */
-
-  }
-  /* USER CODE END 3 */
-
+    {
+    }
 }
 
-/* USER CODE BEGIN 4 */
-
-/* USER CODE END 4 */
-
-/* StartDefaultTask function */
-void StartDefaultTask(void const * argument)
+/* vBlinkyTask function */
+void vBlinkyTask(void *pvParameters)
 {
+  uint32_t ulCount = 0;
 
-  /* USER CODE BEGIN 5 */
+  portTickType xLastWakeTime;
+  /* Initialize xLastWakeTime for vTaskDelayUntil */
+  /* This variable is updated every vTaskDelayUntil is called */
+  xLastWakeTime = xTaskGetTickCount();
+  for(;;)
+    {
+      vLED_0_Toggle();
+      /* Call this Task explicitly every 50ms ,NOT Delay for 50ms */
+      vTaskDelayUntil(&xLastWakeTime, (200/portTICK_RATE_MS));
+    }
+
+  /* It never goes here, but the task should be deleted when it reached here */
+  vTaskDelete(NULL);
+}
+
+/* vScanInputTask Task function */
+void vScanInputTask(void *pvParameters)
+{
+  /* Update the speed of motor */
+  update_Speed(1500);
+
+  /* Then start the pwm signal */
+  KB_STM32_Motor_Start();
+  input_speed = 1500;
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+    /* update the speed */
+    if(scanf("%d", &input_speed) != 1)
+    {
+      printf("wrong input!\n");
+      /* consume the rest of stdin stream */
+      scanf("%s",buffer_input);
+      continue;
+    }
+    printf("%d\n", input_speed);
+    update_Speed(input_speed);
+    KB_STM32_Motor_Start();
+
+    /* Set Blinky back */
+    //vTaskPrioritySet(xBlinkyHandle, uxPriority);
+
+    /* Set the task into blocking mode for 1000ms */
+    /* The task becomes ready state after 1000ms */
+    vTaskDelay(1000 / portTICK_RATE_MS);
   }
-  /* USER CODE END 5 */ 
+
+  /* It never goes here, but the task should be deleted when it reached here */
+  vTaskDelete(NULL);
 }
+
+static void update_Speed(int speed)
+{
+  KB_STM32_Motor_SetSpeed(speed, KB_STM32_Motor_Channel_1);
+  KB_STM32_Motor_SetSpeed(speed, KB_STM32_Motor_Channel_2);
+  KB_STM32_Motor_SetSpeed(speed, KB_STM32_Motor_Channel_3);
+  KB_STM32_Motor_SetSpeed(speed, KB_STM32_Motor_Channel_4);
+}
+
 
 #ifdef USE_FULL_ASSERT
 

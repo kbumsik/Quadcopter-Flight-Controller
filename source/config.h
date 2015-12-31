@@ -43,6 +43,7 @@
 #include "quadcopter_config.h"
 #include "stm32f4xx.h"
 #include "stm32f4xx_it.h"
+#include "cmsis_os.h"
 #include "FreeRTOSConfig.h"
 
 
@@ -55,15 +56,19 @@
   */
 #define QUADCOPTER_MODULE_ENABLED
 
-#define PWMINPUT_ENABLED
+#define confPWMINPUT_ENABLED
+#define confUART_ENABLED
 
 /**
   * @brief Include module's header file
   */
 
-#ifdef PWMINPUT_ENABLED
+#ifdef confPWMINPUT_ENABLED
   #include "PWMInput.h"
-#endif /* HAL_RCC_MODULE_ENABLED */
+#endif
+#ifdef confUART_ENABLED
+  #include "uart.h"
+#endif
 
 /* Exported macro ------------------------------------------------------------*/
 #define confUART_RECEIVE_QUEUE_LENGTH 3 /* length of input buffer */
