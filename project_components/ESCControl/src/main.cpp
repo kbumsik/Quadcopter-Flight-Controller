@@ -38,9 +38,10 @@
 
 /* USER CODE END Includes */
 
-/* Private variables ---------------------------------------------------------*/
-
 /* USER CODE BEGIN PV */
+/* Global Variables ----------------------------------------------------------*/
+TIM_HandleTypeDef xMotorHandle; /* located in Motor.h */
+
 /* Private variables ---------------------------------------------------------*/
 /* Task Handlers */
 TaskHandle_t xBlinkyHandle;
@@ -54,8 +55,6 @@ QueueHandle_t qUARTReceive;
 /* Private function prototypes -----------------------------------------------*/
 void vBlinkyTask(void *pvParameters);
 void vScanInputTask(void *pvParameters);
-
-static void update_Speed(int speed);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
@@ -109,7 +108,7 @@ int main(void)
 		  	  &xBlinkyHandle);                        /* Pointer of its task handler, if you don't want to use, you can leave it NULL */
   xTaskCreate(vScanInputTask,
               "Scan",
-              configMINIMAL_STACK_SIZE+1500,
+              configMINIMAL_STACK_SIZE+3000,
               NULL,
               configMAX_PRIORITIES-1,
               &xScanInputHandle);
@@ -135,8 +134,6 @@ int main(void)
 /* vBlinkyTask function */
 void vBlinkyTask(void *pvParameters)
 {
-  uint32_t ulCount = 0;
-
   portTickType xLastWakeTime;
   /* Initialize xLastWakeTime for vTaskDelayUntil */
   /* This variable is updated every vTaskDelayUntil is called */
@@ -155,12 +152,15 @@ void vBlinkyTask(void *pvParameters)
 /* vScanInputTask Task function */
 void vScanInputTask(void *pvParameters)
 {
+  int input_speed = 1500;
+  char buffer_input[30];
+
   /* Update the speed of motor */
-  update_Speed(1500);
+  xMotorSetSpeed(&xMotorHandle, 1500, MOTOR_CHANNEL_ALL);
 
   /* Then start the pwm signal */
-  KB_STM32_Motor_Start();
-  input_speed = 1500;
+  xMotorStart(&xMotorHandle, MOTOR_CHANNEL_ALL);
+
   /* Infinite loop */
   for(;;)
   {
@@ -173,8 +173,8 @@ void vScanInputTask(void *pvParameters)
       continue;
     }
     printf("%d\n", input_speed);
-    update_Speed(input_speed);
-    KB_STM32_Motor_Start();
+    xMotorSetSpeed(&xMotorHandle, input_speed, MOTOR_CHANNEL_ALL);
+    xMotorStart(&xMotorHandle, MOTOR_CHANNEL_ALL);
 
     /* Set Blinky back */
     //vTaskPrioritySet(xBlinkyHandle, uxPriority);
@@ -186,14 +186,6 @@ void vScanInputTask(void *pvParameters)
 
   /* It never goes here, but the task should be deleted when it reached here */
   vTaskDelete(NULL);
-}
-
-static void update_Speed(int speed)
-{
-  KB_STM32_Motor_SetSpeed(speed, KB_STM32_Motor_Channel_1);
-  KB_STM32_Motor_SetSpeed(speed, KB_STM32_Motor_Channel_2);
-  KB_STM32_Motor_SetSpeed(speed, KB_STM32_Motor_Channel_3);
-  KB_STM32_Motor_SetSpeed(speed, KB_STM32_Motor_Channel_4);
 }
 
 

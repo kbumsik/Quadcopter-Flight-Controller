@@ -8,28 +8,24 @@
 
 
 #include "config.h"
-#include "stm32f4xx.h"
+
 /* Global variables ----------------------------------------------------------*/
 TIM_HandleTypeDef xTIM1Handle;          /* Located in PWMInput.h */
 TIM_HandleTypeDef xTIM2Handle;          /* Located in PWMInput.h */
 TIM_HandleTypeDef xTIM3Handle;          /* Located in PWMInput.h */
 TIM_HandleTypeDef xTIM5Handle;          /* Located in PWMInput.h */
+TIM_HandleTypeDef xMotorHandle;         /* Located in Motor.h */
+UART_HandleTypeDef xUARTHandle;         /* Located in UART.h */
 
 /* Private variables ---------------------------------------------------------*/
 I2C_HandleTypeDef hi2c3;
 
 SPI_HandleTypeDef hspi3;
 
-TIM_HandleTypeDef htim4;
-
-UART_HandleTypeDef huart1;
-
 /* private functions */
 static void MX_GPIO_Init(void);
 static void MX_I2C3_Init(void);
 static void MX_SPI3_Init(void);
-static void MX_TIM4_Init(void);
-static void MX_USART1_UART_Init(void);
 
 void quadcopter_Init(void)
 {
@@ -46,9 +42,15 @@ void quadcopter_Init(void)
   vPWMInputInit(&xTIM1Handle, TIM1, TIM_CHANNEL_2);
   vPWMInputInit(&xTIM2Handle, TIM2, TIM_CHANNEL_1);
   vPWMInputInit(&xTIM3Handle, TIM3, TIM_CHANNEL_2);
-  MX_TIM4_Init();
   vPWMInputInit(&xTIM5Handle, TIM5, TIM_CHANNEL_2);
-  MX_USART1_UART_Init();
+  xMotorInit(&xMotorHandle);
+  vUARTInit(&xUARTHandle, USART1);
+
+  /* PWMInput Start */
+  vPWMInputStart(&xTIM1Handle);
+  vPWMInputStart(&xTIM2Handle);
+  vPWMInputStart(&xTIM3Handle);
+  vPWMInputStart(&xTIM5Handle);
 }
 
 /** System Clock Configuration
@@ -124,55 +126,6 @@ void MX_SPI3_Init(void)
   hspi3.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLED;
   hspi3.Init.CRCPolynomial = 10;
   HAL_SPI_Init(&hspi3);
-
-}
-
-/* TIM4 init function */
-void MX_TIM4_Init(void)
-{
-
-  TIM_MasterConfigTypeDef sMasterConfig;
-  TIM_OC_InitTypeDef sConfigOC;
-
-  htim4.Instance = TIM4;
-  htim4.Init.Prescaler = 49;
-  htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim4.Init.Period = 19999;
-  htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim4.State = HAL_TIM_STATE_RESET;
-  HAL_TIM_PWM_Init(&htim4);
-
-  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
-  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-  HAL_TIMEx_MasterConfigSynchronization(&htim4, &sMasterConfig);
-
-  sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = 0;
-  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
-  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
-  HAL_TIM_PWM_ConfigChannel(&htim4, &sConfigOC, TIM_CHANNEL_1);
-
-  HAL_TIM_PWM_ConfigChannel(&htim4, &sConfigOC, TIM_CHANNEL_2);
-
-  HAL_TIM_PWM_ConfigChannel(&htim4, &sConfigOC, TIM_CHANNEL_3);
-
-  HAL_TIM_PWM_ConfigChannel(&htim4, &sConfigOC, TIM_CHANNEL_4);
-
-}
-
-/* USART1 init function */
-void MX_USART1_UART_Init(void)
-{
-
-  huart1.Instance = USART1;
-  huart1.Init.BaudRate = 115200;
-  huart1.Init.WordLength = UART_WORDLENGTH_8B;
-  huart1.Init.StopBits = UART_STOPBITS_1;
-  huart1.Init.Parity = UART_PARITY_NONE;
-  huart1.Init.Mode = UART_MODE_TX_RX;
-  huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-  huart1.Init.OverSampling = UART_OVERSAMPLING_16;
-  HAL_UART_Init(&huart1);
 
 }
 

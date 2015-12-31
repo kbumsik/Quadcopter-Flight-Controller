@@ -36,7 +36,6 @@
 
 /* Custom Includes */
 #include "config.h"
-#include "cmsis_os.h"
 
 /* Variables */
 #undef errno
@@ -47,7 +46,7 @@ uint8_t **environ = __env;
 
 /* Global variables */
 /* They are located in stm32f4xx_it.c */
-UART_HandleTypeDef huart1;
+UART_HandleTypeDef xUARTHandle;
 /* They are located in main.cpp */
 QueueHandle_t qUARTReceive;
 
@@ -76,7 +75,7 @@ void _exit (int32_t status)
 
 int _write(int32_t file, uint8_t *ptr, int32_t len) {
   HAL_StatusTypeDef result;
-  result = HAL_UART_Transmit(&huart1, ptr, (uint16_t)len, 500);
+  result = HAL_UART_Transmit(&xUARTHandle, ptr, (uint16_t)len, 500);
   if (result == HAL_OK)
     {
       return len;
@@ -136,7 +135,6 @@ int _lseek(int32_t file, int32_t ptr, int32_t dir)
 
 int _read(int32_t file, uint8_t *ptr, int32_t len) {
     int n = 0;
-    int num = 0;
     char buffer_input[confUART_RECEIVE_BUFFER_SIZE];
 
     switch (file)

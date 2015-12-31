@@ -7,9 +7,8 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "config.h"
+#include "PWMInput.h"
 #include "stm32f4xx_hal.h"
-#include "stm32f4xx.h"
-#include "stm32f4xx_it.h"
 
 /* Private Variables ---------------------------------------------------------*/
 static uint32_t ulTIM1RawPeriod;

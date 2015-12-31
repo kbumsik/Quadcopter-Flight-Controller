@@ -44,7 +44,6 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RemoteReceiver/source/kb_mpu9150}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RemoteReceiver/source/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RemoteReceiver/source/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RemoteReceiver/source/PWMInput}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RemoteReceiver/source/components}&quot;"/>
 								</option>
 								<inputType id="com.atollic.truestudio.as.input.1308884570" name="Input" superClass="com.atollic.truestudio.as.input"/>
@@ -66,7 +65,6 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RemoteReceiver/source/kb_mpu9150}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RemoteReceiver/source/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RemoteReceiver/source/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RemoteReceiver/source/PWMInput}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RemoteReceiver/source/components}&quot;"/>
 								</option>
 								<option id="com.atollic.truestudio.common_options.target.endianess.1587698495" name="Endianess" superClass="com.atollic.truestudio.common_options.target.endianess"/>
@@ -105,7 +103,6 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RemoteReceiver/source/kb_mpu9150}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RemoteReceiver/source/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RemoteReceiver/source/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RemoteReceiver/source/PWMInput}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RemoteReceiver/source/components}&quot;"/>
 								</option>
 								<option id="com.atollic.truestudio.common_options.target.endianess.834990620" name="Endianess" superClass="com.atollic.truestudio.common_options.target.endianess"/>

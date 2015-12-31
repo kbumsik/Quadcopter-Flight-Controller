@@ -38,10 +38,6 @@
 #ifndef KB_STM32_HAL_MOTOR_H_
 #define KB_STM32_HAL_MOTOR_H_ 100
 
-#ifdef __cplusplus
- extern "C" {
-#endif
-
 #include "stm32f4xx_hal.h"
 #include "stm32f4xx_hal_rcc.h"
 #include "stm32f4xx_hal_tim.h"
@@ -76,28 +72,40 @@
 /**
  * Typedef
  */
- typedef enum{
- 	KB_STM32_OK,
- 	KB_STM32_Error
- }KB_STM32_Status_t;
+typedef enum{
+  STATUS_OK,
+  STATUS_ERROR
+}Status_t;
 
 typedef enum{
-	KB_STM32_Motor_Channel_1,
-	KB_STM32_Motor_Channel_2,
-	KB_STM32_Motor_Channel_3,
-	KB_STM32_Motor_Channel_4
-}KB_STM32_Motor_Channel_t;
+  MOTOR_CHANNEL_1,
+  MOTOR_CHANNEL_2,
+  MOTOR_CHANNEL_3,
+  MOTOR_CHANNEL_4,
+  MOTOR_CHANNEL_ALL
+}MotorChannel_t;
 
+/* External Variables */
+extern TIM_HandleTypeDef xMotorHandle;
+
+#ifdef __cplusplus
+ extern "C" {
+#endif
 /**
  * Function delaration
  */
 
- /**
-  * @brief      Initialize motor
-  *
-  * @return     Status of the result
-  */
-KB_STM32_Status_t KB_STM32_Motor_Init(void);
+/**
+ * @brief      Initialize motor
+ *
+ * @return     Status of the result
+ */
+Status_t xMotorInit(TIM_HandleTypeDef* pxTIMHandle);
+
+/**
+ * @brief      Initialize all configured GPIO Pins
+ */
+void vMotorGPIOInit(TIM_HandleTypeDef* pxTIMHandle);
 
 /**
  * @brief      Set the speed of a motor
@@ -108,29 +116,29 @@ KB_STM32_Status_t KB_STM32_Motor_Init(void);
  *
  * @return     Status of the result
  */
-// FIXME:Seems like it needs KB_STM32_Motor_Start again after this function. Make it that function is not need
-KB_STM32_Status_t KB_STM32_Motor_SetSpeed(int speed, KB_STM32_Motor_Channel_t channel);
+// FIXME:Seems like it needs xMotorStart again after this function. Make it that function is not need
+Status_t xMotorSetSpeed(TIM_HandleTypeDef* pxTIMHandle, int speed, MotorChannel_t channel);
 
 /**
  * @brief      Start rotating the motors
  *
  * @return     Status of the result
  */
-KB_STM32_Status_t KB_STM32_Motor_Start(void);
+Status_t xMotorStart(TIM_HandleTypeDef* pxTIMHandle, MotorChannel_t xChannel);
 
 /**
  * @brief      Stop rotation the motors
  *
  * @return     Status of the result
  */
-KB_STM32_Status_t KB_STM32_Motor_Stop(void);
+Status_t xMotorStop(TIM_HandleTypeDef* pxTIMHandle, MotorChannel_t xChannel);
 
 /**
  * @brief      Deinitialize the motors
  *
  * @return     Status of the result
  */
-KB_STM32_Status_t KB_STM32_Motor_DeInit(void);
+Status_t xMotorDeInit(TIM_HandleTypeDef* pxTIMHandle);
 
 #ifdef __cplusplus
 }

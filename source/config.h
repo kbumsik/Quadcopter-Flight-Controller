@@ -43,6 +43,7 @@
 #include "quadcopter_config.h"
 #include "stm32f4xx.h"
 #include "stm32f4xx_it.h"
+#include "stm32f4xx_hal.h"
 #include "cmsis_os.h"
 #include "FreeRTOSConfig.h"
 
@@ -58,6 +59,7 @@
 
 #define confPWMINPUT_ENABLED
 #define confUART_ENABLED
+#define confMOTOR_ENABLED
 
 /**
   * @brief Include module's header file
@@ -67,7 +69,10 @@
   #include "PWMInput.h"
 #endif
 #ifdef confUART_ENABLED
-  #include "uart.h"
+  #include "UART.h"
+#endif
+#ifdef confMOTOR_ENABLED
+  #include "Motor.h"
 #endif
 
 /* Exported macro ------------------------------------------------------------*/

@@ -42,6 +42,7 @@
 /* USER CODE BEGIN PV */
 /* Global variables ----------------------------------------------------------*/
 TIM_HandleTypeDef xTIM1Handle;          /* Located in PWMInput.h */
+TIM_HandleTypeDef xTIM2Handle;          /* Located in PWMInput.h */
 TIM_HandleTypeDef xTIM3Handle;          /* Located in PWMInput.h */
 TIM_HandleTypeDef xTIM5Handle;          /* Located in PWMInput.h */
 
@@ -84,10 +85,6 @@ int main(void)
   /* Initialize all configured peripherals */
 
   /* USER CODE BEGIN 2 */
-  vPWMInputStart(&xTIM1Handle);
-  vPWMInputStart(&xTIM2Handle);
-  vPWMInputStart(&xTIM3Handle);
-  vPWMInputStart(&xTIM5Handle);
   /* USER CODE END 2 */
 
   /* USER CODE BEGIN RTOS_MUTEX */

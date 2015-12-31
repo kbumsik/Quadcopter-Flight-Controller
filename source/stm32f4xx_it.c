@@ -32,13 +32,8 @@
   */
 /* Includes ------------------------------------------------------------------*/
 #include "config.h"
-#include "stm32f4xx_hal.h"
-#include "stm32f4xx.h"
-#include "stm32f4xx_it.h"
-#include "cmsis_os.h"
 
 /* USER CODE BEGIN 0 */
-#include "uart.h"
 /* USER CODE END 0 */
 
 /* Global variables --------------------------------------------------------*/
@@ -46,9 +41,10 @@ TIM_HandleTypeDef xTIM1Handle;          /* Located in PWMInput.h */
 TIM_HandleTypeDef xTIM2Handle;          /* Located in PWMInput.h */
 TIM_HandleTypeDef xTIM3Handle;          /* Located in PWMInput.h */
 TIM_HandleTypeDef xTIM5Handle;          /* Located in PWMInput.h */
+UART_HandleTypeDef xUARTHandle;         /* Located in UART.h */
 
 /* External variables --------------------------------------------------------*/
-extern UART_HandleTypeDef huart1;
+
 
 /******************************************************************************/
 /*            Cortex-M4 Processor Interruption and Exception Handlers         */
@@ -90,16 +86,16 @@ void NMI_Handler(void)
 void HardFault_Handler(void)
 {
 	__asm volatile
-	    (
-	        " tst lr, #4                                                \n"
-	        " ite eq                                                    \n"
-	        " mrseq r0, msp                                             \n"
-	        " mrsne r0, psp                                             \n"
-	        " ldr r1, [r0, #24]                                         \n"
-	        " ldr r2, handler2_address_const                            \n"
-	        " bx r2                                                     \n"
-	        " handler2_address_const: .word prvGetRegistersFromStack    \n"
-	    );
+	(
+    " tst lr, #4                                                \n"
+    " ite eq                                                    \n"
+    " mrseq r0, msp                                             \n"
+    " mrsne r0, psp                                             \n"
+    " ldr r1, [r0, #24]                                         \n"
+    " ldr r2, handler2_address_const                            \n"
+    " bx r2                                                     \n"
+    " handler2_address_const: .word prvGetRegistersFromStack    \n"
+	);
 }
 
 void prvGetRegistersFromStack( uint32_t *pulFaultStackAddress )
@@ -234,7 +230,7 @@ void TIM3_IRQHandler(void)
 void USART1_IRQHandler(void)
 {
   /* USER CODE BEGIN USART1_IRQn 0 */
-  vUARTIRQHandler(&huart1);
+  vUARTIRQHandler(&xUARTHandle);
   /* USER CODE END USART1_IRQn 0 */
   /* We do not use HAL library */
   //HAL_UART_IRQHandler(&huart1);

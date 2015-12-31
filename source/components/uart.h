@@ -13,10 +13,12 @@
 #include "cmsis_os.h"
 
 /* global variables */
+extern UART_HandleTypeDef xUARTHandle;
 extern QueueHandle_t qUARTReceive;
 
 /* Function prototypes */
-void vUARTIRQHandler(UART_HandleTypeDef *pxUART);
+void vUARTInit(UART_HandleTypeDef* pxUARTHandle, USART_TypeDef* pxUARTx);
+void vUARTIRQHandler(UART_HandleTypeDef *pxUARTHandle);
 
 
 

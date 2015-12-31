@@ -7,7 +7,7 @@
 
 /* includes -----------------------*/
 #include "config.h"
-#include "uart.h"
+#include "UART.h"
 #include "cmsis_os.h"
 
 /* Variables ---------------------*/
@@ -17,7 +17,7 @@ static uint8_t pcInputBuffer[confUART_RECEIVE_BUFFER_SIZE]; /* input buffer */
 static uint8_t ucInputIndex = 0; /* input count */
 
 /* Private functions */
-static void vUARTReceive(UART_HandleTypeDef *pxUART);
+static void vUARTReceive(UART_HandleTypeDef *pxUARTHandle);
 
 /**
   * @brief  This function handles UART interrupt request.
@@ -25,16 +25,35 @@ static void vUARTReceive(UART_HandleTypeDef *pxUART);
   *                the configuration information for the specified UART module.
   * @retval None
   */
-void vUARTIRQHandler(UART_HandleTypeDef *pxUART)
+void vUARTInit(UART_HandleTypeDef* pxUARTHandle, USART_TypeDef* pxUARTx)
+{
+  pxUARTHandle->Instance = pxUARTx;
+  pxUARTHandle->Init.BaudRate = 115200;
+  pxUARTHandle->Init.WordLength = UART_WORDLENGTH_8B;
+  pxUARTHandle->Init.StopBits = UART_STOPBITS_1;
+  pxUARTHandle->Init.Parity = UART_PARITY_NONE;
+  pxUARTHandle->Init.Mode = UART_MODE_TX_RX;
+  pxUARTHandle->Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  pxUARTHandle->Init.OverSampling = UART_OVERSAMPLING_16;
+  HAL_UART_Init(pxUARTHandle);
+}
+
+/**
+  * @brief  This function handles UART interrupt request.
+  * @param  huart: pointer to a UART_HandleTypeDef structure that contains
+  *                the configuration information for the specified UART module.
+  * @retval None
+  */
+void vUARTIRQHandler(UART_HandleTypeDef *pxUARTHandle)
 {
   uint32_t tmp1 = 0, tmp2 = 0;
 
-  tmp1 = __HAL_UART_GET_FLAG(pxUART, UART_FLAG_RXNE);
-  tmp2 = __HAL_UART_GET_IT_SOURCE(pxUART, UART_IT_RXNE);
+  tmp1 = __HAL_UART_GET_FLAG(pxUARTHandle, UART_FLAG_RXNE);
+  tmp2 = __HAL_UART_GET_IT_SOURCE(pxUARTHandle, UART_IT_RXNE);
   /* UART in mode Receiver ---------------------------------------------------*/
   if((tmp1 != RESET) && (tmp2 != RESET))
     {
-      vUARTReceive(pxUART);
+      vUARTReceive(pxUARTHandle);
     }
 }
 
@@ -44,13 +63,13 @@ void vUARTIRQHandler(UART_HandleTypeDef *pxUART)
   *                the configuration information for the specified UART module.
   * @retval HAL status
   */
-void vUARTReceive(UART_HandleTypeDef *pxUART)
+void vUARTReceive(UART_HandleTypeDef *pxUARTHandle)
 {
   BaseType_t result;
   BaseType_t xHigherPriorityWoken;
 
   /* copy data */
-  pcInputBuffer[ucInputIndex] = (uint8_t)(pxUART->Instance->DR & (uint8_t)0x00FF);
+  pcInputBuffer[ucInputIndex] = (uint8_t)(pxUARTHandle->Instance->DR & (uint8_t)0x00FF);
 
 
   /* if the received character is newline */
