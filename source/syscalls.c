@@ -73,6 +73,14 @@ void _exit (int32_t status)
   while (1) {}    /* Make sure we hang here */
 }
 
+/**
+ * One of the newlib system call function used for printf(). In this project
+ * ::_write() is implemented using HAL's ::HAL_UART_Transmit().
+ * @param file
+ * @param ptr
+ * @param len
+ * @return
+ */
 int _write(int32_t file, uint8_t *ptr, int32_t len) {
   HAL_StatusTypeDef result;
   result = HAL_UART_Transmit(&xUARTHandle, ptr, (uint16_t)len, 500);
@@ -88,7 +96,8 @@ int _write(int32_t file, uint8_t *ptr, int32_t len) {
 
 caddr_t _sbrk(int32_t incr)
 {
-  extern uint32_t _Min_Heap_Size; /* _Min_Heap_Size symbol defined in the linker script. */
+  extern uint32_t _Min_Heap_Size; /* _Min_Heap_Size symbol defined in the
+                                     linker script. */
   extern uint8_t end asm("end");
   const uint8_t *max_heap = (uint8_t*)((uint32_t)&end + (uint32_t)&_Min_Heap_Size);
   static uint8_t *heap_end;
@@ -132,7 +141,14 @@ int _lseek(int32_t file, int32_t ptr, int32_t dir)
 {
   return 0;
 }
-
+/**
+ * One of the newlib system call function used for scanf(). In this project
+ * ::_read() is implemented using FreeRTOS's ::xQeueReceive().
+ * @param file
+ * @param ptr
+ * @param len
+ * @return number of characters received.
+ */
 int _read(int32_t file, uint8_t *ptr, int32_t len) {
     int n = 0;
     char buffer_input[confUART_RECEIVE_BUFFER_SIZE];

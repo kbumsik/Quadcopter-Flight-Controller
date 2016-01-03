@@ -60,14 +60,10 @@
 #define confI2C_SCL_GPIO_Port GPIOA
 #define confPWMInput_CH1_Pin GPIO_PIN_9
 #define confPWMInput_CH1_GPIO_Port GPIOA
-#define confUART_RX_Pin GPIO_PIN_10
-#define confUART_RX_GPIO_Port GPIOA
 #define TMS_Pin GPIO_PIN_13
 #define TMS_GPIO_Port GPIOA
 #define TCK_Pin GPIO_PIN_14
 #define TCK_GPIO_Port GPIOA
-#define confUART_TX_Pin GPIO_PIN_15
-#define confUART_TX_GPIO_Port GPIOA
 #define confNRF24_SCK_Pin GPIO_PIN_10
 #define confNRF24_SCK_GPIO_Port GPIOC
 #define confNRF24_MISO_Pin GPIO_PIN_11

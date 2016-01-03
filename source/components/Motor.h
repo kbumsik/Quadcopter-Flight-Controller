@@ -38,6 +38,7 @@
 #ifndef KB_STM32_HAL_MOTOR_H_
 #define KB_STM32_HAL_MOTOR_H_ 100
 
+#include "components_common.h"
 #include "stm32f4xx_hal.h"
 #include "stm32f4xx_hal_rcc.h"
 #include "stm32f4xx_hal_tim.h"
@@ -72,10 +73,6 @@
 /**
  * Typedef
  */
-typedef enum{
-  STATUS_OK,
-  STATUS_ERROR
-}Status_t;
 
 typedef enum{
   MOTOR_CHANNEL_1,
@@ -114,10 +111,10 @@ void vMotorGPIOInit(TIM_HandleTypeDef* pxTIMHandle);
  * 						This value cannot exceed MOTOR_SPEED_LIMIT	
  * @param[in]  channel  The channel of the motor.
  *
- * @return     Status of the result
+ * @return     speed set to the motor
  */
 // FIXME:Seems like it needs xMotorStart again after this function. Make it that function is not need
-Status_t xMotorSetSpeed(TIM_HandleTypeDef* pxTIMHandle, int speed, MotorChannel_t channel);
+int slMotorSetSpeed(TIM_HandleTypeDef* pxTIMHandle, int speed, MotorChannel_t channel);
 
 /**
  * @brief      Start rotating the motors

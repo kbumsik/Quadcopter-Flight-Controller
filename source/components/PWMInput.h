@@ -8,6 +8,11 @@
 #ifndef PWMINPUT_H_
 #define PWMINPUT_H_
 
+#include "config.h"
+#include "PWMInput.h"
+#include "stm32f4xx_hal.h"
+#include "components_common.h"
+
 /* Global variables */
 extern TIM_HandleTypeDef xTIM1Handle;
 extern TIM_HandleTypeDef xTIM2Handle;
@@ -19,8 +24,8 @@ extern "C"{
 #endif
 
 /* Function Prototypes */
-void vPWMInputInit(TIM_HandleTypeDef* pxTIMHandle, TIM_TypeDef* pxTIMx, uint32_t xChannel);
-void vPWMInputStart(TIM_HandleTypeDef* pxTIMHandle);
+Status_t vPWMInputInit(TIM_HandleTypeDef* pxTIMHandle, TIM_TypeDef* pxTIMx, uint32_t xChannel);
+Status_t vPWMInputStart(TIM_HandleTypeDef* pxTIMHandle);
 uint32_t ulPWMInputPeriod(TIM_HandleTypeDef* pxTIMHandle);
 uint32_t ulPWMInputDutyCycle(TIM_HandleTypeDef* pxTIMHandle);
 

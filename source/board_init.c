@@ -7,7 +7,7 @@
 
 
 
-#include "config.h"
+#include "board_init.h"
 
 /* Global variables ----------------------------------------------------------*/
 TIM_HandleTypeDef xTIM1Handle;          /* Located in PWMInput.h */
@@ -44,7 +44,7 @@ void quadcopter_Init(void)
   vPWMInputInit(&xTIM3Handle, TIM3, TIM_CHANNEL_2);
   vPWMInputInit(&xTIM5Handle, TIM5, TIM_CHANNEL_2);
   xMotorInit(&xMotorHandle);
-  vUARTInit(&xUARTHandle, USART1);
+  vUARTInit(&xUARTHandle, confUARTx);
 
   /* PWMInput Start */
   vPWMInputStart(&xTIM1Handle);
@@ -182,15 +182,3 @@ void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 
 /* USER CODE END 4 */
-
-/**
-  * @brief  This function is executed in case of error occurrence.
-  * @param  None
-  * @retval None
-  */
-void Error_Handler(void)
-{
-  while(1)
-  {
-  }
-}

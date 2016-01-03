@@ -8,7 +8,6 @@
 
 #include "Motor.h"
 
-
 /* Private variables ---------------------------------------------------------*/
 
 
@@ -45,10 +44,7 @@ Status_t xMotorInit(TIM_HandleTypeDef* pxTIMHandle)
   }
 
   /* Firstly set speed 0 */
-  if(xMotorSetSpeed(pxTIMHandle, 0, MOTOR_CHANNEL_ALL) != STATUS_OK)
-  {
-    return STATUS_ERROR;
-  }
+  slMotorSetSpeed(pxTIMHandle, 0, MOTOR_CHANNEL_ALL);
   return STATUS_OK;
 }
 
@@ -77,20 +73,19 @@ void vMotorGPIOInit(TIM_HandleTypeDef* pxTIMHandle)
   }
 }
 
-
-Status_t xMotorSetSpeed(TIM_HandleTypeDef* pxTIMHandle, int slspeed, MotorChannel_t xChannel)
+int slMotorSetSpeed(TIM_HandleTypeDef* pxTIMHandle, int slSpeed, MotorChannel_t xChannel)
 {
   /* Timer Output Compare Configuration Structure declaration */
   TIM_OC_InitTypeDef  sConfig;
 
   /* Verify the speed value */
-  if (slspeed >= MOTOR_SPEED_MAX)
+  if (slSpeed >= MOTOR_SPEED_MAX)
   {
-    slspeed = MOTOR_SPEED_MAX;
+    slSpeed = MOTOR_SPEED_MAX;
   }
-  else if (slspeed < MOTOR_SPEED_MIN)
+  else if (slSpeed < MOTOR_SPEED_MIN)
   {
-    slspeed = MOTOR_SPEED_MIN;
+    slSpeed = MOTOR_SPEED_MIN;
   }
 
   /*##-2- Configure the PWM channels #########################################*/
@@ -98,76 +93,42 @@ Status_t xMotorSetSpeed(TIM_HandleTypeDef* pxTIMHandle, int slspeed, MotorChanne
   sConfig.OCMode = TIM_OCMODE_PWM1;
   sConfig.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfig.OCFastMode = TIM_OCFAST_DISABLE;
-  sConfig.Pulse = slspeed;
+  sConfig.Pulse = slSpeed;
   switch(xChannel)
   {	
   case MOTOR_CHANNEL_1:
     /* Set the pulse value for channel 1 */
-    if(HAL_TIM_PWM_ConfigChannel(pxTIMHandle, &sConfig, TIM_CHANNEL_1) != HAL_OK)
-    {
-      /* Configuration Error */
-      return STATUS_ERROR;
-    }
-  break;
-  
+    HAL_TIM_PWM_ConfigChannel(pxTIMHandle, &sConfig, TIM_CHANNEL_1);
   case MOTOR_CHANNEL_2:
     /* Set the pulse value for channel 2 */
-    if(HAL_TIM_PWM_ConfigChannel(pxTIMHandle, &sConfig, TIM_CHANNEL_2) != HAL_OK)
-    {
-      /* Configuration Error */
-      return STATUS_ERROR;
-    }
+    HAL_TIM_PWM_ConfigChannel(pxTIMHandle, &sConfig, TIM_CHANNEL_2);
   break;
   
   case MOTOR_CHANNEL_3:
     /* Set the pulse value for channel 3 */
-    if(HAL_TIM_PWM_ConfigChannel(pxTIMHandle, &sConfig, TIM_CHANNEL_3) != HAL_OK)
-    {
-      /* Configuration Error */
-      return STATUS_ERROR;
-    }
+    HAL_TIM_PWM_ConfigChannel(pxTIMHandle, &sConfig, TIM_CHANNEL_3);
   break;
   
   case MOTOR_CHANNEL_4:
     /* Set the pulse value for channel 4 */
-    if(HAL_TIM_PWM_ConfigChannel(pxTIMHandle, &sConfig, TIM_CHANNEL_4) != HAL_OK)
-    {
-      /* Configuration Error */
-      return STATUS_ERROR;
-    }
+    HAL_TIM_PWM_ConfigChannel(pxTIMHandle, &sConfig, TIM_CHANNEL_4);
   break;
   
   case MOTOR_CHANNEL_ALL:
     /* Set the pulse value for all channel */
-    if(HAL_TIM_PWM_ConfigChannel(pxTIMHandle, &sConfig, TIM_CHANNEL_1) != HAL_OK)
-    {
-      /* Configuration Error */
-      return STATUS_ERROR;
-    }
-    if(HAL_TIM_PWM_ConfigChannel(pxTIMHandle, &sConfig, TIM_CHANNEL_2) != HAL_OK)
-    {
-      /* Configuration Error */
-      return STATUS_ERROR;
-    }
-    if(HAL_TIM_PWM_ConfigChannel(pxTIMHandle, &sConfig, TIM_CHANNEL_3) != HAL_OK)
-    {
-      /* Configuration Error */
-      return STATUS_ERROR;
-    }
-    if(HAL_TIM_PWM_ConfigChannel(pxTIMHandle, &sConfig, TIM_CHANNEL_4) != HAL_OK)
-    {
-      /* Configuration Error */
-      return STATUS_ERROR;
-    }
+    HAL_TIM_PWM_ConfigChannel(pxTIMHandle, &sConfig, TIM_CHANNEL_1);
+    HAL_TIM_PWM_ConfigChannel(pxTIMHandle, &sConfig, TIM_CHANNEL_2);
+    HAL_TIM_PWM_ConfigChannel(pxTIMHandle, &sConfig, TIM_CHANNEL_3);
+    HAL_TIM_PWM_ConfigChannel(pxTIMHandle, &sConfig, TIM_CHANNEL_4);
   break;
   
   default:
     /* Return Error in other cases */
-    return STATUS_ERROR;
+    return 0;
   }
 
   /* return OK */
-  return STATUS_OK;
+  return slSpeed;
 }
 
 Status_t xMotorStart(TIM_HandleTypeDef* pxTIMHandle, MotorChannel_t xChannel)

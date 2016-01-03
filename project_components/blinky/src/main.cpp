@@ -32,16 +32,10 @@
   */
 /* Includes ------------------------------------------------------------------*/
 #include "config.h"
-#include "cmsis_os.h"
+#include "board_init.h"
 #include <stdio.h>
 #include "uart.h"
-/* USER CODE BEGIN Includes */
 
-/* USER CODE END Includes */
-
-/* Private variables ---------------------------------------------------------*/
-
-/* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
 /* Task Handlers */
 TaskHandle_t xBlinkyHandle;
@@ -50,41 +44,17 @@ TaskHandle_t xScanInputHandle;
 /* Queue Handlers */
 QueueHandle_t qUARTReceive;
 
-/* USER CODE END PV */
-
 /* Private function prototypes -----------------------------------------------*/
 void vBlinkyTask(void *pvParameters);
 void vScanInputTask(void *pvParameters);
 
-/* USER CODE BEGIN PFP */
-/* Private function prototypes -----------------------------------------------*/
-
-/* USER CODE END PFP */
-
-/* USER CODE BEGIN 0 */
-
-/* USER CODE END 0 */
-
 int main(void)
 {
+  /* MCU Configuration-------------------------------------------------------*/
 
-  /* USER CODE BEGIN 1 */
-
-  /* USER CODE END 1 */
-
-  /* MCU Configuration----------------------------------------------------------*/
-
-  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+  /* Reset of all peripherals, Initializes the Flash interface
+   * and the system clock. */
   quadcopter_Init();
-
-  /* Configure the system clock */
-  SystemClock_Config();
-
-  /* Initialize all configured peripherals */
-
-  /* USER CODE BEGIN 2 */
-  
-  /* USER CODE END 2 */
 
   /* USER CODE BEGIN RTOS_MUTEX */
   /* add mutexes, ... */
@@ -208,21 +178,12 @@ void vScanInputTask(void *pvParameters)
    */
 void assert_failed(uint8_t* file, uint32_t line)
 {
-  /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
-  /* USER CODE END 6 */
-
+  printf("Wrong parameters value: file %s on line %d\r\n", file, line);
 }
 
 #endif
 
-/**
-  * @}
-  */ 
-
-/**
-  * @}
-*/ 
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

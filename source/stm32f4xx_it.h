@@ -35,7 +35,7 @@
 #ifndef __STM32F4xx_IT_H
 #define __STM32F4xx_IT_H
 
-#include "quadcopter_config.h"
+#include "config.h"
 
 #ifdef __cplusplus
  extern "C" {
@@ -64,8 +64,9 @@ void PendSV_Handler(void);
 void TIM1_TRG_COM_TIM11_IRQHandler(void);
 void TIM2_IRQHandler(void);
 void TIM3_IRQHandler(void);
-void USART1_IRQHandler(void);
+void confUART_IRQHandler(void);
 void TIM5_IRQHandler(void);
+void DMA2_Stream7_IRQHandler(void);
 
 #ifdef __cplusplus
 }

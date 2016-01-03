@@ -6,9 +6,7 @@
  */
 
 /* Includes ------------------------------------------------------------------*/
-#include "config.h"
 #include "PWMInput.h"
-#include "stm32f4xx_hal.h"
 
 /* Private Variables ---------------------------------------------------------*/
 static uint32_t ulTIM1RawPeriod;
@@ -23,7 +21,7 @@ static uint32_t ulTIM3RawDutyCycle;
 static uint32_t ulTIM5RawPeriod;
 static uint32_t ulTIM5RawDutyCycle;
 
-void vPWMInputInit(TIM_HandleTypeDef* pxTIMHandle, TIM_TypeDef* pxTIMx, uint32_t xChannel)
+Status_t vPWMInputInit(TIM_HandleTypeDef* pxTIMHandle, TIM_TypeDef* pxTIMx, uint32_t xChannel)
 {
   /* Check the parameters -------------------------------------*/
   assert_param(IS_TIM_CCX_INSTANCE(pxTIMx, xChannel));
@@ -57,7 +55,7 @@ void vPWMInputInit(TIM_HandleTypeDef* pxTIMHandle, TIM_TypeDef* pxTIMx, uint32_t
   if(HAL_TIM_IC_Init(pxTIMHandle) != HAL_OK)
   {
     /* Initialization Error */
-    Error_Handler();
+    return STATUS_ERROR;
   }
 
   /*##-2- Configure the Input Capture channels ###############################*/
@@ -73,7 +71,7 @@ void vPWMInputInit(TIM_HandleTypeDef* pxTIMHandle, TIM_TypeDef* pxTIMx, uint32_t
     if(HAL_TIM_IC_ConfigChannel(pxTIMHandle, &sConfigIC, TIM_CHANNEL_1) != HAL_OK)
     {
       /* Configuration Error */
-      Error_Handler();
+      return STATUS_ERROR;
     }
 
     /* Configure the Input Capture of channel 2 */
@@ -83,7 +81,7 @@ void vPWMInputInit(TIM_HandleTypeDef* pxTIMHandle, TIM_TypeDef* pxTIMx, uint32_t
     if(HAL_TIM_IC_ConfigChannel(pxTIMHandle, &sConfigIC, TIM_CHANNEL_2) != HAL_OK)
     {
       /* Configuration Error */
-      Error_Handler();
+      return STATUS_ERROR;
     }
 
     /*##-3- Configure the slave mode ###########################################*/
@@ -95,7 +93,7 @@ void vPWMInputInit(TIM_HandleTypeDef* pxTIMHandle, TIM_TypeDef* pxTIMx, uint32_t
     if(HAL_TIM_SlaveConfigSynchronization(pxTIMHandle, &sSlaveConfig) != HAL_OK)
     {
       /* Configuration Error */
-      Error_Handler();
+      return STATUS_ERROR;
     }
   }
   else if(xChannel == TIM_CHANNEL_2)
@@ -106,7 +104,7 @@ void vPWMInputInit(TIM_HandleTypeDef* pxTIMHandle, TIM_TypeDef* pxTIMx, uint32_t
     if(HAL_TIM_IC_ConfigChannel(pxTIMHandle, &sConfigIC, TIM_CHANNEL_1) != HAL_OK)
     {
       /* Configuration Error */
-      Error_Handler();
+      return STATUS_ERROR;
     }
   
     /* Configure the Input Capture of channel 2 */
@@ -116,7 +114,7 @@ void vPWMInputInit(TIM_HandleTypeDef* pxTIMHandle, TIM_TypeDef* pxTIMx, uint32_t
     if(HAL_TIM_IC_ConfigChannel(pxTIMHandle, &sConfigIC, TIM_CHANNEL_2) != HAL_OK)
     {
       /* Configuration Error */
-      Error_Handler();
+      return STATUS_ERROR;
     }
   
     /*##-3- Configure the slave mode ###########################################*/
@@ -128,26 +126,28 @@ void vPWMInputInit(TIM_HandleTypeDef* pxTIMHandle, TIM_TypeDef* pxTIMx, uint32_t
     if(HAL_TIM_SlaveConfigSynchronization(pxTIMHandle, &sSlaveConfig) != HAL_OK)
     {
       /* Configuration Error */
-      Error_Handler();
+      return STATUS_ERROR;
     }
   }
+  return STATUS_OK;
 }
 
-void vPWMInputStart(TIM_HandleTypeDef* pxTIMHandle)
+Status_t vPWMInputStart(TIM_HandleTypeDef* pxTIMHandle)
 {
   /*##- Start the Input Capture in interrupt mode ##########################*/
   if(HAL_TIM_IC_Start_IT(pxTIMHandle, TIM_CHANNEL_2) != HAL_OK)
   {
       /* Starting Error */
-    Error_Handler();
+    return STATUS_ERROR;
   }
 
     /*##- Start the Input Capture in interrupt mode ##########################*/
   if(HAL_TIM_IC_Start_IT(pxTIMHandle, TIM_CHANNEL_1) != HAL_OK)
   {
       /* Starting Error */
-    Error_Handler();
+    return STATUS_ERROR;
   }
+  return STATUS_OK;
 }
 
 
@@ -174,7 +174,7 @@ uint32_t ulPWMInputPeriod(TIM_HandleTypeDef* pxTIMHandle)
     return ulTIM5RawPeriod;
   }
   /* Not matched */
-  return 0;
+  return STATUS_ERROR;
 }
 uint32_t ulPWMInputDutyCycle(TIM_HandleTypeDef* pxTIMHandle)
 {
@@ -199,7 +199,7 @@ uint32_t ulPWMInputDutyCycle(TIM_HandleTypeDef* pxTIMHandle)
     return ulTIM5RawDutyCycle;
   }
   /* Not matched */
-  return 0;
+  return STATUS_ERROR;
 }
 /**
   * @brief  Input Capture callback in non blocking mode

@@ -39,27 +39,86 @@
 #ifndef __MAIN_H
 #define __MAIN_H
 
-/* Includes ------------------------------------------------------------------*/
-#include "quadcopter_config.h"
+/**
+ * @brief defines for CMSIS and HAL
+ */
+#ifndef STM32F411xE
+    #define STM32F411xE
+#endif
+
+#ifndef ARM_MATH_CM4
+    #define ARM_MATH_CM4
+#endif
+
+#ifndef USE_HAL_DRIVER
+    #define USE_HAL_DRIVER
+#endif
+
+/**
+ * @brief defines for TM's library
+ */
+#ifndef STM32F4XX
+    #define STM32F4XX
+#endif
+#ifndef STM32F4xx
+    #define STM32F4xx
+#endif
+
+
+/* ########################## Module Selection ############################## */
+
+/**
+  * @brief This is the list of modules to be used in the HAL driver
+  */
+#define confPWMINPUT_ENABLED
+#define confUART_ENABLED
+#define confMOTOR_ENABLED
+
+
+/* ################### Board configuration ################################# */
+/**
+ * @brief include a board
+ */
+
+/* definition for NUCLEO Board */
+/* Define only one board!!! */
+#define INCLUDE_NUCLEO_F411RE
+//#define INCLUDE_NUCLEO_F466RE
+/* Add custom board here */
+
+/**
+ * @defgroup Board specific settings
+ * @brief Defines board-specific settings
+ * @{
+ */
+#define confNUCLEO_USE_STLINK_COM_PORT_FOR_UART
+ /**
+  * @}
+  */
+
+/* ###################### Extra configuration ############################## */
+#define confUART_RECEIVE_QUEUE_LENGTH 3 /* length of input buffer */
+#define confUART_RECEIVE_BUFFER_SIZE 30 /* size of input buffer */
+
+/* inclues ------------------------------------------------------------------*/
+
+/**
+ * @brief include board header files
+ */
+#ifdef INCLUDE_NUCLEO_F411RE
+  #include "config_NUCLEO_F411RE.h"
+#endif
+
+/**
+ * @brief Include basic files
+ */
+#include <stdint.h>
 #include "stm32f4xx.h"
 #include "stm32f4xx_it.h"
 #include "stm32f4xx_hal.h"
 #include "cmsis_os.h"
 #include "FreeRTOSConfig.h"
 
-
-/* Exported types ------------------------------------------------------------*/
-/* Exported constants --------------------------------------------------------*/
-
-/* ########################## Module Selection ############################## */
-/**
-  * @brief This is the list of modules to be used in the HAL driver
-  */
-#define QUADCOPTER_MODULE_ENABLED
-
-#define confPWMINPUT_ENABLED
-#define confUART_ENABLED
-#define confMOTOR_ENABLED
 
 /**
   * @brief Include module's header file
@@ -74,11 +133,6 @@
 #ifdef confMOTOR_ENABLED
   #include "Motor.h"
 #endif
-
-/* Exported macro ------------------------------------------------------------*/
-#define confUART_RECEIVE_QUEUE_LENGTH 3 /* length of input buffer */
-#define confUART_RECEIVE_BUFFER_SIZE 30 /* size of input buffer */
-/* Exported functions ------------------------------------------------------- */
 
 #endif /* __MAIN_H */
 
