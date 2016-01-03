@@ -66,7 +66,7 @@ extern "C" {
 @endverbatim
  */
 
-#include "quadcopter_config.h"
+#include "config.h"
 #include "stm32f4xx.h"
 
 /**
