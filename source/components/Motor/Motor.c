@@ -14,7 +14,7 @@
 /**
  * Function Implementations
  */
-Status_t xMotorInit(TIM_HandleTypeDef* pxTIMHandle)
+eStatus_t eMotorInit(TIM_HandleTypeDef* pxTIMHandle)
 {
   /* Counter Prescaler value */
   uint32_t uhPrescalerValue;
@@ -44,7 +44,7 @@ Status_t xMotorInit(TIM_HandleTypeDef* pxTIMHandle)
   }
 
   /* Firstly set speed 0 */
-  slMotorSetSpeed(pxTIMHandle, 0, MOTOR_CHANNEL_ALL);
+  swMotorSetSpeed(pxTIMHandle, 0, eMOTOR_CHANNEL_ALL);
   return STATUS_OK;
 }
 
@@ -73,48 +73,38 @@ void vMotorGPIOInit(TIM_HandleTypeDef* pxTIMHandle)
   }
 }
 
-int slMotorSetSpeed(TIM_HandleTypeDef* pxTIMHandle, int slSpeed, MotorChannel_t xChannel)
+int32_t swMotorSetSpeed(TIM_HandleTypeDef* pxTIMHandle, int32_t swSpeed, eMotorChannel_t eChannel)
 {
   /* Timer Output Compare Configuration Structure declaration */
   TIM_OC_InitTypeDef  sConfig;
-
-  /* Verify the speed value */
-  if (slSpeed >= MOTOR_SPEED_MAX)
-  {
-    slSpeed = MOTOR_SPEED_MAX;
-  }
-  else if (slSpeed < MOTOR_SPEED_MIN)
-  {
-    slSpeed = MOTOR_SPEED_MIN;
-  }
 
   /*##-2- Configure the PWM channels #########################################*/
   /* Common configuration for all channels */
   sConfig.OCMode = TIM_OCMODE_PWM1;
   sConfig.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfig.OCFastMode = TIM_OCFAST_DISABLE;
-  sConfig.Pulse = slSpeed;
-  switch(xChannel)
+  sConfig.Pulse = (uint32_t)swSpeed;
+  switch(eChannel)
   {	
-  case MOTOR_CHANNEL_1:
+  case eMOTOR_CHANNEL_1:
     /* Set the pulse value for channel 1 */
     HAL_TIM_PWM_ConfigChannel(pxTIMHandle, &sConfig, TIM_CHANNEL_1);
-  case MOTOR_CHANNEL_2:
+  case eMOTOR_CHANNEL_2:
     /* Set the pulse value for channel 2 */
     HAL_TIM_PWM_ConfigChannel(pxTIMHandle, &sConfig, TIM_CHANNEL_2);
   break;
   
-  case MOTOR_CHANNEL_3:
+  case eMOTOR_CHANNEL_3:
     /* Set the pulse value for channel 3 */
     HAL_TIM_PWM_ConfigChannel(pxTIMHandle, &sConfig, TIM_CHANNEL_3);
   break;
   
-  case MOTOR_CHANNEL_4:
+  case eMOTOR_CHANNEL_4:
     /* Set the pulse value for channel 4 */
     HAL_TIM_PWM_ConfigChannel(pxTIMHandle, &sConfig, TIM_CHANNEL_4);
   break;
   
-  case MOTOR_CHANNEL_ALL:
+  case eMOTOR_CHANNEL_ALL:
     /* Set the pulse value for all channel */
     HAL_TIM_PWM_ConfigChannel(pxTIMHandle, &sConfig, TIM_CHANNEL_1);
     HAL_TIM_PWM_ConfigChannel(pxTIMHandle, &sConfig, TIM_CHANNEL_2);
@@ -128,15 +118,15 @@ int slMotorSetSpeed(TIM_HandleTypeDef* pxTIMHandle, int slSpeed, MotorChannel_t 
   }
 
   /* return OK */
-  return slSpeed;
+  return swSpeed;
 }
 
-Status_t xMotorStart(TIM_HandleTypeDef* pxTIMHandle, MotorChannel_t xChannel)
+eStatus_t eMotorStart(TIM_HandleTypeDef* pxTIMHandle, eMotorChannel_t eChannel)
 {
   /*##- Start PWM signals generation #######################################*/
-  switch(xChannel)
+  switch(eChannel)
   {
-  case MOTOR_CHANNEL_1:
+  case eMOTOR_CHANNEL_1:
     /* Start channel 1 */
     if(HAL_TIM_PWM_Start(pxTIMHandle, TIM_CHANNEL_1) != HAL_OK)
     {
@@ -144,7 +134,7 @@ Status_t xMotorStart(TIM_HandleTypeDef* pxTIMHandle, MotorChannel_t xChannel)
       return STATUS_ERROR;
     }
   break;
-  case MOTOR_CHANNEL_2:
+  case eMOTOR_CHANNEL_2:
     /* Start channel 2 */
     if(HAL_TIM_PWM_Start(pxTIMHandle, TIM_CHANNEL_2) != HAL_OK)
     {
@@ -152,7 +142,7 @@ Status_t xMotorStart(TIM_HandleTypeDef* pxTIMHandle, MotorChannel_t xChannel)
       return STATUS_ERROR;
     }
   break;
-  case MOTOR_CHANNEL_3:
+  case eMOTOR_CHANNEL_3:
     /* Start channel 3 */
     if(HAL_TIM_PWM_Start(pxTIMHandle, TIM_CHANNEL_3) != HAL_OK)
     {
@@ -160,7 +150,7 @@ Status_t xMotorStart(TIM_HandleTypeDef* pxTIMHandle, MotorChannel_t xChannel)
       return STATUS_ERROR;
     }
   break;
-  case MOTOR_CHANNEL_4:
+  case eMOTOR_CHANNEL_4:
     /* Start channel 4 */
     if(HAL_TIM_PWM_Start(pxTIMHandle, TIM_CHANNEL_4) != HAL_OK)
     {
@@ -168,7 +158,7 @@ Status_t xMotorStart(TIM_HandleTypeDef* pxTIMHandle, MotorChannel_t xChannel)
       return STATUS_ERROR;
     }
   break;
-  case MOTOR_CHANNEL_ALL:
+  case eMOTOR_CHANNEL_ALL:
     /* Start channel 1 */
     if(HAL_TIM_PWM_Start(pxTIMHandle, TIM_CHANNEL_1) != HAL_OK)
     {
@@ -202,12 +192,12 @@ Status_t xMotorStart(TIM_HandleTypeDef* pxTIMHandle, MotorChannel_t xChannel)
   return STATUS_OK;
 }
 
-Status_t xMotorStop(TIM_HandleTypeDef* pxTIMHandle, MotorChannel_t xChannel)
+eStatus_t eMotorStop(TIM_HandleTypeDef* pxTIMHandle, eMotorChannel_t eChannel)
 {
   /*##- Stop PWM signals generation #######################################*/
-  switch(xChannel)
+  switch(eChannel)
   {
-  case MOTOR_CHANNEL_1:
+  case eMOTOR_CHANNEL_1:
     /* Start channel 1 */
     if(HAL_TIM_PWM_Stop(pxTIMHandle, TIM_CHANNEL_1) != HAL_OK)
     {
@@ -215,7 +205,7 @@ Status_t xMotorStop(TIM_HandleTypeDef* pxTIMHandle, MotorChannel_t xChannel)
       return STATUS_ERROR;
     }
   break;
-  case MOTOR_CHANNEL_2:
+  case eMOTOR_CHANNEL_2:
     /* Start channel 2 */
     if(HAL_TIM_PWM_Stop(pxTIMHandle, TIM_CHANNEL_2) != HAL_OK)
     {
@@ -223,7 +213,7 @@ Status_t xMotorStop(TIM_HandleTypeDef* pxTIMHandle, MotorChannel_t xChannel)
       return STATUS_ERROR;
     }
   break;
-  case MOTOR_CHANNEL_3:
+  case eMOTOR_CHANNEL_3:
     /* Start channel 3 */
     if(HAL_TIM_PWM_Stop(pxTIMHandle, TIM_CHANNEL_3) != HAL_OK)
     {
@@ -231,7 +221,7 @@ Status_t xMotorStop(TIM_HandleTypeDef* pxTIMHandle, MotorChannel_t xChannel)
       return STATUS_ERROR;
     }
   break;
-  case MOTOR_CHANNEL_4:
+  case eMOTOR_CHANNEL_4:
     /* Start channel 4 */
     if(HAL_TIM_PWM_Stop(pxTIMHandle, TIM_CHANNEL_4) != HAL_OK)
     {
@@ -239,7 +229,7 @@ Status_t xMotorStop(TIM_HandleTypeDef* pxTIMHandle, MotorChannel_t xChannel)
       return STATUS_ERROR;
     }
   break;
-  case MOTOR_CHANNEL_ALL:
+  case eMOTOR_CHANNEL_ALL:
     /* Start channel 1 */
     if(HAL_TIM_PWM_Stop(pxTIMHandle, TIM_CHANNEL_1) != HAL_OK)
     {
@@ -273,7 +263,7 @@ Status_t xMotorStop(TIM_HandleTypeDef* pxTIMHandle, MotorChannel_t xChannel)
   return STATUS_OK;
 }
 
-Status_t xMotorDeInit(TIM_HandleTypeDef* pxTIMHandle)
+eStatus_t eMotorDeInit(TIM_HandleTypeDef* pxTIMHandle)
 {
   if(HAL_TIM_PWM_DeInit(pxTIMHandle) != HAL_OK)
   {

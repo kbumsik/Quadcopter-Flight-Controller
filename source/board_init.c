@@ -39,18 +39,18 @@ void quadcopter_Init(void)
   MX_GPIO_Init();
   MX_I2C3_Init();
   MX_SPI3_Init();
-  vPWMInputInit(&xTIM1Handle, TIM1, TIM_CHANNEL_2);
-  vPWMInputInit(&xTIM2Handle, TIM2, TIM_CHANNEL_1);
-  vPWMInputInit(&xTIM3Handle, TIM3, TIM_CHANNEL_2);
-  vPWMInputInit(&xTIM5Handle, TIM5, TIM_CHANNEL_2);
-  xMotorInit(&xMotorHandle);
-  vUARTInit(&xUARTHandle, confUARTx);
+  ePWMInputInit(&xTIM1Handle, TIM1, TIM_CHANNEL_2);
+  ePWMInputInit(&xTIM2Handle, TIM2, TIM_CHANNEL_1);
+  ePWMInputInit(&xTIM3Handle, TIM3, TIM_CHANNEL_2);
+  ePWMInputInit(&xTIM5Handle, TIM5, TIM_CHANNEL_2);
+  eMotorInit(&xMotorHandle);
+  eUARTInit(&xUARTHandle, uartUARTx);
 
   /* PWMInput Start */
-  vPWMInputStart(&xTIM1Handle);
-  vPWMInputStart(&xTIM2Handle);
-  vPWMInputStart(&xTIM3Handle);
-  vPWMInputStart(&xTIM5Handle);
+  ePWMInputStart(&xTIM1Handle);
+  ePWMInputStart(&xTIM2Handle);
+  ePWMInputStart(&xTIM3Handle);
+  ePWMInputStart(&xTIM5Handle);
 }
 
 /** System Clock Configuration
@@ -71,8 +71,8 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
   RCC_OscInitStruct.PLL.PLLM = 8;
-  RCC_OscInitStruct.PLL.PLLN = 100;
-  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
+  RCC_OscInitStruct.PLL.PLLN = 200;
+  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV4;
   RCC_OscInitStruct.PLL.PLLQ = 4;
   HAL_RCC_OscConfig(&RCC_OscInitStruct);
 
@@ -161,14 +161,6 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_HIGH;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : USART_TX_Pin USART_RX_Pin */
-  GPIO_InitStruct.Pin = USART_TX_Pin|USART_RX_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_HIGH;
-  GPIO_InitStruct.Alternate = GPIO_AF7_USART2;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pin : LD2_Pin */
   GPIO_InitStruct.Pin = LD2_Pin;

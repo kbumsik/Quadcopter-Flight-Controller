@@ -24,10 +24,10 @@ extern "C"{
 #endif
 
 /* Function Prototypes */
-Status_t vPWMInputInit(TIM_HandleTypeDef* pxTIMHandle, TIM_TypeDef* pxTIMx, uint32_t xChannel);
-Status_t vPWMInputStart(TIM_HandleTypeDef* pxTIMHandle);
-uint32_t ulPWMInputPeriod(TIM_HandleTypeDef* pxTIMHandle);
-uint32_t ulPWMInputDutyCycle(TIM_HandleTypeDef* pxTIMHandle);
+eStatus_t ePWMInputInit(TIM_HandleTypeDef* pxTIMHandle, TIM_TypeDef* pxTIMx, uint32_t eChannel);
+eStatus_t ePWMInputStart(TIM_HandleTypeDef* pxTIMHandle);
+uint32_t uwPWMInputPeriod(TIM_HandleTypeDef* pxTIMHandle);
+uint32_t uwPWMInputDutyCycle(TIM_HandleTypeDef* pxTIMHandle);
 
 /* callback functions */
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *pxTIMHandle);

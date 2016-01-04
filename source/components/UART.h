@@ -22,33 +22,33 @@
  * @brief Pin and Peripheral settings for UART
  * @{
  */
-#ifndef confUARTx
+#ifndef uartUARTx
   /* Peripheral number definition */
-  #define confUARTx     USART1
+  #define uartUARTx     USART1
   /* Definition for USARTx clock resources */
-  #define confUART_CLK_ENABLE()              __HAL_RCC_USART1_CLK_ENABLE();
-  #define confUART_RX_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOA_CLK_ENABLE()
-  #define confUART_TX_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOA_CLK_ENABLE()
-  #define confUART_FORCE_RESET()             __HAL_RCC_USART1_FORCE_RESET()
-  #define confUART_RELEASE_RESET()           __HAL_RCC_USART1_RELEASE_RESET()
+  #define uartCLK_ENABLE()              __HAL_RCC_USART1_CLK_ENABLE();
+  #define uartRX_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOA_CLK_ENABLE()
+  #define uartTX_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOA_CLK_ENABLE()
+  #define uartFORCE_RESET()             __HAL_RCC_USART1_FORCE_RESET()
+  #define uartRELEASE_RESET()           __HAL_RCC_USART1_RELEASE_RESET()
   
   /* Definition for USARTx Pins */
-  #define confUART_TX_PIN                    GPIO_PIN_15
-  #define confUART_TX_GPIO_PORT              GPIOA  
-  #define confUART_TX_AF                     GPIO_AF7_USART1
-  #define confUART_RX_PIN                    GPIO_PIN_10
-  #define confUART_RX_GPIO_PORT              GPIOA 
-  #define confUART_RX_AF                     GPIO_AF7_USART1
+  #define uartTX_PIN                    GPIO_PIN_15
+  #define uartTX_GPIO_PORT              GPIOA  
+  #define uartTX_AF                     GPIO_AF7_USART1
+  #define uartRX_PIN                    GPIO_PIN_10
+  #define uartRX_GPIO_PORT              GPIOA 
+  #define uartRX_AF                     GPIO_AF7_USART1
 
   /* Definition for UART Initialization */
-  #define confUART_BAUDRATE   115200
-  #define confUART_WORDLENGTH UART_WORDLENGTH_8B
-  #define confUART_STOPBITS   UART_STOPBITS_1
-  #define confUART_PARITY     UART_PARITY_NONE
+  #define uartBAUD_RATE                 115200
+  #define uartWORD_LENGTH               UART_WORDLENGTH_8B
+  #define uartSTOP_BITS                 UART_STOPBITS_1
+  #define uartPARITY                    UART_PARITY_NONE
 
   /* Definition for UART Interrupt */
-  #define confUART_IRQn                      USART1_IRQn
-  #define confUART_IRQHandler                USART1_IRQHandler
+  #define uartUSARTx_IRQn               USART1_IRQn
+  #define uartUSARTx_IRQHandler         USART1_IRQHandler
 #endif
 /**
  * @}
@@ -56,11 +56,11 @@
 
 /* global variables */
 extern UART_HandleTypeDef xUARTHandle;
-extern QueueHandle_t qUARTReceive;
+extern QueueHandle_t quUARTReceive;
 
 /* Function prototypes */
-Status_t vUARTInit(UART_HandleTypeDef* pxUARTHandle, USART_TypeDef* pxUARTx);
-Status_t vUARTGPIOInit(UART_HandleTypeDef* pxUARTHandle);
+eStatus_t eUARTInit(UART_HandleTypeDef* pxUARTHandle, USART_TypeDef* pxUARTx);
+eStatus_t eUARTGPIOInit(UART_HandleTypeDef* pxUARTHandle);
 void vUARTIRQHandler(UART_HandleTypeDef *pxUARTHandle);
 
 #endif /* UART_H_ */

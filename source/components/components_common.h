@@ -12,8 +12,8 @@
  * @brief Type to check calling function is successfully done
  */
 typedef enum{
-  STATUS_OK = 1,	/* Everything is OK */
-  STATUS_ERROR = 0	/* Something is wrong */
-}Status_t;
+  STATUS_ERROR = 0,  /* Something is wrong */
+  STATUS_OK = 1      /* Everything is OK */
+}eStatus_t;
 
 #endif /* COMPONENTS_COMMON_H_ */

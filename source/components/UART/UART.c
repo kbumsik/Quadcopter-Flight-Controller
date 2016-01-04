@@ -23,13 +23,13 @@ static void vUARTReceive(UART_HandleTypeDef *pxUARTHandle);
   *                the configuration information for the specified UART module.
   * @retval None
   */
-Status_t vUARTInit(UART_HandleTypeDef* pxUARTHandle, USART_TypeDef* pxUARTx)
+eStatus_t eUARTInit(UART_HandleTypeDef* pxUARTHandle, USART_TypeDef* pxUARTx)
 {
   pxUARTHandle->Instance = pxUARTx;
-  pxUARTHandle->Init.BaudRate = confUART_BAUDRATE;
-  pxUARTHandle->Init.WordLength = confUART_WORDLENGTH;
-  pxUARTHandle->Init.StopBits = confUART_STOPBITS;
-  pxUARTHandle->Init.Parity = confUART_PARITY;
+  pxUARTHandle->Init.BaudRate = uartBAUD_RATE;
+  pxUARTHandle->Init.WordLength = uartWORD_LENGTH;
+  pxUARTHandle->Init.StopBits = uartSTOP_BITS;
+  pxUARTHandle->Init.Parity = uartPARITY;
   pxUARTHandle->Init.Mode = UART_MODE_TX_RX;
   pxUARTHandle->Init.HwFlowCtl = UART_HWCONTROL_NONE;
   pxUARTHandle->Init.OverSampling = UART_OVERSAMPLING_16;
@@ -41,34 +41,34 @@ Status_t vUARTInit(UART_HandleTypeDef* pxUARTHandle, USART_TypeDef* pxUARTx)
  * @brief Initialize GPIO for UART
  * @param pxUARTHandle
  */
-Status_t vUARTGPIOInit(UART_HandleTypeDef* pxUARTHandle)
+eStatus_t eUARTGPIOInit(UART_HandleTypeDef* pxUARTHandle)
 {
   GPIO_InitTypeDef GPIO_InitStruct;
-  if(pxUARTHandle->Instance==confUARTx)
+  if(pxUARTHandle->Instance==uartUARTx)
   {
     /* Peripheral clock enable */
-    confUART_CLK_ENABLE();
+    uartCLK_ENABLE();
 
     /* GPIO clock enable */
-    confUART_RX_GPIO_CLK_ENABLE();
-    confUART_TX_GPIO_CLK_ENABLE();
+    uartRX_GPIO_CLK_ENABLE();
+    uartTX_GPIO_CLK_ENABLE();
 
     /* UART TX GPIO pin configuration  */
-    GPIO_InitStruct.Pin = confUART_TX_PIN;
+    GPIO_InitStruct.Pin = uartTX_PIN;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_PULLUP;
     GPIO_InitStruct.Speed = GPIO_SPEED_HIGH;
-    GPIO_InitStruct.Alternate = confUART_TX_AF;
-    HAL_GPIO_Init(confUART_TX_GPIO_PORT, &GPIO_InitStruct);
+    GPIO_InitStruct.Alternate = uartTX_AF;
+    HAL_GPIO_Init(uartTX_GPIO_PORT, &GPIO_InitStruct);
 
     /* UART RX GPIO pin configuration  */
-    GPIO_InitStruct.Pin = confUART_RX_PIN;
-    GPIO_InitStruct.Alternate = confUART_RX_AF;
-    HAL_GPIO_Init(confUART_RX_GPIO_PORT, &GPIO_InitStruct);
+    GPIO_InitStruct.Pin = uartRX_PIN;
+    GPIO_InitStruct.Alternate = uartRX_AF;
+    HAL_GPIO_Init(uartRX_GPIO_PORT, &GPIO_InitStruct);
 
     /* Peripheral interrupt init*/
-    HAL_NVIC_SetPriority(confUART_IRQn, 5, 0);
-    HAL_NVIC_EnableIRQ(confUART_IRQn);
+    HAL_NVIC_SetPriority(uartUSARTx_IRQn, 5, 0);
+    HAL_NVIC_EnableIRQ(uartUSARTx_IRQn);
 
     /* Enable Interrupts here */
     __HAL_UART_ENABLE_IT(pxUARTHandle, UART_IT_RXNE);
@@ -116,7 +116,7 @@ void vUARTReceive(UART_HandleTypeDef *pxUARTHandle)
     /* put null */
     pcInputBuffer[ucInputIndex+1] = (uint8_t)'\0';
     /* Put in the queue */
-    xQueueSendToBackFromISR(qUARTReceive, (void*) pcInputBuffer, &xHigherPriorityWoken);
+    xQueueSendToBackFromISR(quUARTReceive, (void*) pcInputBuffer, &xHigherPriorityWoken);
     /* TODO: what if the Queue is full? */
     ucInputIndex = 0;
     portYIELD_FROM_ISR(xHigherPriorityWoken);
@@ -131,7 +131,7 @@ void vUARTReceive(UART_HandleTypeDef *pxUARTHandle)
     pcInputBuffer[ucInputIndex] = (uint8_t)'\0';
     /* TODO: What if the end of line is without \n? what happened to scanf()? */
     /* Put in the queue */
-    xQueueSendToBackFromISR(qUARTReceive, (void*) pcInputBuffer, &xHigherPriorityWoken);
+    xQueueSendToBackFromISR(quUARTReceive, (void*) pcInputBuffer, &xHigherPriorityWoken);
     /* TODO: what if the Queue is full? */
     ucInputIndex = 0;
     portYIELD_FROM_ISR(xHigherPriorityWoken);

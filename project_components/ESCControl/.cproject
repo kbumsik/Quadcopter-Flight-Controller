@@ -44,6 +44,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/ESCControl/source/components}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/ESCControl/source/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/ESCControl/source/TM_STM32_HAL_LIBRARIES}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/ESCControl/source/math}&quot;"/>
 								</option>
 								<inputType id="com.atollic.truestudio.as.input.1803963323" name="Input" superClass="com.atollic.truestudio.as.input"/>
 							</tool>
@@ -64,6 +65,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/ESCControl/source/components}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/ESCControl/source/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/ESCControl/source/TM_STM32_HAL_LIBRARIES}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/ESCControl/source/math}&quot;"/>
 								</option>
 								<option id="com.atollic.truestudio.common_options.target.endianess.1734788894" name="Endianess" superClass="com.atollic.truestudio.common_options.target.endianess"/>
 								<option id="com.atollic.truestudio.common_options.target.mcpu.2062432310" name="Microcontroller" superClass="com.atollic.truestudio.common_options.target.mcpu" value="STM32F411RE" valueType="enumerated"/>
@@ -101,6 +103,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/ESCControl/source/components}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/ESCControl/source/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/ESCControl/source/TM_STM32_HAL_LIBRARIES}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/ESCControl/source/math}&quot;"/>
 								</option>
 								<option id="com.atollic.truestudio.common_options.target.endianess.1279559852" name="Endianess" superClass="com.atollic.truestudio.common_options.target.endianess"/>
 								<option id="com.atollic.truestudio.common_options.target.mcpu.1754651093" name="Microcontroller" superClass="com.atollic.truestudio.common_options.target.mcpu" value="STM32F411RE" valueType="enumerated"/>
@@ -174,6 +177,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/ESCControl/source/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/ESCControl/source/TM_STM32_HAL_LIBRARIES}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/ESCControl/source/kb_motor}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/ESCControl/source/math}&quot;"/>
 								</option>
 								<inputType id="com.atollic.truestudio.as.input.841492026" name="Input" superClass="com.atollic.truestudio.as.input"/>
 							</tool>
@@ -197,6 +201,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/ESCControl/source/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/ESCControl/source/TM_STM32_HAL_LIBRARIES}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/ESCControl/source/kb_motor}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/ESCControl/source/math}&quot;"/>
 								</option>
 								<option id="com.atollic.truestudio.common_options.target.endianess.1547492951" name="Endianess" superClass="com.atollic.truestudio.common_options.target.endianess"/>
 								<option id="com.atollic.truestudio.common_options.target.mcpu.1243089317" name="Microcontroller" superClass="com.atollic.truestudio.common_options.target.mcpu" value="STM32F411RE" valueType="enumerated"/>
@@ -237,6 +242,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/ESCControl/source/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/ESCControl/source/TM_STM32_HAL_LIBRARIES}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/ESCControl/source/kb_motor}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/ESCControl/source/math}&quot;"/>
 								</option>
 								<option id="com.atollic.truestudio.common_options.target.endianess.215446539" name="Endianess" superClass="com.atollic.truestudio.common_options.target.endianess"/>
 								<option id="com.atollic.truestudio.common_options.target.mcpu.1063060840" name="Microcontroller" superClass="com.atollic.truestudio.common_options.target.mcpu" value="STM32F411RE" valueType="enumerated"/>

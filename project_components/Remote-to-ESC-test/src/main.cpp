@@ -32,13 +32,9 @@
   */
 /* Includes ------------------------------------------------------------------*/
 #include "config.h"
+#include "main.h"
 #include "board_init.h"
-#include <stdio.h>
-/* USER CODE BEGIN Includes */
 
-/* USER CODE END Includes */
-
-/* USER CODE BEGIN PV */
 /* Global Variables ----------------------------------------------------------*/
 TIM_HandleTypeDef xMotorHandle; /* located in Motor.h */
 
@@ -46,48 +42,32 @@ TIM_HandleTypeDef xMotorHandle; /* located in Motor.h */
 /* Task Handlers */
 TaskHandle_t xBlinkyHandle;
 TaskHandle_t xScanInputHandle;
+TaskHandle_t xRemoteScanHandle;
 
 /* Queue Handlers */
-QueueHandle_t qUARTReceive;
+QueueHandle_t quUARTReceive;
 
-/* USER CODE END PV */
+/* Mutex Handlers */
+SemaphoreHandle_t muRemote;
+
+/* Global function prototypes ------------------------------------------------*/
+void Error_Handler(void);
 
 /* Private function prototypes -----------------------------------------------*/
 void vBlinkyTask(void *pvParameters);
 void vScanInputTask(void *pvParameters);
-
-/* USER CODE BEGIN PFP */
-/* Private function prototypes -----------------------------------------------*/
-
-/* USER CODE END PFP */
-
-/* USER CODE BEGIN 0 */
-
-/* USER CODE END 0 */
+void vRemoteScanTask(void *pvParameters);
 
 int main(void)
 {
-
-  /* USER CODE BEGIN 1 */
-
-  /* USER CODE END 1 */
-
   /* MCU Configuration----------------------------------------------------------*/
 
-  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+  /* Reset of all peripherals, Initializes the Flash interface
+   * and the Systick. */
   quadcopter_Init();
 
-  /* Configure the system clock */
-  SystemClock_Config();
-
-  /* Initialize all configured peripherals */
-
-  /* USER CODE BEGIN 2 */
-  
-  /* USER CODE END 2 */
-
   /* USER CODE BEGIN RTOS_MUTEX */
-  /* add mutexes, ... */
+  muRemote = xSemaphoreCreateMutex();
   /* USER CODE END RTOS_MUTEX */
 
   /* USER CODE BEGIN RTOS_SEMAPHORES */
@@ -104,22 +84,24 @@ int main(void)
 		  	  "Blinky",						/* Text name for the task. This is to facilitate debugging only. It is not used in the scheduler */
 		  	  configMINIMAL_STACK_SIZE,		/* Stack depth in words */
 		  	  NULL,							/* Pointer to a task parameters */
-		  	  configMAX_PRIORITIES-1,		/* The task priority */
+		  	  1,		                    /* The task priority */
 		  	  &xBlinkyHandle);                        /* Pointer of its task handler, if you don't want to use, you can leave it NULL */
   xTaskCreate(vScanInputTask,
               "Scan",
-              configMINIMAL_STACK_SIZE+3000,
+              configMINIMAL_STACK_SIZE+2000,
+              NULL,
+              configMAX_PRIORITIES-3,
+              &xScanInputHandle);
+  xTaskCreate(vRemoteScanTask,
+              "Remote",
+              configMINIMAL_STACK_SIZE+1000,
               NULL,
               configMAX_PRIORITIES-1,
-              &xScanInputHandle);
-
-  /* USER CODE BEGIN RTOS_THREADS */
-  /* add threads, ... */
-  /* USER CODE END RTOS_THREADS */
+              &xRemoteScanHandle);
 
   /* USER CODE BEGIN RTOS_QUEUES */
   /* definition and creation of xQueueUARTReceive */
-  qUARTReceive = xQueueCreate(confUART_RECEIVE_QUEUE_LENGTH, /* length of queue */
+  quUARTReceive = xQueueCreate(confUART_RECEIVE_QUEUE_LENGTH, /* length of queue */
                               sizeof(uint8_t)*confUART_RECEIVE_BUFFER_SIZE); /* size in byte of each item */
   /* USER CODE END RTOS_QUEUES */
 
@@ -127,8 +109,8 @@ int main(void)
   vTaskStartScheduler();
   /* NOTE: We should never get here as control is now taken by the scheduler */
   while (1)
-    {
-    }
+  {
+  }
 }
 
 /* vBlinkyTask function */
@@ -138,6 +120,7 @@ void vBlinkyTask(void *pvParameters)
   /* Initialize xLastWakeTime for vTaskDelayUntil */
   /* This variable is updated every vTaskDelayUntil is called */
   xLastWakeTime = xTaskGetTickCount();
+
   for(;;)
     {
       vLED_0_Toggle();
@@ -152,9 +135,10 @@ void vBlinkyTask(void *pvParameters)
 /* vScanInputTask Task function */
 void vScanInputTask(void *pvParameters)
 {
-  int input_speed = 1500;
-  char buffer_input[30];
-
+  int i = 0;
+  portTickType xLastWakeTime;
+  xLastWakeTime = xTaskGetTickCount();
+  eMotorChannel_t eMotorChannel = eMOTOR_CHANNEL_1;
   /* Update the speed of motor */
   swMotorSetSpeed(&xMotorHandle, 1500, eMOTOR_CHANNEL_ALL);
 
@@ -162,32 +146,69 @@ void vScanInputTask(void *pvParameters)
   eMotorStart(&xMotorHandle, eMOTOR_CHANNEL_ALL);
 
   /* Infinite loop */
-  for(;;)
+  for (;;)
   {
-    /* update the speed */
-    if(scanf("%d", &input_speed) != 1)
+    /* Start updating the speed of motor */
+    /* get remote value */
+    xSemaphoreTake(muRemote, portMAX_DELAY); /* Take Mutext */
+    for (i = 0; i < confREMOTE_NUMBER_OF_CHANNEL; i++)
     {
-      printf("wrong input!\r\n");
-      /* consume the rest of stdin stream */
-      scanf("%s",buffer_input);
-      continue;
+      pfMotorSpeed[i] = xControlPlusAndScaleReversed(pfRemote[i],
+          motorSPEED_MID, pfRemoteToMotorScale[i]);
     }
-    input_speed = swMotorSetSpeed(&xMotorHandle, input_speed, eMOTOR_CHANNEL_ALL);
-    eMotorStart(&xMotorHandle, eMOTOR_CHANNEL_ALL);
-    printf("Speed: %d\r\n", input_speed);
+    xSemaphoreGive(muRemote); /* Release mutex */
 
-    /* Set Blinky back */
-    //vTaskPrioritySet(xBlinkyHandle, uxPriority);
-
-    /* Set the task into blocking mode for 1000ms */
-    /* The task becomes ready state after 1000ms */
-    vTaskDelay(1000 / portTICK_RATE_MS);
+    /* Limit the speed (Don't really needed here though */
+    for (i = 0; i < confREMOTE_NUMBER_OF_CHANNEL; i++)
+    {
+      pfMotorSpeed[i] = xControlLimitter(pfMotorSpeed[i], motorSPEED_MIN,
+          motorSPEED_MAX);
+    }
+    /* Finally update the motor speed */
+    eMotorChannel = eMOTOR_CHANNEL_1;
+    for (i = 0; i < confREMOTE_NUMBER_OF_CHANNEL; i++)
+    {
+      swMotorSetSpeed(&xMotorHandle, (int32_t) pfMotorSpeed[i], eMotorChannel);
+      eMotorChannel = (eMotorChannel_t)(eMotorChannel + 1);
+    }
+    eMotorStart(&xMotorHandle, eMOTOR_CHANNEL_ALL); /* Start PWM */
+    /* End updating the speed of motor */
+    /* Do this every 200ms */
+    vTaskDelayUntil(&xLastWakeTime, 200 / portTICK_RATE_MS);
   }
 
   /* It never goes here, but the task should be deleted when it reached here */
   vTaskDelete(NULL);
 }
 
+/* vScanInputTask Task function */
+void vRemoteScanTask(void *pvParameters)
+{
+  portTickType xLastWakeTime;
+  xLastWakeTime = xTaskGetTickCount();
+  int i = 0;
+  while (1)
+  {
+
+    /* Start Update Remote controller */
+    /* get Remote value and scale */
+    xSemaphoreTake(muRemote, portMAX_DELAY); /* Take Mutext */
+    for (i = 0; i < confREMOTE_NUMBER_OF_CHANNEL; i++)
+    {
+      pfRemote[i] = xControlLimitter(uwPWMInputDutyCycle(pxRemoteHandle[i]),
+          ppuwRemoteRange[i][confREMOTE_MIN], ppuwRemoteRange[i][confREMOTE_MAX]);
+    }
+    for (i = 0; i < confREMOTE_NUMBER_OF_CHANNEL; i++)
+    {
+      pfRemote[i] = (float32_t)xControlMinusAndScale(pfRemote[i],
+                     ppuwRemoteRange[i][confREMOTE_CENTER], pfRemoteScale[i]);
+    }
+    /* End Update remote controller */
+    xSemaphoreGive(muRemote); /* Release mutex */
+    /* Do this every 100ms */
+    vTaskDelayUntil(&xLastWakeTime, 100 / portTICK_RATE_MS);
+  }
+}
 
 #ifdef USE_FULL_ASSERT
 
@@ -200,21 +221,27 @@ void vScanInputTask(void *pvParameters)
    */
 void assert_failed(uint8_t* file, uint32_t line)
 {
-  /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
-  /* USER CODE END 6 */
+  printf("Wrong parameters value: file %s on line %d\r\n", file, line);
+  while(1)
+  {
 
+  }
 }
 
 #endif
 
 /**
-  * @}
-  */ 
-
-/**
-  * @}
-*/ 
+  * @brief  This function is executed in case of error occurrence.
+  * @param  None
+  * @retval None
+  */
+void Error_Handler(void)
+{
+  while(1)
+  {
+  }
+}
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

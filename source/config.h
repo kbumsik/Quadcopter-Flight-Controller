@@ -100,6 +100,38 @@
 #define confUART_RECEIVE_QUEUE_LENGTH 3 /* length of input buffer */
 #define confUART_RECEIVE_BUFFER_SIZE 30 /* size of input buffer */
 
+/**
+ * @defgroup Remote controller settings
+ * @brief Settings for Remote controller like duty cycle of the controller
+ * @{
+ */
+#define confREMOTE_NUMBER_OF_CHANNEL    4
+
+/* This will be used for array index */
+#define confREMOTE_MIN    0
+#define confREMOTE_CENTER 1
+#define confREMOTE_MAX    2
+
+#define confREMOTE_CH1_MIN      1246
+#define confREMOTE_CH1_CENTER   1666
+#define confREMOTE_CH1_MAX      2031
+
+#define confREMOTE_CH2_MIN      1157
+#define confREMOTE_CH2_CENTER   1524
+#define confREMOTE_CH2_MAX      1899
+
+#define confREMOTE_CH3_MIN      1108
+#define confREMOTE_CH3_CENTER   1523
+#define confREMOTE_CH3_MAX      1915
+
+#define confREMOTE_CH4_MIN      1071
+#define confREMOTE_CH4_CENTER   1511
+#define confREMOTE_CH4_MAX      1955
+/**
+ * @}
+ */
+
+
 /* inclues ------------------------------------------------------------------*/
 
 /**

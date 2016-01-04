@@ -409,7 +409,7 @@ void HAL_TIM_PWM_MspDeInit(TIM_HandleTypeDef* htim_pwm)
 
 void HAL_UART_MspInit(UART_HandleTypeDef* huart)
 {
-  vUARTGPIOInit(huart);
+  eUARTGPIOInit(huart);
 }
 
 void HAL_UART_MspDeInit(UART_HandleTypeDef* huart)
@@ -427,7 +427,7 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* huart)
     PA10     ------> USART1_RX
     PA15     ------> USART1_TX 
     */
-    HAL_GPIO_DeInit(GPIOA, confUART_RX_PIN|confUART_TX_PIN);
+    HAL_GPIO_DeInit(GPIOA, uartRX_PIN|uartTX_PIN);
 
     /* Peripheral interrupt DeInit*/
     HAL_NVIC_DisableIRQ(USART1_IRQn);

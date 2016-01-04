@@ -4,7 +4,7 @@
   * Description        : This file contains the common defines of the application
   ******************************************************************************
   *
-  * COPYRIGHT(c) 2015 STMicroelectronics
+  * COPYRIGHT(c) 2016 STMicroelectronics
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -48,10 +48,10 @@
 #define confPWMInput_CH2_GPIO_Port GPIOA
 #define confPWMInput_CH4_Pin GPIO_PIN_1
 #define confPWMInput_CH4_GPIO_Port GPIOA
-#define USART_TX_Pin GPIO_PIN_2
-#define USART_TX_GPIO_Port GPIOA
-#define USART_RX_Pin GPIO_PIN_3
-#define USART_RX_GPIO_Port GPIOA
+#define confUSART2_TX_Pin GPIO_PIN_2
+#define confUSART2_TX_GPIO_Port GPIOA
+#define confUSART2_RX_Pin GPIO_PIN_3
+#define confUSART2_RX_GPIO_Port GPIOA
 #define LD2_Pin GPIO_PIN_5
 #define LD2_GPIO_Port GPIOA
 #define confI2C_SDA_Pin GPIO_PIN_9
@@ -60,10 +60,14 @@
 #define confI2C_SCL_GPIO_Port GPIOA
 #define confPWMInput_CH1_Pin GPIO_PIN_9
 #define confPWMInput_CH1_GPIO_Port GPIOA
+#define confUART1_RX_Pin GPIO_PIN_10
+#define confUART1_RX_GPIO_Port GPIOA
 #define TMS_Pin GPIO_PIN_13
 #define TMS_GPIO_Port GPIOA
 #define TCK_Pin GPIO_PIN_14
 #define TCK_GPIO_Port GPIOA
+#define confUART1_TX_Pin GPIO_PIN_15
+#define confUART1_TX_GPIO_Port GPIOA
 #define confNRF24_SCK_Pin GPIO_PIN_10
 #define confNRF24_SCK_GPIO_Port GPIOC
 #define confNRF24_MISO_Pin GPIO_PIN_11

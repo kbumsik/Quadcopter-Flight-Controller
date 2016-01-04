@@ -43,6 +43,7 @@
 #include "stm32f4xx_hal_rcc.h"
 #include "stm32f4xx_hal_tim.h"
 #include "stm32f4xx_hal_gpio.h"
+#include "control.h"
 
 /* User can use this section to tailor TIMx instance used and associated
    resources */
@@ -67,20 +68,21 @@
 #define MOTOR_PERIOD_VALUE		(19999 - 1)  /* Period Value  */
 
 /* Motor Maxium and minimum speed */
-#define MOTOR_SPEED_MAX		(2000)
-#define MOTOR_SPEED_MIN		(1000)
+#define motorSPEED_MAX		(1800)
+#define motorSPEED_MID      (1400)
+#define motorSPEED_MIN		(1000)
 
 /**
  * Typedef
  */
 
 typedef enum{
-  MOTOR_CHANNEL_1,
-  MOTOR_CHANNEL_2,
-  MOTOR_CHANNEL_3,
-  MOTOR_CHANNEL_4,
-  MOTOR_CHANNEL_ALL
-}MotorChannel_t;
+  eMOTOR_CHANNEL_1 = 0x0,
+  eMOTOR_CHANNEL_2 = 0x1,
+  eMOTOR_CHANNEL_3 = 0x2,
+  eMOTOR_CHANNEL_4 = 0x3,
+  eMOTOR_CHANNEL_ALL = 0x4
+}eMotorChannel_t;
 
 /* External Variables */
 extern TIM_HandleTypeDef xMotorHandle;
@@ -97,7 +99,7 @@ extern TIM_HandleTypeDef xMotorHandle;
  *
  * @return     Status of the result
  */
-Status_t xMotorInit(TIM_HandleTypeDef* pxTIMHandle);
+eStatus_t eMotorInit(TIM_HandleTypeDef* pxTIMHandle);
 
 /**
  * @brief      Initialize all configured GPIO Pins
@@ -105,37 +107,38 @@ Status_t xMotorInit(TIM_HandleTypeDef* pxTIMHandle);
 void vMotorGPIOInit(TIM_HandleTypeDef* pxTIMHandle);
 
 /**
- * @brief      Set the speed of a motor
- *
- * @param[in]  speed    speed of the motor the user want to set.
- * 						This value cannot exceed MOTOR_SPEED_LIMIT	
- * @param[in]  channel  The channel of the motor.
- *
- * @return     speed set to the motor
+ * @brief Set speed of a motor
+ * @param pxTIMHandle   a pointer to a handler
+ * @param swSpeed       amount of speed, the value must be between
+ *                      -0xFFFF to 0xFFFF
+ * @param xChannel      Channels to set speed. Should one of eMOTOR_CHANNEL_1,
+ *                      eMOTOR_CHANNEL_2, eMOTOR_CHANNEL_3, eMOTOR_CHANNEL_4
+ *                      and eMOTOR_CHANNEL_ALL
+ * @return
  */
 // FIXME:Seems like it needs xMotorStart again after this function. Make it that function is not need
-int slMotorSetSpeed(TIM_HandleTypeDef* pxTIMHandle, int speed, MotorChannel_t channel);
+int32_t swMotorSetSpeed(TIM_HandleTypeDef* pxTIMHandle, int32_t swSpeed, eMotorChannel_t eChannel);
 
 /**
  * @brief      Start rotating the motors
  *
  * @return     Status of the result
  */
-Status_t xMotorStart(TIM_HandleTypeDef* pxTIMHandle, MotorChannel_t xChannel);
+eStatus_t eMotorStart(TIM_HandleTypeDef* pxTIMHandle, eMotorChannel_t eChannel);
 
 /**
  * @brief      Stop rotation the motors
  *
  * @return     Status of the result
  */
-Status_t xMotorStop(TIM_HandleTypeDef* pxTIMHandle, MotorChannel_t xChannel);
+eStatus_t eMotorStop(TIM_HandleTypeDef* pxTIMHandle, eMotorChannel_t eChannel);
 
 /**
  * @brief      Deinitialize the motors
  *
  * @return     Status of the result
  */
-Status_t xMotorDeInit(TIM_HandleTypeDef* pxTIMHandle);
+eStatus_t xMotorDeInit(TIM_HandleTypeDef* pxTIMHandle);
 
 #ifdef __cplusplus
 }

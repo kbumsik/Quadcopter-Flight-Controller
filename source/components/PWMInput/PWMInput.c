@@ -21,13 +21,13 @@ static uint32_t ulTIM3RawDutyCycle;
 static uint32_t ulTIM5RawPeriod;
 static uint32_t ulTIM5RawDutyCycle;
 
-Status_t vPWMInputInit(TIM_HandleTypeDef* pxTIMHandle, TIM_TypeDef* pxTIMx, uint32_t xChannel)
+eStatus_t ePWMInputInit(TIM_HandleTypeDef* pxTIMHandle, TIM_TypeDef* pxTIMx, uint32_t eChannel)
 {
   /* Check the parameters -------------------------------------*/
-  assert_param(IS_TIM_CCX_INSTANCE(pxTIMx, xChannel));
+  assert_param(IS_TIM_CCX_INSTANCE(pxTIMx, eChannel));
   /* Only Channel 1 and Channel 2 allowed */
-  if (xChannel != TIM_CHANNEL_1 &&
-      xChannel != TIM_CHANNEL_2)
+  if (eChannel != TIM_CHANNEL_1 &&
+      eChannel != TIM_CHANNEL_2)
   {
     assert_failed((uint8_t *)__FILE__, __LINE__);
   }
@@ -63,7 +63,7 @@ Status_t vPWMInputInit(TIM_HandleTypeDef* pxTIMHandle, TIM_TypeDef* pxTIMx, uint
   sConfigIC.ICPrescaler = TIM_ICPSC_DIV1;
   sConfigIC.ICFilter = 0;
 
-  if (xChannel == TIM_CHANNEL_1)
+  if (eChannel == TIM_CHANNEL_1)
   {
     /* Configure the Input Capture of channel 1 */
     sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_RISING;
@@ -96,7 +96,7 @@ Status_t vPWMInputInit(TIM_HandleTypeDef* pxTIMHandle, TIM_TypeDef* pxTIMx, uint
       return STATUS_ERROR;
     }
   }
-  else if(xChannel == TIM_CHANNEL_2)
+  else if(eChannel == TIM_CHANNEL_2)
   {
     /* Configure the Input Capture of channel 1 */
     sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_FALLING;
@@ -132,7 +132,7 @@ Status_t vPWMInputInit(TIM_HandleTypeDef* pxTIMHandle, TIM_TypeDef* pxTIMx, uint
   return STATUS_OK;
 }
 
-Status_t vPWMInputStart(TIM_HandleTypeDef* pxTIMHandle)
+eStatus_t ePWMInputStart(TIM_HandleTypeDef* pxTIMHandle)
 {
   /*##- Start the Input Capture in interrupt mode ##########################*/
   if(HAL_TIM_IC_Start_IT(pxTIMHandle, TIM_CHANNEL_2) != HAL_OK)
@@ -151,7 +151,7 @@ Status_t vPWMInputStart(TIM_HandleTypeDef* pxTIMHandle)
 }
 
 
-uint32_t ulPWMInputPeriod(TIM_HandleTypeDef* pxTIMHandle)
+uint32_t uwPWMInputPeriod(TIM_HandleTypeDef* pxTIMHandle)
 {
   /* TIM 1 */
   if(pxTIMHandle->Instance == TIM1)
@@ -176,7 +176,7 @@ uint32_t ulPWMInputPeriod(TIM_HandleTypeDef* pxTIMHandle)
   /* Not matched */
   return STATUS_ERROR;
 }
-uint32_t ulPWMInputDutyCycle(TIM_HandleTypeDef* pxTIMHandle)
+uint32_t uwPWMInputDutyCycle(TIM_HandleTypeDef* pxTIMHandle)
 {
   /* TIM 1 */
   if(pxTIMHandle->Instance == TIM1)
