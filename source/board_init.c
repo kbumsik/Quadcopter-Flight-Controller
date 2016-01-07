@@ -18,7 +18,7 @@ TIM_HandleTypeDef xMotorHandle;         /* Located in Motor.h */
 UART_HandleTypeDef xUARTHandle;         /* Located in UART.h */
 
 /* Private variables ---------------------------------------------------------*/
-I2C_HandleTypeDef hi2c3;
+//I2C_HandleTypeDef hi2c3;
 
 SPI_HandleTypeDef hspi3;
 
@@ -31,6 +31,9 @@ void quadcopter_Init(void)
 {
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
+
+  /* Init Timer */
+  vTimerInit();
 
   /* Configure the system clock */
   SystemClock_Config();

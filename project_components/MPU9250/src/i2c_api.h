@@ -16,11 +16,16 @@
 #ifndef MBED_I2C_API_H
 #define MBED_I2C_API_H
 
-#include "device.h"
-#include "buffer.h"
 #include "config.h"
 
+#include "device.h"
+#include "buffer.h"
+#include "PinNames.h"
+
 #if confI2C_ENABLED
+
+/* Custom macro */
+#define PinName uint16_t
 
 /**
  * @defgroup hal_I2CEvents I2C Events Macros

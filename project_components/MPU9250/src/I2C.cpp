@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 #include "I2C.h"
-#include "minar/minar.h"
+#include "cmsis_os.h"
 #include "config.h"
 
 #if confI2C_ENABLED
@@ -27,7 +27,7 @@ I2C::I2C(PinName sda, PinName scl) :
 #if DEVICE_I2C_ASYNCH
                                      _irq(this), _usage(DMA_USAGE_NEVER),
 #endif
-                                      _i2c(), _hz(100000) {
+                                      _i2c({I2C_3, 0}), _hz(100000) {
     // The init function also set the frequency to 100000
     i2c_init(&_i2c, sda, scl);
 

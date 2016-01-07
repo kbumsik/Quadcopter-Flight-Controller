@@ -60,5 +60,4 @@ const float32_t pfRemoteToMotorScale[confREMOTE_NUMBER_OF_CHANNEL]=
 
 float32_t pfMotorSpeed[confREMOTE_NUMBER_OF_CHANNEL];
 
-
 #endif /* MAIN_H_ */

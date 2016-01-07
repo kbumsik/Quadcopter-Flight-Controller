@@ -54,6 +54,10 @@
  * @}
  */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /* global variables */
 extern UART_HandleTypeDef xUARTHandle;
 extern QueueHandle_t quUARTReceive;
@@ -62,5 +66,9 @@ extern QueueHandle_t quUARTReceive;
 eStatus_t eUARTInit(UART_HandleTypeDef* pxUARTHandle, USART_TypeDef* pxUARTx);
 eStatus_t eUARTGPIOInit(UART_HandleTypeDef* pxUARTHandle);
 void vUARTIRQHandler(UART_HandleTypeDef *pxUARTHandle);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* UART_H_ */

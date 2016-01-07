@@ -36,6 +36,7 @@
 
 /* Custom Includes */
 #include "config.h"
+#include "UART.h"
 
 /* Variables */
 #undef errno
@@ -48,7 +49,7 @@ uint8_t **environ = __env;
 /* They are located in stm32f4xx_it.c */
 UART_HandleTypeDef xUARTHandle;
 /* They are located in main.cpp */
-QueueHandle_t qUARTReceive;
+QueueHandle_t quUARTReceive;
 
 
 /* Functions */
@@ -156,7 +157,7 @@ int _read(int32_t file, uint8_t *ptr, int32_t len) {
     switch (file)
     {
         case 0: //stdin
-          xQueueReceive(qUARTReceive, (void*) buffer_input, portMAX_DELAY);
+          xQueueReceive(quUARTReceive, (void*) buffer_input, portMAX_DELAY);
           /* Find the number of character */
           for (n = 0; n < confUART_RECEIVE_BUFFER_SIZE; n++)
           {

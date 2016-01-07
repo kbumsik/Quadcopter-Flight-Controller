@@ -29,6 +29,9 @@
 #include "Transaction.h"
 #endif
 
+/* Custom macro */
+#define PinName uint16_t
+
 namespace mbed {
 
 /** An I2C Master, used for communicating with I2C slave devices

@@ -15,7 +15,7 @@ static uint8_t pcInputBuffer[confUART_RECEIVE_BUFFER_SIZE]; /* input buffer */
 static uint8_t ucInputIndex = 0; /* input count */
 
 /* Private functions */
-static void vUARTReceive(UART_HandleTypeDef *pxUARTHandle);
+void vUARTReceive(UART_HandleTypeDef *pxUARTHandle);
 
 /**
   * @brief  This function handles UART interrupt request.

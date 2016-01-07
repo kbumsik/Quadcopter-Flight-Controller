@@ -74,6 +74,7 @@
 #define confUART_ENABLED        1
 #define confMOTOR_ENABLED       1
 #define confI2C_ENABLED         1
+#define confTIMER_ENABLED       1
 
 
 /* ################### Board configuration ################################# */
@@ -92,6 +93,7 @@
  * @brief Defines board-specific settings
  * @{
  */
+#define confMCU_CLOCK_MHZ 100
 #define confNUCLEO_USE_STLINK_COM_PORT_FOR_UART
  /**
   * @}
@@ -160,13 +162,20 @@
 #ifdef confPWMINPUT_ENABLED
   #include "PWMInput.h"
 #endif
+
 #ifdef confUART_ENABLED
   #include "UART.h"
 #endif
+
 #ifdef confMOTOR_ENABLED
   #include "Motor.h"
 #endif
+
 #ifdef confI2C_ENABLED
+#endif
+
+#ifdef confTIMER_ENABLED
+  #include "timer.h"
 #endif
 
 #endif /* __MAIN_H */

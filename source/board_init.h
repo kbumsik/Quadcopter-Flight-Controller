@@ -14,6 +14,8 @@
 extern "C"{
 #endif
 
+extern I2C_HandleTypeDef hi2c3;
+
 void quadcopter_Init(void);
 void SystemClock_Config(void);
 

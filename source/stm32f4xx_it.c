@@ -56,7 +56,8 @@ UART_HandleTypeDef xUARTHandle;         /* Located in UART.h */
 void SysTick_Handler(void)
 {
   /* USER CODE BEGIN SysTick_IRQn 0 */
-
+  vTimerIncMillis();
+  HAL_IncTick();
   /* USER CODE END SysTick_IRQn 0 */
   osSystickHandler();
   /* USER CODE BEGIN SysTick_IRQn 1 */

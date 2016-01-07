@@ -34,6 +34,7 @@
 #include "config.h"
 #include "board_init.h"
 #include <stdio.h>
+#include "main.h"
 /* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */
@@ -76,9 +77,6 @@ int main(void)
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   quadcopter_Init();
-
-  /* Configure the system clock */
-  SystemClock_Config();
 
   /* Initialize all configured peripherals */
 
