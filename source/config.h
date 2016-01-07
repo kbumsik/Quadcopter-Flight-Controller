@@ -70,9 +70,10 @@
 /**
   * @brief This is the list of modules to be used in the HAL driver
   */
-#define confPWMINPUT_ENABLED
-#define confUART_ENABLED
-#define confMOTOR_ENABLED
+#define confPWMINPUT_ENABLED    1
+#define confUART_ENABLED        1
+#define confMOTOR_ENABLED       1
+#define confI2C_ENABLED         1
 
 
 /* ################### Board configuration ################################# */
@@ -164,6 +165,8 @@
 #endif
 #ifdef confMOTOR_ENABLED
   #include "Motor.h"
+#endif
+#ifdef confI2C_ENABLED
 #endif
 
 #endif /* __MAIN_H */
