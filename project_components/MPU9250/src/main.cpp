@@ -35,7 +35,7 @@
 #include "main.h"
 
 /* Custom macro */
-#define wait(NUM) vTaskDelay(NUM / portTICK_RATE_MS)
+#define wait(NUM)  vTaskDelay((uint32_t) (NUM * 1000) / portTICK_RATE_MS)
 
 // Using NOKIA 5110 monochrome 84 x 48 pixel display
 // pin 9 - Serial clock out (SCLK)
@@ -121,12 +121,12 @@ void vUpdateMPU9250(void *pvParameters)
 
     mpu9250.resetMPU9250(); // Reset registers to default in preparation for device calibration
     mpu9250.calibrateMPU9250(gyroBias, accelBias); // Calibrate gyro and accelerometers, load biases in bias registers  
-    printf("x gyro bias = %f\n\r", gyroBias[0]);
-    printf("y gyro bias = %f\n\r", gyroBias[1]);
-    printf("z gyro bias = %f\n\r", gyroBias[2]);
-    printf("x accel bias = %f\n\r", accelBias[0]);
-    printf("y accel bias = %f\n\r", accelBias[1]);
-    printf("z accel bias = %f\n\r", accelBias[2]);
+    printf("x gyro bias = %.4f\n\r", gyroBias[0]);
+    printf("y gyro bias = %.4f\n\r", gyroBias[1]);
+    printf("z gyro bias = %.4f\n\r", gyroBias[2]);
+    printf("x accel bias = %.4f\n\r", accelBias[0]);
+    printf("y accel bias = %.4f\n\r", accelBias[1]);
+    printf("z accel bias = %.4f\n\r", accelBias[2]);
     wait(2);
     mpu9250.initMPU9250();
     printf("MPU9250 initialized for active data mode....\n\r"); // Initialize device for active mode read of acclerometer, gyroscope, and temperature
@@ -217,33 +217,26 @@ void vUpdateMPU9250(void *pvParameters)
     if (delt_t > 500)
     { // update LCD once per half-second independent of read rate
 
-      printf("ax = %f", 1000 * ax);
-      printf(" ay = %f", 1000 * ay);
-      printf(" az = %f  mg\n\r", 1000 * az);
+      printf("ax = %.4f", 1000 * ax);
+      printf(" ay = %.4f", 1000 * ay);
+      printf(" az = %.4f  mg\n\r", 1000 * az);
 
-      printf("gx = %f", gx);
-      printf(" gy = %f", gy);
-      printf(" gz = %f  deg/s\n\r", gz);
+      printf("gx = %.4f", gx);
+      printf(" gy = %.4f", gy);
+      printf(" gz = %.4f  deg/s\n\r", gz);
 
-      printf("gx = %f", mx);
-      printf(" gy = %f", my);
-      printf(" gz = %f  mG\n\r", mz);
+      printf("gx = %.4f", mx);
+      printf(" gy = %.4f", my);
+      printf(" gz = %.4f  mG\n\r", mz);
 
       tempCount = mpu9250.readTempData();  // Read the adc values
       temperature = ((float) tempCount) / 333.87f + 21.0f; // Temperature in degrees Centigrade
-      printf(" temperature = %f  C\n\r", temperature);
+      printf(" temperature = %.4f  C\n\r", temperature);
 
-      printf("q0 = %f\n\r", q[0]);
-      printf("q1 = %f\n\r", q[1]);
-      printf("q2 = %f\n\r", q[2]);
-      printf("q3 = %f\n\r", q[3]);
-
-      printf("MPU9250");
-      printf("x   y   z");
-      printf("%f", (char) (1000 * ax));
-      printf("%f", (char) (1000 * ay));
-      printf("%f", (char) (1000 * az));
-      printf("mg");
+      printf("q0 = %.6f\n\r", q[0]);
+      printf("q1 = %.6f\n\r", q[1]);
+      printf("q2 = %.6f\n\r", q[2]);
+      printf("q3 = %.6f\n\r", q[3]);
 
       // Define output variables from updated quaternion---these are Tait-Bryan angles, commonly used in aircraft orientation.
       // In this coordinate system, the positive z-axis is down toward Earth.
@@ -264,7 +257,9 @@ void vUpdateMPU9250(void *pvParameters)
       yaw -= 13.8f; // Declination at Danville, California is 13 degrees 48 minutes and 47 seconds on 2014-04-04
       roll *= 180.0f / PI;
 
-      printf("Yaw, Pitch, Roll: %f %f %f\n\r", yaw, pitch, roll);
+      printf("Yaw: %.4f\n\r", yaw);
+      printf("Pitch: %.4f\n\r", pitch);
+      printf("Roll: %.4f\n\r", roll);
       printf("average rate = %f\n\r", (float) sumCount / sum);
 
       count = uwTimerGetMillis();
