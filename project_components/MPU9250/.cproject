@@ -34,16 +34,16 @@
 									<listOptionValue builtIn="false" value="__FPU_PRESENT=1"/>
 								</option>
 								<option id="com.atollic.truestudio.as.general.incpath.136852501" name="Include path" superClass="com.atollic.truestudio.as.general.incpath" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MPU9250/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MPU9250/source}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MPU9250/source/components}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MPU9250/source/Drivers/CMSIS/Device/ST/STM32F4xx/Include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MPU9250/source/Drivers/CMSIS/Include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MPU9250/source/Drivers/STM32F4xx_HAL_Driver/Inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MPU9250/source/math}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MPU9250/source/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MPU9250/source/Middlewares/Third_Party/FreeRTOS/Source/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MPU9250/source/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/source&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/source/components&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/source/Drivers/CMSIS/Device/ST/STM32F4xx/Include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/source/Drivers/CMSIS/Include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/source/Drivers/STM32F4xx_HAL_Driver/Inc&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/source/math&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/source/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/source/Middlewares/Third_Party/FreeRTOS/Source/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/source/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/src&quot;"/>
 								</option>
 								<inputType id="com.atollic.truestudio.as.input.1174931719" name="Input" superClass="com.atollic.truestudio.as.input"/>
 							</tool>
@@ -54,16 +54,16 @@
 									<listOptionValue builtIn="false" value="__FPU_PRESENT=1"/>
 								</option>
 								<option id="com.atollic.truestudio.gcc.directories.select.916310314" name="Include path" superClass="com.atollic.truestudio.gcc.directories.select" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MPU9250/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MPU9250/source}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MPU9250/source/components}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MPU9250/source/Drivers/CMSIS/Device/ST/STM32F4xx/Include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MPU9250/source/Drivers/CMSIS/Include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MPU9250/source/Drivers/STM32F4xx_HAL_Driver/Inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MPU9250/source/math}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MPU9250/source/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MPU9250/source/Middlewares/Third_Party/FreeRTOS/Source/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MPU9250/source/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/source&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/source/components&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/source/Drivers/CMSIS/Device/ST/STM32F4xx/Include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/source/Drivers/CMSIS/Include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/source/Drivers/STM32F4xx_HAL_Driver/Inc&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/source/math&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/source/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/source/Middlewares/Third_Party/FreeRTOS/Source/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/source/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/src&quot;"/>
 								</option>
 								<option id="com.atollic.truestudio.common_options.target.endianess.1854001153" name="Endianess" superClass="com.atollic.truestudio.common_options.target.endianess"/>
 								<option id="com.atollic.truestudio.common_options.target.mcpu.240922943" name="Microcontroller" superClass="com.atollic.truestudio.common_options.target.mcpu" value="STM32F411RE" valueType="enumerated"/>
@@ -91,16 +91,16 @@
 									<listOptionValue builtIn="false" value="__FPU_PRESENT=1"/>
 								</option>
 								<option id="com.atollic.truestudio.gpp.directories.select.551448291" name="Include path" superClass="com.atollic.truestudio.gpp.directories.select" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MPU9250/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MPU9250/source}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MPU9250/source/components}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MPU9250/source/Drivers/CMSIS/Device/ST/STM32F4xx/Include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MPU9250/source/Drivers/CMSIS/Include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MPU9250/source/Drivers/STM32F4xx_HAL_Driver/Inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MPU9250/source/math}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MPU9250/source/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MPU9250/source/Middlewares/Third_Party/FreeRTOS/Source/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MPU9250/source/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/source&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/source/components&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/source/Drivers/CMSIS/Device/ST/STM32F4xx/Include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/source/Drivers/CMSIS/Include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/source/Drivers/STM32F4xx_HAL_Driver/Inc&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/source/math&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/source/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/source/Middlewares/Third_Party/FreeRTOS/Source/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WorkspaceDirPath}/source/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/src&quot;"/>
 								</option>
 								<option id="com.atollic.truestudio.common_options.target.endianess.555070243" name="Endianess" superClass="com.atollic.truestudio.common_options.target.endianess"/>
 								<option id="com.atollic.truestudio.common_options.target.mcpu.1904079229" name="Microcontroller" superClass="com.atollic.truestudio.common_options.target.mcpu" value="STM32F411RE" valueType="enumerated"/>
@@ -280,7 +280,14 @@
 		<project id="MPU9250.com.atollic.truestudio.exe.211407162" name="Executable" projectType="com.atollic.truestudio.exe"/>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
-	<storageModule moduleId="refreshScope"/>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="Release">
+			<resource resourceType="PROJECT" workspacePath="/MPU9250"/>
+		</configuration>
+		<configuration configurationName="Debug">
+			<resource resourceType="PROJECT" workspacePath="/MPU9250"/>
+		</configuration>
+	</storageModule>
 	<storageModule moduleId="scannerConfiguration">
 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		<scannerConfigBuildInfo instanceId="com.atollic.truestudio.exe.debug.1951149890;com.atollic.truestudio.exe.debug.1951149890.;com.atollic.truestudio.exe.debug.toolchain.gcc.993845791;com.atollic.truestudio.gcc.input.1628288080">
